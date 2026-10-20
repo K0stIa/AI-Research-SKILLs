@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 2
 
@@ -27,7 +27,12 @@ jobs:
         id: version
         run: |
           CURRENT=$(node -p "require('./package.json').version")
-          PREVIOUS=$(git show HEAD~1:packages/ai-research-skills/package.json 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version" 2>/dev/null || echo "")
+          PREVIOUS=$(
+            git show HEAD~1:packages/ai-research-skills/package.json \
+              2>/dev/null |
+            node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version" \
+              2>/dev/null || echo ""
+          )
           echo "current=$CURRENT"
           echo "previous=$PREVIOUS"
           if [ "$CURRENT" != "$PREVIOUS" ]; then
@@ -42,7 +47,8 @@ jobs:
         id: published
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          if npm view @orchestra-research/ai-research-skills@$VERSION version 2>/dev/null; then
+          if npm view @orchestra-research/ai-research-skills@$VERSION \
+            version 2>/dev/null; then
             echo "already_published=true" >> $GITHUB_OUTPUT
             echo "Version $VERSION already on npm, skipping"
           else
@@ -50,18 +56,24 @@ jobs:
           fi
 
       - name: Setup Node.js
-        if: steps.version.outputs.changed == 'true' && steps.published.outputs.already_published == 'false'
-        uses: actions/setup-node@v4
+        if: >-
+          steps.version.outputs.changed == 'true' &&
+          steps.published.outputs.already_published == 'false'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        if: steps.version.outputs.changed == 'true' && steps.published.outputs.already_published == 'false'
+        if: >-
+          steps.version.outputs.changed == 'true' &&
+          steps.published.outputs.already_published == 'false'
         run: npm ci
 
       - name: Publish to npm
-        if: steps.version.outputs.changed == 'true' && steps.published.outputs.already_published == 'false'
+        if: >-
+          steps.version.outputs.changed == 'true' &&
+          steps.published.outputs.already_published == 'false'
         run: |
           echo "Publishing v${{ steps.version.outputs.version }} to npm..."
           unset NODE_AUTH_TOKEN

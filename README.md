@@ -81,6 +81,19 @@ We provide a comprehensive skills library that enables AI agents to autonomously
 
 **Quality over quantity**: Each skill provides comprehensive, expert-level guidance with real code examples, troubleshooting guides, and production-ready workflows.
 
+### Pi coding agent
+
+This branch packages all 98 skills for Pi without copying their reference files.
+Install from your local checkout:
+
+```bash
+pi install /absolute/path/to/AI-Research-SKILLs
+```
+
+Run `/reload`, then invoke `/skill:autoresearch` or another skill's frontmatter name.
+Pi autoresearch uses bounded experiment batches, not mandatory `/loop` or cron scheduling.
+See [Pi setup](docs/PI.md) for project scope, branch installation, skill selection, and validation.
+
 ### 📦 Quick Install (Recommended)
 
 **For humans** — interactive installer with one command:

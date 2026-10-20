@@ -1,21 +1,75 @@
 {
   "name": "ai-research-skills",
   "version": "1.0.1",
-  "description": "> **The most comprehensive open-source library of AI research engineering skills for AI agents**",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "description": "AI research engineering skills for Pi and other coding agents",
+  "pi": {
+    "skills": [
+      "./0-autoresearch-skill",
+      "./01-model-architecture",
+      "./02-tokenization",
+      "./03-fine-tuning",
+      "./04-mechanistic-interpretability",
+      "./05-data-processing",
+      "./06-post-training",
+      "./07-safety-alignment",
+      "./08-distributed-training",
+      "./09-infrastructure",
+      "./10-optimization",
+      "./11-evaluation",
+      "./12-inference-serving",
+      "./13-mlops",
+      "./14-agents",
+      "./15-rag",
+      "./16-prompt-engineering",
+      "./17-observability",
+      "./18-multimodal",
+      "./19-emerging-techniques",
+      "./20-ml-paper-writing",
+      "./21-research-ideation",
+      "./22-agent-native-research-artifact"
+    ]
   },
+  "files": [
+    "0-autoresearch-skill/",
+    "01-model-architecture/",
+    "02-tokenization/",
+    "03-fine-tuning/",
+    "04-mechanistic-interpretability/",
+    "05-data-processing/",
+    "06-post-training/",
+    "07-safety-alignment/",
+    "08-distributed-training/",
+    "09-infrastructure/",
+    "10-optimization/",
+    "11-evaluation/",
+    "12-inference-serving/",
+    "13-mlops/",
+    "14-agents/",
+    "15-rag/",
+    "16-prompt-engineering/",
+    "17-observability/",
+    "18-multimodal/",
+    "19-emerging-techniques/",
+    "20-ml-paper-writing/",
+    "21-research-ideation/",
+    "22-agent-native-research-artifact/",
+    "docs/PI.md",
+    "docs/PI-VERIFICATION.md",
+    "scripts/check-pi-package.test.mjs",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:pi",
+    "test:pi": "node --test scripts/check-pi-package.test.mjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Orchestra-Research/AI-research-SKILLs.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["pi-package", "agent-skills", "ai-research"],
+  "author": "Orchestra Research",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Orchestra-Research/AI-research-SKILLs/issues"
   },
