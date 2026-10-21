@@ -4,12 +4,18 @@ Complete guide to choosing and using FAISS index types.
 
 ## Index selection guide
 
-| Dataset Size | Index Type | Training | Accuracy | Speed |
-|--------------|------------|----------|----------|-------|
-| < 10K | Flat | No | 100% | Slow |
-| 10K-1M | IVF | Yes | 95-99% | Fast |
-| 1M-10M | HNSW | No | 99% | Fastest |
-| > 10M | IVF+PQ | Yes | 90-95% | Fast, low memory |
+These dataset-size bands are starting points, not index limits.
+Recall and latency depend on the dataset, metric, index/search parameters, and hardware.
+Measure recall@k against an exact Flat baseline; report dimensions, k, the query set, and index/search settings.
+
+| Example scale | Candidate | Training | Retrieval behavior | Main trade-off |
+|---------------|-----------|----------|--------------------|----------------|
+| < 10K | Flat | No | Exact metric search | Full scan; useful baseline |
+| 10K-1M | IVF | Yes | Measure recall@k for chosen nprobe | Cluster pruning versus recall |
+| 1M-10M | HNSW | No | Measure recall@k for chosen efSearch | Graph memory versus latency |
+| > 10M | IVF+PQ | Yes | Measure recall@k for chosen parameters | Compressed storage versus distance error |
+
+Exact means exhaustive search under the chosen distance. It is not a relevance or task-accuracy guarantee.
 
 ## Flat indices (exact search)
 
@@ -34,10 +40,10 @@ distances, indices = index.search(query, k)
 
 **Use when:**
 - Dataset < 10,000 vectors
-- Need 100% accuracy
+- Need exact nearest neighbors under the chosen metric
 - Serving as baseline
 
-### IndexFlatIP - Inner product (cosine similarity)
+### IndexFlatIP - Inner product (cosine after L2 normalization)
 
 ```python
 # For cosine similarity, normalize vectors first
