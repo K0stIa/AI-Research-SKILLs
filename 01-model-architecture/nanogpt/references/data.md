@@ -31,9 +31,10 @@ Speak, speak.
 
 **Character vocabulary** (65 total):
 ```python
-chars = ['\n', ' ', '!', ',', '.', ':', ';', '?', 'A', 'B', ..., 'z']
-stoi = {'\n': 0, ' ': 1, '!': 2, ...}  # char → ID
-itos = {0: '\n', 1: ' ', 2: '!', ...}  # ID → char
+# Use the complete training split, not just the displayed excerpt.
+chars = sorted(set(training_text))
+stoi = {char: index for index, char in enumerate(chars)}
+itos = {index: char for index, char in enumerate(chars)}
 ```
 
 **Tokenization**:

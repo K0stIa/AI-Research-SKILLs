@@ -683,12 +683,15 @@ def health():
 
 ### 3. Version Your Deployment
 
-```python
+```bash
 # Tag Docker images with model version
 mlflow models build-docker \
   -m "models:/product-classifier/Production" \
   -n product-classifier:v5
 
+```
+
+```python
 # Track deployment version
 client.set_model_version_tag(
     name="product-classifier",

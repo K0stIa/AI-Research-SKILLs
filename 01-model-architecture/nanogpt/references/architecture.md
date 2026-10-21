@@ -299,7 +299,7 @@ config = GPTConfig(
 
 ## Attention Visualization
 
-```python
+```text
 # What each token attends to (lower triangular)
 # Token t can only attend to tokens 0...t
 

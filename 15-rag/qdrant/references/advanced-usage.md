@@ -462,7 +462,8 @@ client.update_collection_aliases(
 
 # Blue-green deployment
 # 1. Create new collection with updates
-client.create_collection(collection_name="documents_v3", ...)
+# Supply the installed client's vector/distance configuration.
+client.create_collection(collection_name="documents_v3", **collection_kwargs)
 
 # 2. Populate new collection
 client.upsert(collection_name="documents_v3", points=new_points)

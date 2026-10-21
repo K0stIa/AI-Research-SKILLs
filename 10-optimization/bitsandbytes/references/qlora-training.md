@@ -334,7 +334,8 @@ effective_learning_rate = learning_rate * (lora_alpha / r)
 ### Batch Size
 
 ```python
-effective_batch_size = per_device_batch_size × gradient_accumulation_steps × num_gpus
+# Use the data-parallel group size, not total ranks in a hybrid topology.
+effective_batch_size = per_device_batch_size * gradient_accumulation_steps * data_parallel_world_size
 ```
 
 **Recommended effective batch sizes**:

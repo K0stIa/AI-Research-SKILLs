@@ -42,14 +42,15 @@ Root
 
 Shared prefix: "System: You are helpful\nUser: What's "
 → Computed once, reused 3 times
-→ 5× speedup!
+→ Prefix reuse opportunity; measure actual speedup.
 ```
 
 ### Token-Level Matching
 
 RadixAttention works at the token level:
 
-```python
+```text
+# Illustrative token IDs; actual IDs depend on the tokenizer artifact.
 # Request 1: "Hello world"
 Tokens: [15496, 1917]  # Hello=15496, world=1917
 → KV cache computed and stored in tree
@@ -58,7 +59,7 @@ Tokens: [15496, 1917]  # Hello=15496, world=1917
 Tokens: [15496, 612]   # Hello=15496, there=612
 → Reuses KV cache for token 15496
 → Only computes token 612
-→ 2× faster
+→ Prefix KV reused; actual latency requires measurement.
 ```
 
 ### Automatic Eviction

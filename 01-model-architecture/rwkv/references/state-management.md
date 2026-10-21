@@ -83,7 +83,9 @@ response, state = model.forward(tokens2, state)
 
 ### Time-Mixing State Update
 
-```python
+Schematic recurrence notation, not executable Python:
+
+```text
 # Before processing token t
 att_aa_t = att_aa_{t-1}  # Previous numerator
 att_ab_t = att_ab_{t-1}  # Previous denominator
@@ -104,7 +106,7 @@ att_x_prev_{t+1} = x_t
 
 ### Channel-Mixing State Update
 
-```python
+```text
 # Simply store previous x for next token
 ffn_x_prev_{t+1} = x_t
 ```

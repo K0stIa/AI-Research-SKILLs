@@ -218,7 +218,7 @@ Model size < 20GB?
 
 ## Monitoring Multi-GPU
 
-```python
+```bash
 # Monitor GPU utilization
 nvidia-smi dmon -s u
 

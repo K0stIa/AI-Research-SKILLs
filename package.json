@@ -61,6 +61,7 @@
     "scripts/verify-pi-installed.mjs",
     "scripts/verify-pi-live.mjs",
     "scripts/verify-pi-matrix.mjs",
+    "scripts/markdown-fences.mjs",
     "LICENSE",
     "README.md"
   ],

@@ -365,7 +365,8 @@ accelerate launch main.py \
 
 If your task uses unit tests, you MUST set:
 ```python
-super().__init__(requires_execution=True, ...)
+# Supply the remaining version-checked Task constructor arguments.
+super().__init__(requires_execution=True, **task_kwargs)
 ```
 
 ### 2. Incorrect Stop Words

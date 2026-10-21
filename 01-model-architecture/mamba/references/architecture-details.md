@@ -7,15 +7,17 @@ Mamba's core innovation is the **Selective SSM (S6)** layer that makes state spa
 ### How S6 Works
 
 **Traditional SSMs** (non-selective):
-```python
+Schematic equations, not executable Python:
+
+```text
 # Fixed A, B, C matrices for all inputs
 h(t) = A * h(t-1) + B * x(t)  # State update
 y(t) = C * h(t)                # Output
 ```
 
 **Mamba's Selective SSM**:
-```python
-# Input-dependent parameters
+```text
+# Input-dependent parameters; schematic discretization
 B(t) = Linear_B(x(t))  # Selection mechanism
 C(t) = Linear_C(x(t))  # Output projection
 Δ(t) = Linear_Δ(x(t))  # Discretization step
@@ -33,12 +35,13 @@ y(t) = C(t) * h(t)
 - Example: Remembers important tokens, forgets padding
 
 **2. Input-dependent selection**:
-```python
-# Mamba decides per token what to remember
-if is_important(x(t)):
-    Δ(t) = large_value   # Keep in state
-else:
-    Δ(t) = small_value   # Forget quickly
+For a stable scalar mode with A < 0, the old-state multiplier is exp(Δ A).
+Larger steps decay old state more strongly; smaller steps retain it longer.
+The learned gate also affects input injection, so token importance is not a fixed threshold rule.
+
+```text
+larger Δ -> stronger old-state decay
+smaller Δ -> greater old-state retention
 ```
 
 **3. No attention required**:
@@ -149,7 +152,7 @@ for x_t in sequence:
 
 ### CUDA Kernel Optimizations
 
-```python
+```text
 # Fused kernel operations
 - Discretization (continuous → discrete A, B)
 - SSM recurrence (parallel scan)

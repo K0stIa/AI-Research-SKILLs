@@ -4,6 +4,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { fencedBlocks, withoutFencedBlocks } from './markdown-fences.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
@@ -53,7 +54,7 @@ test('Markdown fence parsing respects longer closers, nested examples, tilde fen
 test('Python-tagged examples in all packaged Markdown parse without importing dependencies', () => {
   const snippets = allMarkdown.flatMap(file => {
     const text = readFileSync(file, 'utf8');
-    return [...text.matchAll(/^```(?:python|py)[ \t]*\r?\n([\s\S]*?)^```[ \t]*$/gm)].map(match => ({ file: file.slice(root.length + 1), line: text.slice(0, match.index).split('\n').length, code: match[1] }));
+    return fencedBlocks(text).filter(block => ['python', 'py', 'python3'].includes(block.language)).map(block => ({ file: file.slice(root.length + 1), line: block.line, code: block.code }));
   });
   const parser = 'import ast,json,sys\nerrors=[]\nfor item in json.load(sys.stdin):\n try: ast.parse(item["code"])\n except SyntaxError as e: errors.append({"file":item["file"],"line":item["line"],"error":e.msg})\nprint(json.dumps(errors))\n';
   const result = spawnSync(process.env.PYTHON_BIN ?? 'python3', ['-I', '-S', '-c', parser], { input: JSON.stringify(snippets), encoding: 'utf8', timeout: 30_000 });
@@ -88,7 +89,7 @@ test('skills have unique Pi-compatible names and descriptions', () => {
 test('every local Markdown reference in main skills resolves to useful content', () => {
   const missing = [];
   for (const file of files) {
-    const text = readFileSync(file, 'utf8').replace(/^\s*(```|~~~)[\s\S]*?^\s*\1[^\n]*$/gm, '');
+    const text = withoutFencedBlocks(readFileSync(file, 'utf8'));
     for (const match of text.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)/g)) {
       const target = match[1].replace(/^<|>$/g, '');
       if (/^(?:#|[a-z][a-z0-9+.-]*:)/i.test(target)) continue;
@@ -105,7 +106,7 @@ test('every local Markdown reference in main skills resolves to useful content',
 test('local links in all packaged Markdown references resolve, not only main skills', () => {
   const missing = [];
   for (const file of allMarkdown) {
-    const text = readFileSync(file, 'utf8').replace(/^\s*(```|~~~)[\s\S]*?^\s*\1[^\n]*$/gm, '').replace(/`[^`\n]+`/g, '');
+    const text = withoutFencedBlocks(readFileSync(file, 'utf8')).replace(/`[^`\n]+`/g, '');
     for (const match of text.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)/g)) {
       const target = match[1].replace(/^<|>$/g, '');
       if (/^(?:#|[a-z][a-z0-9+.-]*:)/i.test(target)) continue;

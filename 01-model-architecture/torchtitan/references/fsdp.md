@@ -16,7 +16,9 @@ On Llama-7B with 8x H100s, FSDP2 achieves higher MFU with 7% lower peak memory t
 
 ## API Reference
 
-```python
+Signature reference, not an implementation to execute or use to replace `fully_shard`:
+
+```text
 from torch.distributed._composable.fsdp import fully_shard, MixedPrecisionPolicy, OffloadPolicy
 
 @contract(state_cls=FSDPState)

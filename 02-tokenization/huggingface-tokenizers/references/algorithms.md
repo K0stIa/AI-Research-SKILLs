@@ -530,7 +530,7 @@ tokenizer = Tokenizer(BPE())
 tokenizer.pre_tokenizer = ByteLevel()
 
 # Handles any number
-"123456789" → byte-level tokens
+# "123456789" -> byte-level tokens (requires matching trained vocabulary)
 ```
 
 **WordPiece solution**: Digit pre-tokenization
@@ -540,13 +540,13 @@ from tokenizers.pre_tokenizers import Digits
 # Split digits individually or as groups
 tokenizer.pre_tokenizer = Digits(individual_digits=True)
 
-"123" → ['1', '2', '3']
+# Illustrative pre-tokenization: "123" -> ['1', '2', '3']
 ```
 
 **Unigram solution**: Learns common number patterns
-```python
-# Learns patterns during training
-"2023" → ['202', '3'] or ['20', '23']
+```text
+# Illustrative alternatives; actual tokens depend on the trained vocabulary.
+"2023" -> ['202', '3'] or ['20', '23']
 ```
 
 ### Handling case sensitivity
@@ -557,7 +557,7 @@ from tokenizers.normalizers import Lowercase
 
 tokenizer.normalizer = Lowercase()
 
-"Hello WORLD" → "hello world" → ['hello', 'world']
+# Illustrative: "Hello WORLD" -> "hello world" -> ['hello', 'world']
 ```
 
 **Preserve case (GPT-2)**:
@@ -565,11 +565,11 @@ tokenizer.normalizer = Lowercase()
 # No case normalization
 tokenizer.normalizer = None
 
-"Hello WORLD" → ['Hello', 'WORLD']
+# Illustrative only: "Hello WORLD" -> ['Hello', 'WORLD']
 ```
 
 **Cased tokens (RoBERTa)**:
-```python
+```text
 # Learns separate tokens for different cases
 Vocabulary: ['Hello', 'hello', 'HELLO', 'world', 'WORLD']
 ```
@@ -580,7 +580,7 @@ Vocabulary: ['Hello', 'hello', 'HELLO', 'world', 'WORLD']
 ```python
 tokenizer.pre_tokenizer = ByteLevel()
 
-"Hello 🌍 👋" → byte-level representation (always works)
+# "Hello 🌍 👋" -> byte-level representation; vocabulary coverage must be checked.
 ```
 
 **Unicode normalization**:
@@ -589,7 +589,7 @@ from tokenizers.normalizers import NFKC
 
 tokenizer.normalizer = NFKC()
 
-"é" (composed) ↔ "é" (decomposed) → normalized to one form
+# Equivalent composed/decomposed forms of "é" normalize to the same form.
 ```
 
 ## Troubleshooting

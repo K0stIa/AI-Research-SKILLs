@@ -170,7 +170,8 @@ The loop tracks scores over a sliding window:
 # Converged if no improvement > epsilon in last window cycles
 scores = [cycle.score for cycle in history[-egl_window:]]
 if max(scores) - min(scores) < egl_threshold:
-    return EvolutionResult(converged=True, ...)
+    # Loop-body fragment: supply other version-checked result fields.
+    return EvolutionResult(converged=True, **result_kwargs)
 ```
 
 Default: `egl_threshold=0.05`, `egl_window=3`.

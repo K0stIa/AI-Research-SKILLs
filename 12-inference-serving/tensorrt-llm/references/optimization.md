@@ -62,12 +62,13 @@ llm = LLM(
 **What it does**: Dynamically batches requests during generation instead of waiting for all sequences to finish.
 
 **Configuration**:
-```python
-# Server configuration
+```bash
+# Verify these flags against the installed TensorRT-LLM release.
+# Maximum concurrent sequences: 256; total batch tokens: 4096.
 trtllm-serve meta-llama/Meta-Llama-3-8B \
-    --max_batch_size 256 \           # Maximum concurrent sequences
-    --max_num_tokens 4096 \           # Total tokens in batch
-    --enable_chunked_context \        # Split long prompts
+    --max_batch_size 256 \
+    --max_num_tokens 4096 \
+    --enable_chunked_context \
     --scheduler_policy max_utilization
 ```
 
@@ -186,9 +187,9 @@ trtllm-serve meta-llama/Meta-Llama-3-8B \
    ```
 
 3. **Tune batch size**:
-   ```python
-   # Increase until OOM, then reduce 20%
-   trtllm-serve ... --max_batch_size 256
+   ```bash
+   # Illustrative command; choose authorized capacity and verify available flags.
+   trtllm-serve MODEL_PATH --max_batch_size 256
    ```
 
 4. **Enable chunked context** (if long prompts):

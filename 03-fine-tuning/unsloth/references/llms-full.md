@@ -1,5 +1,7 @@
 # Unsloth Docs
 
+> Archived vendor documentation, locally normalized on 2026-10-21. Original performance claims and APIs are not independent validation. Syntax and omitted-argument placeholders were repaired; IPython cells, signatures, incomplete excerpts, expected failures, and corrupted template captures are labeled explicitly. Follow the version/source gates in [the local workflow](qlora-workflow.md) before executing anything.
+
 Train your own model with Unsloth, an open-source framework for LLM fine-tuning and reinforcement learning.
 
 At [Unsloth](https://app.gitbook.com/o/HpyELzcNe0topgVLGCZY/s/xhOjnexMCB3dmuQFQ2Zq/), our mission is to make AI as accurate and accessible as possible. Train, run, evaluate and save gpt-oss, Llama, DeepSeek, TTS, Qwen, Mistral, Gemma LLMs 2x faster with 70% less VRAM.
@@ -1378,7 +1380,7 @@ To run Unsloth directly on Windows:
 ```python
 trainer = SFTTrainer(
     dataset_num_proc=1,
-    ...
+    **trainer_kwargs,
 )
 ```
 
@@ -4436,7 +4438,7 @@ training_args = GRPOConfig(
     temperature = 0.9,
     # report_to = "none", # Set to "wandb" if you want to log to Weights & Biases
     num_train_epochs = 2, # For a quick test run, increase for full training
-    report_to = "none"
+    report_to = "none",
     
     # GSPO is below:
     importance_sampling_level = "sequence",
@@ -5088,7 +5090,7 @@ training_args = GRPOConfig(
     temperature = 0.9,
     # report_to = "none", # Set to "wandb" if you want to log to Weights & Biases
     num_train_epochs = 2, # For a quick test run, increase for full training
-    report_to = "none"
+    report_to = "none",
     
     # GSPO is below:
     importance_sampling_level = "sequence",
@@ -5649,6 +5651,7 @@ _ = model.generate(
     temperature=1.0,
     max_new_tokens=1024,
     streamer=TextStreamer(tokenizer, skip_prompt=False)
+)
 ```
 
 {% endstep %}
@@ -6316,7 +6319,9 @@ messages = [
 
 Then use the `encode_conversations_with_harmony` function from Unsloth:
 
-```python
+API signature only, not a replacement implementation:
+
+```text
 from unsloth_zoo import encode_conversations_with_harmony
 
 def encode_conversations_with_harmony(
@@ -6798,7 +6803,7 @@ New: Saving or merging QLoRA fine-tuned models to GGUF is now supported for use 
 After fine-tuning your gpt-oss model, you can merge it into **MXFP4** format with:
 
 ```python
-model.save_pretrained_merged(save_directory, tokenizer, save_method="mxfp4)
+model.save_pretrained_merged(save_directory, tokenizer, save_method="mxfp4")
 ```
 
 If you prefer to merge the model and push to the hugging-face hub directly:
@@ -6855,7 +6860,9 @@ Ensure your device is [Unsloth compatible](https://docs.unsloth.ai/get-started/b
 
 Note that `pip install unsloth` will not work for this setup, as we need to use the latest PyTorch, Triton and related packages. Install Unsloth using this specific command:
 
-```python
+Notebook/IPython cell; not standalone Python:
+
+```ipython
 # We're installing the latest Torch, Triton, OpenAI's Triton kernels, Transformers and Unsloth!
 !pip install --upgrade -qqq uv
 try: import numpy; install_numpy = f"numpy=={numpy.__version__}"
@@ -7925,7 +7932,7 @@ We also show you how to train a model using data stored in a Google Sheet.
 
 **Unsloth config for Granite-4.0:**
 
-```python
+```ipython
 !pip install --upgrade unsloth
 from unsloth import FastLanguageModel
 import torch
@@ -10295,7 +10302,7 @@ prompt_6 = "If it takes 30 minutes to dry 12 T-shirts in the sun, how long does 
 **Hard** - *Should sometimes get them right*
 
 ```py
-prompt_7 = "Pick 5 random words each with at least 10 letters. Print them out. Reverse each word and print it out. Then extract letters that are alphabetically sorted smaller than "g" and print them. Do not use code."
+prompt_7 = "Pick 5 random words each with at least 10 letters. Print them out. Reverse each word and print it out. Then extract letters that are alphabetically sorted smaller than \"g\" and print them. Do not use code."
 
 prompt_8 = "Exactly how many days ago did the French Revolution start? Today is June 4th, 2025."
 ```
@@ -11541,7 +11548,7 @@ Magistral slightly exceeds the memory limits of a 16GB VRAM, so fine-tuning it f
 
 **To finetune on new reasoning traces, you can use our free** [**Kaggle notebook for Magistral**](https://www.kaggle.com/notebooks/welcome?src=https://github.com/unslothai/notebooks/blob/main/nb/Kaggle-Magistral_\(24B\)-Reasoning-Conversational.ipynb\&accelerator=nvidiaTeslaT4)
 
-```python
+```ipython
 !pip install --upgrade unsloth
 from unsloth import FastLanguageModel
 import torch
@@ -11571,11 +11578,11 @@ We also provide 2 popular formats for float8 checkpoints, which also utilizes so
 
 Both are fantastic to deploy via vLLM. Read up on using TorchAO based FP8 quants in vLLM [here](https://docs.vllm.ai/en/latest/features/quantization/torchao.html).
 
-[^1]: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
+Archived vendor note 1: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
 
-[^2]: Must use --jinja to enable system prompt
+Archived vendor note 2: Must use --jinja to enable system prompt
 
-[^3]: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
+Archived vendor note 3: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
 
 
 # Llama 4: How to Run & Fine-tune
@@ -11821,7 +11828,7 @@ Kimi Chat does use a BOS (beginning of sentence token). The system, user and ass
 
 {% code overflow="wrap" %}
 
-```python
+```text
 <|im_system|>system<|im_middle|>You are a helpful assistant<|im_end|><|im_user|>user<|im_middle|>What is 1+1?<|im_end|><|im_assistant|>assistant<|im_middle|>2<|im_end|>
 ```
 
@@ -12376,9 +12383,9 @@ If you have an old version of Unsloth and/or are fine-tuning locally, install th
 pip install --upgrade --force-reinstall --no-cache-dir unsloth unsloth_zoo
 ```
 
-[^1]: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
+Archived vendor note 1: K quantization to reduce memory use. Can be f16, q8\_0, q4\_0
 
-[^2]: Must use --jinja to enable system prompt
+Archived vendor note 2: Must use --jinja to enable system prompt
 
 
 # DeepSeek-V3-0324: How to Run Locally
@@ -13284,13 +13291,13 @@ if __name__ == '__main__':
 3. Using `llama.cpp` 's Flash Attention backend does result in somewhat faster decoding speeds. Use `-DGGML_CUDA_FA_ALL_QUANTS=ON` when compiling. Note it's also best to set your CUDA architecture as found in <https://developer.nvidia.com/cuda-gpus> to reduce compilation times, then set it via `-DCMAKE_CUDA_ARCHITECTURES="80"`&#x20;
 4. Using a `min_p=0.01`is probably enough. `llama.cpp`defaults to 0.1, which is probably not necessary. Since a temperature of 0.3 is used anyways, we most likely will very unlikely sample low probability tokens, so removing very unlikely tokens is a good idea. DeepSeek recommends 0.0 temperature for coding tasks.
 
-[^1]: MUST USE 8bit - not 4bit
+Archived vendor note 1: MUST USE 8bit - not 4bit
 
-[^2]: CPU threads your machine has
+Archived vendor note 2: CPU threads your machine has
 
-[^3]: &#x20;Approx 2 for 24GB GPU. Approx 18 for 80GB GPU.
+Archived vendor note 3: &#x20;Approx 2 for 24GB GPU. Approx 18 for 80GB GPU.
 
-[^4]: Context length
+Archived vendor note 4: Context length
 
 
 # DeepSeek-R1: How to Run Locally
@@ -13734,9 +13741,9 @@ The final game should be inside a markdown section in Python. Check your code fo
 <think>
 ```
 
-The beginning and the end of the final Python output after removing the thinking parts:
+The beginning and the end of the final Python output after removing the thinking parts. This is an incomplete excerpt, not a runnable program:
 
-```python
+```text
 import pygame
 import random
 import sys
@@ -14038,7 +14045,9 @@ def reset_game():
 
 8. If you use `--repeat-penalty 1.5`, it gets even worse and more obvious, with actually totally incorrect syntax.
 
-```python
+Expected-failure model output, preserved rather than presented as runnable Python:
+
+```text
 import pygame
 from random import randint  # For generating colors/shapes/positions randomly 
 pygame.init()
@@ -15562,7 +15571,7 @@ docker build -f Dockerfile -t unsloth-dgx-spark .
 
 <summary>You can also click to see the full DGX Spark Dockerfile</summary>
 
-```python
+```dockerfile
 FROM nvcr.io/nvidia/pytorch:25.09-py3
 
 # Set CUDA environment variables
@@ -15932,14 +15941,15 @@ Checkpointing allows you to save your finetuning progress so you can pause it an
 You must edit the `Trainer` first to add `save_strategy` and `save_steps`. Below saves a checkpoint every 50 steps to the folder `outputs`.
 
 ```python
+# Supply version-compatible trainer_kwargs and training_kwargs first.
 trainer = SFTTrainer(
-    ....
     args = TrainingArguments(
-        ....
         output_dir = "outputs",
         save_strategy = "steps",
         save_steps = 50,
+        **training_kwargs,
     ),
+    **trainer_kwargs,
 )
 ```
 
@@ -16137,7 +16147,7 @@ trainer = SFTTrainer(
     ),
     train_dataset = new_dataset["train"],
     eval_dataset = new_dataset["test"],
-    ...
+    **trainer_kwargs,
 )
 trainer.train()
 ```
@@ -16162,7 +16172,7 @@ trainer = SFTTrainer(
     ),
     train_dataset = new_dataset["train"],
     eval_dataset = new_dataset["test"],
-    ...
+    **trainer_kwargs,
 )
 ```
 
@@ -16452,8 +16462,8 @@ Assuming your dataset is a list of list of dictionaries like the below:
     [{'from': 'human', 'value': 'Hi there!'},
      {'from': 'gpt', 'value': 'Hi how can I help?'},
      {'from': 'human', 'value': 'What is 2+2?'}],
-    [{'from': 'human', 'value': 'What's your name?'},
-     {'from': 'gpt', 'value': 'I'm Daniel!'},
+    [{'from': 'human', 'value': "What's your name?"},
+     {'from': 'gpt', 'value': "I'm Daniel!"},
      {'from': 'human', 'value': 'Ok! Nice!'},
      {'from': 'gpt', 'value': 'What can I do for you?'},
      {'from': 'human', 'value': 'Oh nothing :)'},],
@@ -16485,7 +16495,9 @@ dataset = dataset.map(formatting_prompts_func, batched = True,)
 
 You can also make your own custom chat templates! For example our internal chat template we use is below. You must pass in a `tuple` of `(custom_template, eos_token)` where the `eos_token` must be used inside the template.
 
-```python
+Corrupted HTML-rendered template capture, preserved for provenance only. Do not execute or deploy it; select a version-checked native chat template instead.
+
+```text
 unsloth_template = \
     "{{ bos_token }}"\
     "{{ 'You are a helpful assistant to the user\n' }}"\
@@ -16745,13 +16757,14 @@ Then use 2 different learning rates - a 2-10x smaller one for the `lm_head` or `
 ```python
 from unsloth import UnslothTrainer, UnslothTrainingArguments
 
+# Supply version-compatible trainer_kwargs and training_kwargs first.
 trainer = UnslothTrainer(
-    ....
     args = UnslothTrainingArguments(
-        ....
         learning_rate = 5e-5,
         embedding_learning_rate = 5e-6, # 2-10x smaller than learning_rate
+        **training_kwargs,
     ),
+    **trainer_kwargs,
 )
 ```
 

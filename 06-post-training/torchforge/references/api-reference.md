@@ -80,8 +80,8 @@ vLLM-based generator for inference.
 from forge.actors.generator import Generator
 
 generator = Generator(
-    engine_args=<factory>,
-    sampling_params=<factory>,
+    engine_args=engine_args,  # Supply version-checked engine configuration.
+    sampling_params=sampling_params,  # Supply configured sampling parameters.
     prefetch_weights_to_shm=True,
     n_fetcher_procs=8
 )

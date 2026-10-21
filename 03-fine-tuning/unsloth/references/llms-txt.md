@@ -1,5 +1,7 @@
 # Unsloth - Llms-Txt
 
+> Archived vendor documentation, locally normalized on 2026-10-21. Original performance claims and APIs are not independent validation. Syntax and omitted-argument placeholders were repaired; IPython cells, signatures, incomplete excerpts, expected failures, and corrupted template captures are labeled explicitly. Follow the version/source gates in [the local workflow](qlora-workflow.md) before executing anything.
+
 **Pages:** 136
 
 ---
@@ -962,7 +964,7 @@ Example 4 (python):
 ```python
 trainer = SFTTrainer(
     dataset_num_proc=1,
-    ...
+    **trainer_kwargs,
 )
 ```
 
@@ -1628,14 +1630,15 @@ Which will start from the latest checkpoint and continue training.
 
 Example 1 (python):
 ```python
+# Supply version-compatible trainer_kwargs and training_kwargs first.
 trainer = SFTTrainer(
-    ....
     args = TrainingArguments(
-        ....
         output_dir = "outputs",
         save_strategy = "steps",
         save_steps = 50,
+        **training_kwargs,
     ),
+    **trainer_kwargs,
 )
 ```
 
@@ -2737,13 +2740,14 @@ Example 3 (python):
 ```python
 from unsloth import UnslothTrainer, UnslothTrainingArguments
 
+# Supply version-compatible trainer_kwargs and training_kwargs first.
 trainer = UnslothTrainer(
-    ....
     args = UnslothTrainingArguments(
-        ....
         learning_rate = 5e-5,
         embedding_learning_rate = 5e-6, # 2-10x smaller than learning_rate
+        **training_kwargs,
     ),
+    **trainer_kwargs,
 )
 ```
 
@@ -3120,7 +3124,7 @@ You are Kimi, an AI assistant created by Moonshot AI.
 ```
 
 Example 3 (python):
-```python
+```text
 <|im_system|>system<|im_middle|>You are a helpful assistant<|im_end|><|im_user|>user<|im_middle|>What is 1+1?<|im_end|><|im_assistant|>assistant<|im_middle|>2<|im_end|>
 ```
 
@@ -6186,10 +6190,10 @@ When validating that **LoRA** adapter weights have been updated after fine-tunin
 
 To reliably confirm weight updates, we recommend:
 
-* Using **checksum or hash comparisons** (e.g., MD5)
-* Computing the **sum of absolute differences** between tensors
-* Inspecting t**ensor statistics** (e.g., mean, variance) manually
-* Or using **np.array\_equal()** if exact equality is expected
+- Using **checksum or hash comparisons** (e.g., MD5)
+- Computing the **sum of absolute differences** between tensors
+- Inspecting **tensor statistics** (e.g., mean, variance) manually
+- Or using **np.array\_equal()** if exact equality is expected
 
 ## :triangular\_ruler:LoRA Alpha and Rank relationship
 
@@ -6559,9 +6563,15 @@ Since we got bad answers, RL will influence the model to try NOT to output bad a
 **NEW!** We now support [**GSPO**](https://docs.unsloth.ai/get-started/reinforcement-learning-rl-guide/gspo-reinforcement-learning) and most other new GRPO techniques. You can play with the following arguments in GRPOConfig to enable:
 
 ```python
-epsilon=0.2,
-epsilon_high=0.28, # one sided
-delta=1.5 # two sided
+from trl import GRPOConfig
+
+# Check these fields against the installed TRL version before use.
+config = GRPOConfig(
+    epsilon=0.2,
+    epsilon_high=0.28,  # one sided
+    delta=1.5,  # two sided
+)
+```
 
 ---
 
@@ -6721,7 +6731,9 @@ messages = [
 ```
 
 Example 2 (python):
-```python
+API signature only, not a replacement implementation:
+
+```text
 from unsloth_zoo import encode_conversations_with_harmony
 
 def encode_conversations_with_harmony(
@@ -7646,13 +7658,13 @@ steps, outcome = execute_strategy(always_move_left, GameBoard(size=8, seed=42, t
 Example 4 (python):
 ```python
 from unsloth import check_python_modules
-  ok, info = check_python_modules("""
-  def strategy(board):
-      import math
-      from typing import Callable
-      return "W"
-  """)
-  # ok == True means only Python‑level imports were used
+ok, info = check_python_modules("""
+def strategy(board):
+    import math
+    from typing import Callable
+    return "W"
+""")
+# ok == True means only Python-level imports were used
 ```
 
 ---
@@ -7879,7 +7891,7 @@ trainer = SFTTrainer(
     ),
     train_dataset = new_dataset["train"],
     eval_dataset = new_dataset["test"],
-    ...
+    **trainer_kwargs,
 )
 trainer.train()
 python
@@ -7896,7 +7908,7 @@ trainer = SFTTrainer(
     ),
     train_dataset = new_dataset["train"],
     eval_dataset = new_dataset["test"],
-    ...
+    **trainer_kwargs,
 )
 python
 from trl import SFTConfig, SFTTrainer
@@ -8099,8 +8111,11 @@ Then, build the training Docker image using saved Dockerfile:
 
 <summary>You can also click to see the full DGX Spark Dockerfile</summary>
 
-```python
+Dockerfile excerpt, not the complete image definition:
+
+```dockerfile
 FROM nvcr.io/nvidia/pytorch:25.09-py3
+```
 
 **Examples:**
 
@@ -8593,10 +8608,10 @@ The tables below illustrate how batches flow through steps, when optimizer updat
 
 Example 1 (python):
 ```python
-# If mask_truncated_completions is enabled, zero out truncated completions in completion_mask
-  if self.mask_truncated_completions:
-      truncated_completions = ~is_eos.any(dim=1)
-      completion_mask = completion_mask * (~truncated_completions).unsqueeze(1).int()
+# Method-body excerpt: self, is_eos, and completion_mask come from the trainer.
+if self.mask_truncated_completions:
+    truncated_completions = ~is_eos.any(dim=1)
+    completion_mask = completion_mask * (~truncated_completions).unsqueeze(1).int()
 ```
 
 Example 2 (unknown):
@@ -9275,7 +9290,7 @@ training_args = GRPOConfig(
     temperature = 0.9,
     # report_to = "none", # Set to "wandb" if you want to log to Weights & Biases
     num_train_epochs = 2, # For a quick test run, increase for full training
-    report_to = "none"
+    report_to = "none",
     
     # GSPO is below:
     importance_sampling_level = "sequence",
@@ -10238,7 +10253,7 @@ training_args = GRPOConfig(
     temperature = 0.9,
     # report_to = "none", # Set to "wandb" if you want to log to Weights & Biases
     num_train_epochs = 2, # For a quick test run, increase for full training
-    report_to = "none"
+    report_to = "none",
     
     # GSPO is below:
     importance_sampling_level = "sequence",
@@ -10330,6 +10345,7 @@ To get a consistent voice, provide **contextual examples**, like a few reference
 
 ```python
 from datasets import load_dataset, Audio
+```
 
 **Examples:**
 
@@ -10340,7 +10356,7 @@ from unsloth import FastModel
 model_name = "unsloth/orpheus-3b-0.1-pretrained"
 model, tokenizer = FastModel.from_pretrained(
     model_name,
-    load_in_4bit=False  # use 4-bit precision (QLoRA)
+    load_in_4bit=False  # Four-bit weight loading is disabled.
 )
 ```
 
@@ -11830,7 +11846,8 @@ from unsloth import FastLanguageModel, FastModel
 import torch
 from trl import SFTTrainer, SFTConfig
 from datasets import load_dataset
-max_seq_length = 2048 # Supports RoPE Scaling internally, so choose any!
+max_seq_length = 2048  # Validate the model's supported context and memory budget.
+```
 
 ---
 

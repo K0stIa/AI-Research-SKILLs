@@ -364,8 +364,8 @@ Training data: 1.5 trillion tokens (The Pile)
 ```
 
 **Monitoring**:
-```python
-# Check in progress.txt
+```text
+# Illustrative log output, not measured results from this verification.
 Job throughput: 45.2 TFLOPs/GPU
 Cumulative throughput: 44.8 TFLOPs/GPU
 Memory usage: 68.2 GB / 80 GB

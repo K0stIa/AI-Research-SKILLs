@@ -83,8 +83,8 @@ config = AwqConfig(bits=4, version="exllama")
 - **Use case**: Intel CPU/XPU acceleration
 - **Requirements**: Intel Extension for PyTorch, torch 2.4+
 
-```python
-pip install autoawq[cpu]
+```bash
+pip install "autoawq[cpu]"
 ```
 
 ## Group Size Configuration

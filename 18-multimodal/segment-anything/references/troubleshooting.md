@@ -13,9 +13,14 @@ import torch
 print(torch.cuda.is_available())
 print(torch.version.cuda)
 
-# Install PyTorch with CUDA
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+```
 
+```bash
+# Install only an authorized, version-compatible CUDA wheel build.
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+```
+
+```python
 # If CUDA works but SAM doesn't use it
 sam = sam_model_registry["vit_h"](checkpoint="sam_vit_h_4b8939.pth")
 sam.to("cuda")  # Explicitly move to GPU

@@ -379,10 +379,11 @@ phoenix serve
 **Error**: `sqlite3.OperationalError: database is locked`
 
 **Fix**:
-```python
-# Ensure only one Phoenix instance
-# Kill other Phoenix processes
-pkill -f "phoenix serve"
+```bash
+# Inspect instances first; do not kill every matching process.
+pgrep -af "phoenix serve"
+# Stop a selected owned PID only with explicit permission:
+# kill -- OWNED_PID
 
 # Or use PostgreSQL for concurrent access
 export PHOENIX_SQL_DATABASE_URL="postgresql://..."

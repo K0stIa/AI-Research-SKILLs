@@ -311,11 +311,13 @@ class Block(BaseBlock):
 
 ### Adapter Attention
 
+Illustrative fragment, not a drop-in attention implementation. Preserve the installed release's signature, cache handling, and tensor reshaping when integrating it.
+
 ```python
 class CausalSelfAttention(BaseCausalSelfAttention):
     """Attention with adapter prompts."""
 
-    def forward(self, x: torch.Tensor, ...) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, mask=None) -> torch.Tensor:
         B, T, C = x.size()
 
         # Add adapter prefix if enabled

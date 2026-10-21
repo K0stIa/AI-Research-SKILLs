@@ -309,7 +309,8 @@ def evaluate(self, task, trajectory):
     detail_parts.append(f"Passed {len(test_results) - len(failures)}/{len(test_results)} tests")
     
     if trajectory.output:
-        detail_parts.append(f"Output: {len(trajectory.output)} chars, {trajectory.output.count('\\n')} lines")
+        line_count = len(trajectory.output.splitlines())
+        detail_parts.append(f"Output: {len(trajectory.output)} chars, {line_count} lines")
     
     score = (len(test_results) - len(failures)) / max(len(test_results), 1)
     

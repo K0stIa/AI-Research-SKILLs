@@ -341,7 +341,7 @@ PointStruct(id=123, vector=vec, payload={})
 PointStruct(id=str(uuid4()), vector=vec, payload={})
 
 # NOT valid
-PointStruct(id="custom-string-123", ...)  # Use UUID format
+PointStruct(id="custom-string-123", vector=vec, payload={})  # Expected validation failure; use UUID format.
 ```
 
 ### Payload Validation Errors

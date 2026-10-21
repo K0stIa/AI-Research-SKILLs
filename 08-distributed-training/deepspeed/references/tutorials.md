@@ -98,7 +98,7 @@ gds_handle = GDSBuilder().load().gds_handle()
 ```
 
 Example 4 (python):
-```python
+```pycon
 >python
 Python 3.10.12 (main, Jul 29 2024, 16:56:48) [GCC 11.4.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -482,7 +482,8 @@ net = PipelineModule(layers=net, num_stages=2)
 ```
 
 Example 3 (python):
-```python
+```text
+# Abbreviated architecture sketch, not a runnable model definition.
 class AlexNet(nn.Module):
     def __init__(self, num_classes=1000):
         super(AlexNet, self).__init__()
@@ -2188,7 +2189,8 @@ def get_args():
 ```
 
 Example 3 (python):
-```python
+```text
+# API signature only, not an implementation.
 def initialize(args,
                model,
                optimizer=None,
@@ -4666,7 +4668,8 @@ net = PipelineModule(layers=net, num_stages=2)
 ```
 
 Example 3 (python):
-```python
+```text
+# Abbreviated architecture sketch, not a runnable model definition.
 class AlexNet(nn.Module):
     def __init__(self, num_classes=1000):
         super(AlexNet, self).__init__()
@@ -4911,33 +4914,33 @@ cuda:0
 Example 4 (python):
 ```python
 import argparse
- import deepspeed
+import deepspeed
 
- def add_argument():
+def add_argument():
 
-     parser=argparse.ArgumentParser(description='CIFAR')
+    parser=argparse.ArgumentParser(description='CIFAR')
 
-     # Data.
-     # Cuda.
-     parser.add_argument('--with_cuda', default=False, action='store_true',
-                         help='use CPU in case there\'s no GPU support')
-     parser.add_argument('--use_ema', default=False, action='store_true',
-                         help='whether use exponential moving average')
+    # Data.
+    # Cuda.
+    parser.add_argument('--with_cuda', default=False, action='store_true',
+                        help='use CPU in case there\'s no GPU support')
+    parser.add_argument('--use_ema', default=False, action='store_true',
+                        help='whether use exponential moving average')
 
-     # Train.
-     parser.add_argument('-b', '--batch_size', default=32, type=int,
-                         help='mini-batch size (default: 32)')
-     parser.add_argument('-e', '--epochs', default=30, type=int,
-                         help='number of total epochs (default: 30)')
-     parser.add_argument('--local_rank', type=int, default=-1,
-                        help='local rank passed from distributed launcher')
+    # Train.
+    parser.add_argument('-b', '--batch_size', default=32, type=int,
+                        help='mini-batch size (default: 32)')
+    parser.add_argument('-e', '--epochs', default=30, type=int,
+                        help='number of total epochs (default: 30)')
+    parser.add_argument('--local_rank', type=int, default=-1,
+                       help='local rank passed from distributed launcher')
 
-     # Include DeepSpeed configuration arguments.
-     parser = deepspeed.add_config_arguments(parser)
+    # Include DeepSpeed configuration arguments.
+    parser = deepspeed.add_config_arguments(parser)
 
-     args=parser.parse_args()
+    args=parser.parse_args()
 
-     return args
+    return args
 ```
 
 ---
@@ -5083,7 +5086,8 @@ def forward():
 ```
 
 Example 3 (python):
-```python
+```text
+# Structural pseudocode; fill the complete version-specific signature.
 def initialize_model_parallel(
     ...
     sequence_parallel_size,
@@ -5864,7 +5868,8 @@ def get_args():
 ```
 
 Example 3 (python):
-```python
+```text
+# API signature only, not an implementation.
 def initialize(args,
                model,
                optimizer=None,

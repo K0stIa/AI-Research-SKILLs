@@ -714,7 +714,9 @@ Functional API that performs ADOPT algorithm computation.
 **Examples:**
 
 Example 1 (python):
-```python
+Signature notation, not a call to execute:
+
+```text
 utils.optimizers.adopt.adopt(
     params,
     grads,
@@ -3042,7 +3044,9 @@ Load and prepare the model with all configurations and patches.
 **Examples:**
 
 Example 1 (python):
-```python
+Signature notation, not a call to execute:
+
+```text
 loaders.model.ModelLoader(
     cfg,
     tokenizer,

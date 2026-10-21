@@ -302,6 +302,9 @@ def after_both(self):  # Waits for both
 # Check available tools
 from crewai_tools import *
 
+```
+
+```bash
 # Install specific tool
 pip install 'crewai[tools]'
 

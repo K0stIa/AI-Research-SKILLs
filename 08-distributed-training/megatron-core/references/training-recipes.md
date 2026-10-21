@@ -497,12 +497,12 @@ rampup-batch-size: [start_batch, increment, total_samples]
 ### Learning Rate Schedules
 
 **Cosine Decay** (most common):
-```python
+```text
 lr(step) = min_lr + 0.5 * (max_lr - min_lr) * (1 + cos(π * step / total_steps))
 ```
 
 **Linear Warmup + Cosine Decay**:
-```python
+```text
 if step < warmup_steps:
     lr(step) = max_lr * step / warmup_steps
 else:

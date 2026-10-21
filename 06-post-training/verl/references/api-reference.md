@@ -63,7 +63,11 @@ Interface for inference backends with implementations for vLLM, SGLang, TensorRT
 ```python
 from verl.workers.rollout import RolloutReplica
 
-# Backend selection via config
+```
+
+Backend selection is YAML configuration, not Python:
+
+```yaml
 rollout:
   name: vllm  # or: sglang, hf, tensorrt-llm
 ```

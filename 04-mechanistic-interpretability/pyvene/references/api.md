@@ -106,12 +106,14 @@ config = pv.IntervenableConfig(
 
 ### Multiple Interventions
 
+These are configuration fragments. Supply `representation_kwargs` with the required fields for the installed PyVene version; do not duplicate explicitly supplied keywords.
+
 ```python
 config = pv.IntervenableConfig(
     representations=[
-        pv.RepresentationConfig(layer=3, component="block_output", ...),
-        pv.RepresentationConfig(layer=5, component="mlp_output", ...),
-        pv.RepresentationConfig(layer=7, component="attention_output", ...),
+        pv.RepresentationConfig(layer=3, component="block_output", **representation_kwargs),
+        pv.RepresentationConfig(layer=5, component="mlp_output", **representation_kwargs),
+        pv.RepresentationConfig(layer=7, component="attention_output", **representation_kwargs),
     ]
 )
 ```
@@ -192,7 +194,7 @@ Replaces base activations with source activations.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.VanillaIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -202,7 +204,7 @@ Adds source activations to base.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.AdditionIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -212,7 +214,7 @@ Subtracts source from base.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.SubtractionIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -222,7 +224,7 @@ Sets activations to zero (ablation).
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.ZeroIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -253,7 +255,7 @@ Full-rank trainable rotation.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.RotatedSpaceIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -264,7 +266,7 @@ Low-rank trainable intervention (DAS).
 pv.RepresentationConfig(
     intervention_type=pv.LowRankRotatedSpaceIntervention,
     low_rank_dimension=64,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -274,7 +276,7 @@ Boundless DAS variant.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.BoundlessRotatedSpaceIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 
@@ -284,7 +286,7 @@ Learnable binary mask.
 ```python
 pv.RepresentationConfig(
     intervention_type=pv.SigmoidMaskIntervention,
-    ...
+    **representation_kwargs,
 )
 ```
 

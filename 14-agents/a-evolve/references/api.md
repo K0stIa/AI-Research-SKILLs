@@ -349,7 +349,7 @@ AGENT_REGISTRY = {
     "mcp": "seed_workspaces/mcp",
     "mcp-atlas": "seed_workspaces/mcp",
     "arc": "seed_workspaces/arc",
-    ...
+    # Additional registered agents omitted.
 }
 
 BENCHMARK_REGISTRY = {
@@ -358,7 +358,7 @@ BENCHMARK_REGISTRY = {
     "terminal2": "agent_evolve.benchmarks.terminal2.Terminal2Benchmark",
     "skill-bench": "agent_evolve.benchmarks.skill_bench.SkillBenchBenchmark",
     "arc-agi-3": "agent_evolve.benchmarks.arc_agi3.ArcAgi3Benchmark",
-    ...
+    # Additional registered benchmarks omitted.
 }
 ```
 

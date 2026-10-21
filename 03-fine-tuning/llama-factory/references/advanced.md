@@ -149,7 +149,9 @@ process_messages 的作用是根据输入图片/视频的大小，数量等信�
 **Examples:**
 
 Example 1 (python):
-```python
+Rendered template output, not Python source:
+
+```text
 ========== Template ==========
 <|begin_of_text|><|header_start|>user<|header_end|>
 
