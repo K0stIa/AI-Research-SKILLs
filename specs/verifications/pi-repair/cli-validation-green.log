@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: live CLI rejects inherited object properties as scenario names before launching Pi
+ok 1 - live CLI rejects inherited object properties as scenario names before launching Pi
+  ---
+  duration_ms: 30.21919
+  type: 'test'
+  ...
+# Subtest: a completed assistant response is necessary for a successful run
+ok 2 - a completed assistant response is necessary for a successful run
+  ---
+  duration_ms: 0.382165
+  type: 'test'
+  ...
+# Subtest: provider errors fail even when Pi exits zero
+ok 3 - provider errors fail even when Pi exits zero
+  ---
+  duration_ms: 0.599681
+  type: 'test'
+  ...
+# Subtest: a prior answer cannot hide a later provider error or timeout
+ok 4 - a prior answer cannot hide a later provider error or timeout
+  ---
+  duration_ms: 0.167879
+  type: 'test'
+  ...
+# Subtest: tool errors and missing agent completion fail verification
+ok 5 - tool errors and missing agent completion fail verification
+  ---
+  duration_ms: 0.27275
+  type: 'test'
+  ...
+# Subtest: read evidence and usage survive parsing without the full event stream
+ok 6 - read evidence and usage survive parsing without the full event stream
+  ---
+  duration_ms: 0.199178
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 83.822867

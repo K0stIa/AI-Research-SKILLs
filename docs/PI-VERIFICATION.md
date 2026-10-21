@@ -2,65 +2,88 @@
 
 ## Package checks
 
-- `npm test`: four tests pass.
-- `bash scripts/check-inventory.sh`: 98 skills across 23 categories.
-- `npm pack --dry-run --json`: 98 skill files and 267 reference files included.
-- Pi package resolver: 98 enabled skills, no extensions.
-- Pi skill loader: 98 unique skill names, no skill diagnostics.
-
-These checks do not run upstream training examples or cloud jobs.
-
-## Fresh-session smoke test
-
-Started a new, in-memory Pi process from `/tmp`. No parent conversation was resumed.
-Loaded this checkout as a package through `-e`, with discovered skills, extensions, context files, and MCP disabled.
-Only the read tool was enabled. Personal settings were not changed.
-
-Command, replacing the checkout path as needed:
+Run from the installed source checkout:
 
 ```bash
-pi --print --mode json --no-session \
-  --no-extensions --no-skills --no-context-files \
-  --no-prompt-templates --no-mcp --offline --tools read \
-  --model local-llamacpp/qwen3.8-35b-a3b-mtp-256k --thinking off \
-  -e /absolute/path/to/AI-Research-SKILLs \
-  '/skill:autoresearch Smoke test only. Read exactly the first 15 lines of /absolute/path/to/AI-Research-SKILLs/12-inference-serving/vllm/SKILL.md. Then STOP calling tools and answer in under 100 words: vLLM skill name; Pi rules for budgets, stopping, scheduling and delegation; one proposed CPU experiment. Do not execute experiments, write files, schedule tasks, or delegate.'
+npm test
+bash scripts/check-inventory.sh
+npm pack --dry-run --json
 ```
 
-Observed results:
+The 19 Node tests check inventory, command identity, local references, source gates, precision, CLI validation, and event parsing.
+They preserve 98 skills across 23 categories. The repaired package contains 287 reference files.
+Documentation-contract tests do not establish the correctness of every technical claim or upstream example.
+No check runs training or provisions cloud resources.
 
-- Process exited with status 0, with no model error and no stderr output.
-- `/skill:autoresearch` expanded the package's orchestration instructions.
-- Model called `read` once on `12-inference-serving/vllm/SKILL.md`, with `limit: 15`.
-- Model identified the skill as `serving-llms-vllm`.
-- Model stated that scope, environment, compute budget, and stopping conditions require agreement before execution.
-- Model stated that execution stops at the agreed budget or checkpoint.
-- Model stated that background loops, cron jobs, and subagents require explicit authorization.
-- Model proposed an experiment without executing it. Its suggested 8B-model CPU benchmark was not validated or judged appropriately small.
-- No mutating tools, scheduling tools, or delegation tools ran.
+For the optional Gemini demo regression, run from a repository checkout with Python 3 available:
 
-Raw event log on the verification host: `/tmp/ai-research-skills-pi-smoke-final.jsonl`.
-Temporary logs are not committed and are not needed to use the package.
+```bash
+node --test scripts/check-optional-demo.test.mjs
+```
 
-Earlier attempts were not passes. One local-model run timed out after 180 seconds.
-Copilot rejected GPT-5.4 for its configured integration and GPT-4.1 for the Responses API.
-Codex rejected GPT-5.4 and GPT-5.5 for the configured ChatGPT account.
-The successful run used the configured local model with thinking disabled.
+This test excludes Python site-packages and checks the missing-SDK error path. It does not call the image-generation API.
+The demo and its test are excluded from the Pi package tarball.
 
-## Workflow diagnostics
+## Installed discovery
 
-Pinned six existing GitHub Actions references to their upstream tag commit IDs.
-Wrapped existing long workflow lines without changing authorization conditions.
-No workflows were triggered, no package was published, and no branch was pushed.
+Do not force the package with `-e` when checking installed-name collisions.
+The installed inventory script uses existing personal and project settings without changing them.
+Supply the `dist/core` directory from the Pi installation you intend to test:
 
-## Unchanged demo diagnostics
+```bash
+node scripts/verify-pi-installed.mjs /absolute/path/to/pi/dist/core /tmp/pi-inventory.json
+```
 
-Repository-wide analysis also reported existing problems in
-`demos/scientific-plotting-demo/figures/gen_fig_andes_architecture_gemini.py`:
+It checks `/tmp`, the checkout's parent directory, and the checkout itself.
+It requires all 98 Orchestra definitions to be active and the separate Feynman `autoresearch` to remain selected.
+That coexistence assertion is specific to installations that also contain Feynman.
+Other users can inspect the evidence JSON without treating absent Feynman as a package defect.
 
-- Pyright reports `"genai" is unknown import symbol` for `from google import genai` at line 28.
-- Static analysis reports an unchecked file open at line 21.
+The Orchestra command is `/skill:orchestra-autoresearch`.
+The command `/skill:autoresearch` is not an Orchestra alias.
 
-This demo is unchanged and excluded from the Pi package tarball.
-Its Google Gen AI SDK environment and image-generation API were not tested.
-These findings remain unresolved. The verification result covers the Pi package, not a clean whole-repository Python analysis.
+## Real fresh-session checks
+
+The live harness starts an actual Pi process with a prompt, not an SDK mock.
+It uses installed skills, an isolated working directory, and a fresh in-memory session.
+It does not pass `-e`, `--skill`, or `--no-skills`.
+Default deadline is 240 seconds per scenario. The process group is terminated at that deadline.
+
+Choose an already configured model and executable through `PI_LIVE_MODEL` and `PI_BIN` if necessary.
+The default model is `local-llamacpp/qwen3.8-35b-a3b-mtp-256k`.
+
+```bash
+node scripts/verify-pi-live.mjs /tmp/pi-live orchestra-identity 240
+node scripts/verify-pi-live.mjs /tmp/pi-live natural-unsloth 240
+node scripts/verify-pi-live.mjs /tmp/pi-live citation 240
+```
+
+Run without arguments to list all scenarios. They cover both command identities, fine-tuning, citation handling,
+Mamba and vLLM references, bounded research, full-extension operation, and matched control prompts.
+
+Most scenarios disable extensions. The `full-installed`, `full-vllm`, and `control-full` scenarios retain installed extensions.
+Extension initialization can create files in the scratch working directory even when model tools are read-only.
+These are not mutation-free or extension-isolated controls. Do not run them in a valuable project directory.
+
+Each run saves raw JSONL, stderr, and a result JSON.
+A successful transport result requires a final assistant response, agent completion, no model error, and no tool error.
+A process exit code of zero is insufficient. Provider failures can exit zero.
+
+Review answer correctness and actual read paths separately. `completed: true` does not mean the answer is correct.
+For identity checks, require the requested filesystem read; a claim that a read occurred is not tool evidence.
+For citation-only tasks, check that citation guidance was read and templates were not inspected.
+For QLoRA, check the frozen-base/trainable-adapter distinction and the cited source.
+For controls, compare identical prompts and inspect cache usage before interpreting timing differences.
+
+## Evidence and limits
+
+The repair's test-before-build logs and final review live under `specs/verifications/pi-repair/` in the source repository.
+Raw installed-session evidence is retained separately on the verification host.
+Do not overwrite historical evidence when rerunning a harness.
+
+The original forced-package smoke did not test installed package ordering and masked an `autoresearch` collision.
+That collision was repaired by namespacing Orchestra's command, not by removing Feynman or editing personal settings.
+The research entrypoint now loads detailed workflow sections on demand instead of expanding the entire manual for identity checks.
+
+Successful package and fresh-session checks do not validate every framework version, training recipe, or model endpoint.
+Timeouts remain incomplete evidence until a comparable run finishes. Larger deadlines alone do not establish a latency fix.

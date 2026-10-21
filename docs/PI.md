@@ -64,6 +64,7 @@ bash scripts/check-inventory.sh
 npm pack --dry-run
 ```
 
-Tests check category coverage, skill inventory, unique names, frontmatter limits, and bounded Pi autoresearch instructions.
+Tests check inventory, command identity, local references, source gates, and strict live-event completion handling.
 They do not run model training, provision cloud resources, or verify every upstream code example.
 After installation, inspect Pi's startup diagnostics and confirm `/skill:orchestra-autoresearch` is available.
+See [Pi verification](PI-VERIFICATION.md) for installed-discovery and actual fresh-session harnesses.

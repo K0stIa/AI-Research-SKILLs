@@ -1,0 +1,48 @@
+
+> ai-research-skills@1.0.1 test
+> npm run test:pi
+
+
+> ai-research-skills@1.0.1 test:pi
+> node --test scripts/check-pi-package.test.mjs
+
+TAP version 13
+# Subtest: Pi manifest exposes every research category once
+ok 1 - Pi manifest exposes every research category once
+  ---
+  duration_ms: 3.034509
+  type: 'test'
+  ...
+# Subtest: all 98 research skills remain bundled with their supporting files
+ok 2 - all 98 research skills remain bundled with their supporting files
+  ---
+  duration_ms: 2.680224
+  type: 'test'
+  ...
+# Subtest: skills have unique Pi-compatible names and descriptions
+ok 3 - skills have unique Pi-compatible names and descriptions
+  ---
+  duration_ms: 11.734388
+  type: 'test'
+  ...
+# Subtest: Orchestra research command coexists with other autoresearch packages
+ok 4 - Orchestra research command coexists with other autoresearch packages
+  ---
+  duration_ms: 1.190425
+  type: 'test'
+  ...
+# Subtest: autoresearch defines bounded Pi operation without mandatory scheduling
+ok 5 - autoresearch defines bounded Pi operation without mandatory scheduling
+  ---
+  duration_ms: 0.531585
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 146.662696

@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: a completed assistant response is necessary for a successful run
+ok 1 - a completed assistant response is necessary for a successful run
+  ---
+  duration_ms: 1.142901
+  type: 'test'
+  ...
+# Subtest: provider errors fail even when Pi exits zero
+ok 2 - provider errors fail even when Pi exits zero
+  ---
+  duration_ms: 0.709623
+  type: 'test'
+  ...
+# Subtest: a prior answer cannot hide a later provider error or timeout
+ok 3 - a prior answer cannot hide a later provider error or timeout
+  ---
+  duration_ms: 0.307708
+  type: 'test'
+  ...
+# Subtest: tool errors and missing agent completion fail verification
+ok 4 - tool errors and missing agent completion fail verification
+  ---
+  duration_ms: 1.629697
+  type: 'test'
+  ...
+# Subtest: read evidence and usage survive parsing without the full event stream
+ok 5 - read evidence and usage survive parsing without the full event stream
+  ---
+  duration_ms: 0.303891
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 63.605379

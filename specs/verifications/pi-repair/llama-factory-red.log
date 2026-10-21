@@ -1,0 +1,246 @@
+
+> ai-research-skills@1.0.1 test
+> npm run test:pi
+
+
+> ai-research-skills@1.0.1 test:pi
+> node --test scripts/check-pi-package.test.mjs
+
+TAP version 13
+# Subtest: Pi manifest exposes every research category once
+ok 1 - Pi manifest exposes every research category once
+  ---
+  duration_ms: 1.520486
+  type: 'test'
+  ...
+# Subtest: all 98 research skills remain bundled with their supporting files
+ok 2 - all 98 research skills remain bundled with their supporting files
+  ---
+  duration_ms: 1.285232
+  type: 'test'
+  ...
+# Subtest: skills have unique Pi-compatible names and descriptions
+ok 3 - skills have unique Pi-compatible names and descriptions
+  ---
+  duration_ms: 5.391981
+  type: 'test'
+  ...
+# Subtest: every local Markdown reference in main skills resolves to useful content
+ok 4 - every local Markdown reference in main skills resolves to useful content
+  ---
+  duration_ms: 10.817226
+  type: 'test'
+  ...
+# Subtest: Orchestra research command coexists with other autoresearch packages
+ok 5 - Orchestra research command coexists with other autoresearch packages
+  ---
+  duration_ms: 0.485422
+  type: 'test'
+  ...
+# Subtest: Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+ok 6 - Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+  ---
+  duration_ms: 0.324974
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+not ok 7 - LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+  ---
+  duration_ms: 0.927237
+  type: 'test'
+  location: '/home/k0stia/code/pi/AI-Research-SKILLs/scripts/check-pi-package.test.mjs:94:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input was expected to not match the regular expression /patterns will be added|Use `view`|100\+ models|2\/3\/4\/5\/6\/8-bit/i. Input:
+    
+    '---\n' +
+      'name: llama-factory\n' +
+      'description: Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support\n' +
+      'version: 1.0.0\n' +
+      'author: Orchestra Research\n' +
+      'license: MIT\n' +
+      'tags: [Fine-Tuning, LLaMA Factory, LLM, WebUI, No-Code, QLoRA, LoRA, Multimodal, HuggingFace, Llama, Qwen, Gemma]\n' +
+      'dependencies: [llmtuner, torch, transformers, datasets, peft, accelerate, gradio]\n' +
+      '---\n' +
+      '\n' +
+      '# Llama-Factory Skill\n' +
+      '\n' +
+      'Comprehensive assistance with llama-factory development, generated from official documentation.\n' +
+      '\n' +
+      '## When to Use This Skill\n' +
+      '\n' +
+      'This skill should be triggered when:\n' +
+      '- Working with llama-factory\n' +
+      '- Asking about llama-factory features or APIs\n' +
+      '- Implementing llama-factory solutions\n' +
+      '- Debugging llama-factory code\n' +
+      '- Learning llama-factory best practices\n' +
+      '\n' +
+      '## Quick Reference\n' +
+      '\n' +
+      '### Common Patterns\n' +
+      '\n' +
+      '*Quick reference patterns will be added as you use the skill.*\n' +
+      '\n' +
+      '## Reference Files\n' +
+      '\n' +
+      'This skill includes comprehensive documentation in `references/`:\n' +
+      '\n' +
+      '- **_images.md** -  Images documentation\n' +
+      '- **advanced.md** - Advanced documentation\n' +
+      '- **getting_started.md** - Getting Started documentation\n' +
+      '- **other.md** - Other documentation\n' +
+      '\n' +
+      'Use `view` to read specific reference files when detailed information is needed.\n' +
+      '\n' +
+      '## Working with This Skill\n' +
+      '\n' +
+      '### For Beginners\n' +
+      'Start with the getting_started or tutorials reference files for foundational concepts.\n' +
+      '\n' +
+      '### For Specific Features\n' +
+      'Use the appropriate category reference file (api, guides, etc.) for detailed information.\n' +
+      '\n' +
+      '### For Code Examples\n' +
+      'The quick reference section above contains common patterns extracted from the official docs.\n' +
+      '\n' +
+      '## Resources\n' +
+      '\n' +
+      '### references/\n' +
+      'Organized documentation extracted from official sources. These files contain:\n' +
+      '- Detailed explanations\n' +
+      '- Code examples with language annotations\n' +
+      '- Links to original documentation\n' +
+      '- Table of contents for quick navigation\n' +
+      '\n' +
+      '### scripts/\n' +
+      'Add helper scripts here for common automation tasks.\n' +
+      '\n' +
+      '### assets/\n' +
+      'Add templates, boilerplate, or example projects here.\n' +
+      '\n' +
+      '## Notes\n' +
+      '\n' +
+      '- This skill was automatically generated from official documentation\n' +
+      '- Reference files preserve the structure and examples from source docs\n' +
+      '- Code examples include language detection for better syntax highlighting\n' +
+      '- Quick reference patterns are extracted from common usage examples in the docs\n' +
+      '\n' +
+      '## Updating\n' +
+      '\n' +
+      'To refresh this skill with updated documentation:\n' +
+      '1. Re-run the scraper with the same configuration\n' +
+      '2. The skill will be rebuilt with the latest information\n' +
+      '\n' +
+      '\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    ---
+    name: llama-factory
+    description: Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support
+    version: 1.0.0
+    author: Orchestra Research
+    license: MIT
+    tags: [Fine-Tuning, LLaMA Factory, LLM, WebUI, No-Code, QLoRA, LoRA, Multimodal, HuggingFace, Llama, Qwen, Gemma]
+    dependencies: [llmtuner, torch, transformers, datasets, peft, accelerate, gradio]
+    ---
+    
+    # Llama-Factory Skill
+    
+    Comprehensive assistance with llama-factory development, generated from official documentation.
+    
+    ## When to Use This Skill
+    
+    This skill should be triggered when:
+    - Working with llama-factory
+    - Asking about llama-factory features or APIs
+    - Implementing llama-factory solutions
+    - Debugging llama-factory code
+    - Learning llama-factory best practices
+    
+    ## Quick Reference
+    
+    ### Common Patterns
+    
+    *Quick reference patterns will be added as you use the skill.*
+    
+    ## Reference Files
+    
+    This skill includes comprehensive documentation in `references/`:
+    
+    - **_images.md** -  Images documentation
+    - **advanced.md** - Advanced documentation
+    - **getting_started.md** - Getting Started documentation
+    - **other.md** - Other documentation
+    
+    Use `view` to read specific reference files when detailed information is needed.
+    
+    ## Working with This Skill
+    
+    ### For Beginners
+    Start with the getting_started or tutorials reference files for foundational concepts.
+    
+    ### For Specific Features
+    Use the appropriate category reference file (api, guides, etc.) for detailed information.
+    
+    ### For Code Examples
+    The quick reference section above contains common patterns extracted from the official docs.
+    
+    ## Resources
+    
+    ### references/
+    Organized documentation extracted from official sources. These files contain:
+    - Detailed explanations
+    - Code examples with language annotations
+    - Links to original documentation
+    - Table of contents for quick navigation
+    
+    ### scripts/
+    Add helper scripts here for common automation tasks.
+    
+    ### assets/
+    Add templates, boilerplate, or example projects here.
+    
+    ## Notes
+    
+    - This skill was automatically generated from official documentation
+    - Reference files preserve the structure and examples from source docs
+    - Code examples include language detection for better syntax highlighting
+    - Quick reference patterns are extracted from common usage examples in the docs
+    
+    ## Updating
+    
+    To refresh this skill with updated documentation:
+    1. Re-run the scraper with the same configuration
+    2. The skill will be rebuilt with the latest information
+    
+    
+    
+  operator: 'doesNotMatch'
+  stack: |-
+    TestContext.<anonymous> (file:///home/k0stia/code/pi/AI-Research-SKILLs/scripts/check-pi-package.test.mjs:96:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: autoresearch defines bounded Pi operation without mandatory scheduling
+ok 8 - autoresearch defines bounded Pi operation without mandatory scheduling
+  ---
+  duration_ms: 0.206219
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.06925

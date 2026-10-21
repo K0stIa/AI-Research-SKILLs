@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: Pi manifest exposes every research category once
+ok 1 - Pi manifest exposes every research category once
+  ---
+  duration_ms: 2.368961
+  type: 'test'
+  ...
+# Subtest: all 98 research skills remain bundled with their supporting files
+ok 2 - all 98 research skills remain bundled with their supporting files
+  ---
+  duration_ms: 0.996856
+  type: 'test'
+  ...
+# Subtest: skills have unique Pi-compatible names and descriptions
+ok 3 - skills have unique Pi-compatible names and descriptions
+  ---
+  duration_ms: 5.915
+  type: 'test'
+  ...
+# Subtest: every local Markdown reference in main skills resolves to useful content
+ok 4 - every local Markdown reference in main skills resolves to useful content
+  ---
+  duration_ms: 15.166208
+  type: 'test'
+  ...
+# Subtest: Orchestra research command coexists with other autoresearch packages
+ok 5 - Orchestra research command coexists with other autoresearch packages
+  ---
+  duration_ms: 0.638822
+  type: 'test'
+  ...
+# Subtest: Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+ok 6 - Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+  ---
+  duration_ms: 0.49662
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+ok 7 - LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+  ---
+  duration_ms: 0.486207
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+ok 8 - LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+  ---
+  duration_ms: 0.304158
+  type: 'test'
+  ...
+# Subtest: fine-tuning references separate bit width from quantization format and actual tensor dtype
+ok 9 - fine-tuning references separate bit width from quantization format and actual tensor dtype
+  ---
+  duration_ms: 0.628045
+  type: 'test'
+  ...
+# Subtest: paper-writing prioritizes citation evidence over template discovery
+ok 10 - paper-writing prioritizes citation evidence over template discovery
+  ---
+  duration_ms: 0.903126
+  type: 'test'
+  ...
+# Subtest: research entrypoint stays bounded while preserving the complete workflow reference
+ok 11 - research entrypoint stays bounded while preserving the complete workflow reference
+  ---
+  duration_ms: 0.504711
+  type: 'test'
+  ...
+# Subtest: research identity checks do not invent filesystem verification
+ok 12 - research identity checks do not invent filesystem verification
+  ---
+  duration_ms: 0.234801
+  type: 'test'
+  ...
+# Subtest: autoresearch defines bounded Pi operation without mandatory scheduling
+ok 13 - autoresearch defines bounded Pi operation without mandatory scheduling
+  ---
+  duration_ms: 0.168863
+  type: 'test'
+  ...
+# Subtest: live CLI rejects inherited object properties as scenario names before launching Pi
+ok 14 - live CLI rejects inherited object properties as scenario names before launching Pi
+  ---
+  duration_ms: 38.863554
+  type: 'test'
+  ...
+# Subtest: a completed assistant response is necessary for a successful run
+ok 15 - a completed assistant response is necessary for a successful run
+  ---
+  duration_ms: 0.452649
+  type: 'test'
+  ...
+# Subtest: provider errors fail even when Pi exits zero
+ok 16 - provider errors fail even when Pi exits zero
+  ---
+  duration_ms: 0.737966
+  type: 'test'
+  ...
+# Subtest: a prior answer cannot hide a later provider error or timeout
+ok 17 - a prior answer cannot hide a later provider error or timeout
+  ---
+  duration_ms: 0.211534
+  type: 'test'
+  ...
+# Subtest: tool errors and missing agent completion fail verification
+ok 18 - tool errors and missing agent completion fail verification
+  ---
+  duration_ms: 0.350213
+  type: 'test'
+  ...
+# Subtest: read evidence and usage survive parsing without the full event stream
+ok 19 - read evidence and usage survive parsing without the full event stream
+  ---
+  duration_ms: 0.238721
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 101.433639

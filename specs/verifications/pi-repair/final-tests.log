@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: optional Gemini demo explains a missing SDK without calling an API
+ok 1 - optional Gemini demo explains a missing SDK without calling an API
+  ---
+  duration_ms: 13.887586
+  type: 'test'
+  ...
+# Subtest: Pi manifest exposes every research category once
+ok 2 - Pi manifest exposes every research category once
+  ---
+  duration_ms: 3.134969
+  type: 'test'
+  ...
+# Subtest: all 98 research skills remain bundled with their supporting files
+ok 3 - all 98 research skills remain bundled with their supporting files
+  ---
+  duration_ms: 0.668523
+  type: 'test'
+  ...
+# Subtest: skills have unique Pi-compatible names and descriptions
+ok 4 - skills have unique Pi-compatible names and descriptions
+  ---
+  duration_ms: 5.553984
+  type: 'test'
+  ...
+# Subtest: every local Markdown reference in main skills resolves to useful content
+ok 5 - every local Markdown reference in main skills resolves to useful content
+  ---
+  duration_ms: 11.304321
+  type: 'test'
+  ...
+# Subtest: Orchestra research command coexists with other autoresearch packages
+ok 6 - Orchestra research command coexists with other autoresearch packages
+  ---
+  duration_ms: 0.545056
+  type: 'test'
+  ...
+# Subtest: Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+ok 7 - Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+  ---
+  duration_ms: 0.332232
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+ok 8 - LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+  ---
+  duration_ms: 0.332476
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+ok 9 - LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+  ---
+  duration_ms: 0.188618
+  type: 'test'
+  ...
+# Subtest: fine-tuning references separate bit width from quantization format and actual tensor dtype
+ok 10 - fine-tuning references separate bit width from quantization format and actual tensor dtype
+  ---
+  duration_ms: 0.429277
+  type: 'test'
+  ...
+# Subtest: paper-writing prioritizes citation evidence over template discovery
+ok 11 - paper-writing prioritizes citation evidence over template discovery
+  ---
+  duration_ms: 0.657309
+  type: 'test'
+  ...
+# Subtest: research entrypoint stays bounded while preserving the complete workflow reference
+ok 12 - research entrypoint stays bounded while preserving the complete workflow reference
+  ---
+  duration_ms: 0.383628
+  type: 'test'
+  ...
+# Subtest: research identity checks do not invent filesystem verification
+ok 13 - research identity checks do not invent filesystem verification
+  ---
+  duration_ms: 0.161399
+  type: 'test'
+  ...
+# Subtest: autoresearch defines bounded Pi operation without mandatory scheduling
+ok 14 - autoresearch defines bounded Pi operation without mandatory scheduling
+  ---
+  duration_ms: 0.1072
+  type: 'test'
+  ...
+# Subtest: live CLI rejects inherited object properties as scenario names before launching Pi
+ok 15 - live CLI rejects inherited object properties as scenario names before launching Pi
+  ---
+  duration_ms: 38.766609
+  type: 'test'
+  ...
+# Subtest: a completed assistant response is necessary for a successful run
+ok 16 - a completed assistant response is necessary for a successful run
+  ---
+  duration_ms: 0.502097
+  type: 'test'
+  ...
+# Subtest: provider errors fail even when Pi exits zero
+ok 17 - provider errors fail even when Pi exits zero
+  ---
+  duration_ms: 0.701249
+  type: 'test'
+  ...
+# Subtest: a prior answer cannot hide a later provider error or timeout
+ok 18 - a prior answer cannot hide a later provider error or timeout
+  ---
+  duration_ms: 0.2015
+  type: 'test'
+  ...
+# Subtest: tool errors and missing agent completion fail verification
+ok 19 - tool errors and missing agent completion fail verification
+  ---
+  duration_ms: 0.306537
+  type: 'test'
+  ...
+# Subtest: read evidence and usage survive parsing without the full event stream
+ok 20 - read evidence and usage survive parsing without the full event stream
+  ---
+  duration_ms: 0.213944
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.994932

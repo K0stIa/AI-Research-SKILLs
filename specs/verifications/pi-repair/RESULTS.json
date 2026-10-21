@@ -1,0 +1,63 @@
+{
+  "sourceRevision": "6e9ef12",
+  "verdict": "verified-with-limits",
+  "tests": {
+    "nodePassed": 19,
+    "optionalDemoPassed": 1,
+    "failed": 0,
+    "packedNodePassed": 19,
+    "isolatedRedGreenPairs": 12,
+    "allRedFailedAndTargetedGreenPassed": true
+  },
+  "package": {
+    "skills": 98,
+    "categories": 23,
+    "referenceFiles": 287,
+    "files": 472,
+    "demosExcluded": true,
+    "specsExcluded": true
+  },
+  "installedDiscovery": {
+    "workingDirectories": 3,
+    "orchestraActivePerDirectory": 98,
+    "totalNamesPerDirectory": 330,
+    "diagnostics": 0,
+    "feynmanPreserved": true
+  },
+  "live": {
+    "realPiInvocations": 18,
+    "completedAttempts": 17,
+    "retainedEarlyTimeouts": 1,
+    "latestCompletedScenarios": 12,
+    "semanticReview": "Manual core-behavior review; see REPORT.md. Completion is not full prompt compliance.",
+    "latestWordCapMisses": [
+      { "scenario": "natural-unsloth", "finalWords": 158, "requestedCap": 140 },
+      { "scenario": "vllm-reference", "finalWords": 93, "requestedCap": 80 }
+    ],
+    "coldOrchestraSeconds": 205.77,
+    "deadlineSeconds": 240,
+    "initialIdentityInputTokens": 43132,
+    "compactIdentityInputTokens": 38166,
+    "cacheReadForBothFirstRequests": 0
+  },
+  "entrypoint": {
+    "beforeBytes": 26238,
+    "afterBytes": 4111,
+    "manualPreservedIn": "0-autoresearch-skill/references/research-workflow.md"
+  },
+  "diagnostics": {
+    "reportedErrors": 0,
+    "broadSweepConfirmedClean": 9,
+    "broadSweepInconclusive": 2,
+    "changedExecutableFollowUpConfirmedClean": 3,
+    "nodeSyntaxFilesPassed": 6,
+    "pythonSyntaxPassed": true
+  },
+  "historicalEvidenceFilesVerified": 51,
+  "rawEvidenceRoot": "/home/k0stia/code/pi/.pi/verification/ai-research-repair-20261021",
+  "personalSettingsChanged": false,
+  "modelServerSettingsChanged": false,
+  "pushedOrPublished": false,
+  "dependenciesInstalled": false,
+  "trainingRun": false
+}
