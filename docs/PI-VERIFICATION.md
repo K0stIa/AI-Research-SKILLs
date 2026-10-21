@@ -30,7 +30,7 @@ node --test scripts/check-optional-demo.test.mjs
 This test excludes Python site-packages and checks the missing-SDK error path. It does not call the image-generation API.
 The demo and its test are excluded from the Pi package tarball.
 
-## Small CPU numerical checks
+## Small CPU example checks
 
 From a repository checkout with an existing PyTorch installation:
 
@@ -38,10 +38,13 @@ From a repository checkout with an existing PyTorch installation:
 CUDA_VISIBLE_DEVICES="" python3 scripts/check-distillation.test.py
 ```
 
-These tests extract local examples. They check KL direction, causal alignment, masking, gradients, SimPO arithmetic, W&B configuration and control logic, and Wanda pruning with tied scores.
-They load no models and take no optimizer steps.
+These tests extract local examples. They check KL direction, causal alignment, masking, gradients, and SimPO arithmetic.
+They also check W&B controls, Wanda pruning with tied scores, GRPO metric counterexamples, a GPTQ module map, and one AutoGPT example's async-generator protocol.
+They load no pretrained models and take no optimizer steps. The module-map test uses parameter-free toy modules, not a real model or backend dispatch.
 
-The test is repository-only. It does not install PyTorch, contact W&B, or certify a complete training or pruning pipeline.
+Only run this test on a trusted checkout. It executes extracted repository functions; it is not a sandbox for hostile source.
+
+The test is repository-only. It does not install PyTorch, contact W&B, or certify framework compatibility or a complete training, quantization, or pruning pipeline.
 
 ## Installed discovery
 

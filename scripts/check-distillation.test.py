@@ -1,4 +1,4 @@
-"""Check bounded numerical/configuration examples without loading models.
+"""Check bounded guide examples without loading pretrained models.
 
 Requires an already-installed PyTorch. No models, downloads, training, or optimizer steps.
 """
@@ -266,5 +266,5 @@ class CausalDistillationExample(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    print(f"Tiny CPU loss tests; PyTorch {torch.__version__}; no optimizer steps.")
+    print(f"Tiny CPU example tests; PyTorch {torch.__version__}; no optimizer steps.")
     unittest.main()
