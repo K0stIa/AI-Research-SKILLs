@@ -17,6 +17,33 @@ function run(messages, overrides = {}) {
 }
 const text = [{ type: 'text', text: 'Verified answer.' }];
 
+test('skill contracts require correct bounded successful reads and valid response evidence', async () => {
+  const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
+  assert.equal(typeof evaluateSkillRun, 'function');
+  const contract = { name: 'fixture-skill', mainPath: '/fixture/SKILL.md', referencePath: '/fixture/references/guide.md', maxWords: 140 };
+  const answer = { skill: contract.name, mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: 'Test a source-backed workflow.', referenceFact: 'Verify the input schema.', pitfall: 'Unknown versions can change APIs.', prerequisites: ['Installed version is unverified.'], executed: false };
+  const reads = [contract.mainPath, contract.referencePath].flatMap((path, i) => [
+    { type: 'tool_execution_start', toolCallId: `read-${i}`, toolName: 'read', args: { path, limit: 40 } },
+    { type: 'tool_execution_end', toolCallId: `read-${i}`, toolName: 'read', isError: false, result: { content: [{ type: 'text', text: 'Source excerpt.' }] } },
+  ]);
+  function evaluate(overrides = {}, evidence = reads, options = {}) {
+    const stdout = [...evidence, { type: 'message_end', message: { role: 'assistant', stopReason: 'stop', content: [{ type: 'text', text: JSON.stringify({ ...answer, ...overrides }) }] } }, { type: 'agent_end' }].map(e => JSON.stringify(e)).join('\n');
+    return evaluateSkillRun({ stdout, exitCode: 0, timedOut: false }, { ...contract, ...options });
+  }
+  assert.equal(evaluate().contractPassed, true);
+  assert.equal(evaluate({}, [], {}).contractPassed, false, 'narration is not a read');
+  assert.equal(evaluate({}, reads.filter(e => e.type !== 'tool_execution_end')).contractPassed, false, 'starts are not successful reads');
+  assert.equal(evaluate({ skill: 'wrong-name' }).contractPassed, false);
+  assert.equal(evaluate({ mainPath: '/other/SKILL.md' }).contractPassed, false);
+  assert.equal(evaluate({ executed: true }).contractPassed, false);
+  assert.equal(evaluate({ prerequisites: [] }).contractPassed, false);
+  assert.equal(evaluate({ purpose: '' }).contractPassed, false);
+  assert.equal(evaluate({}, reads, { maxWords: 1 }).contractPassed, false);
+  assert.equal(evaluate({}, reads.map(e => e.args ? { ...e, args: { ...e.args, limit: 2000 } } : e)).contractPassed, false);
+  assert.equal(evaluate({}, [...reads, { type: 'tool_execution_start', toolCallId: 'bad', toolName: 'bash', args: { command: 'echo unsafe' } }]).contractPassed, false);
+  assert.equal(evaluate({}, reads.map(e => e.args ? { ...e, args: { ...e.args, path: '/other/file.md' } } : e)).contractPassed, false);
+});
+
 test('live CLI rejects inherited object properties as scenario names before launching Pi', () => {
   const directory = mkdtempSync(join(tmpdir(), 'pi-invalid-scenario-'));
   try {
