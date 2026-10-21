@@ -153,6 +153,13 @@ test('fine-tuning references separate bit width from quantization format and act
   }
 });
 
+test('distillation guidance names forward and reverse KL in the correct direction', () => {
+  const text = readFileSync(join(root, '19-emerging-techniques/knowledge-distillation/SKILL.md'), 'utf8');
+  assert.match(text, /Forward KL: KL\(Teacher \|\| Student\)/);
+  assert.match(text, /Reverse KL: KL\(Student \|\| Teacher\)/);
+  assert.doesNotMatch(text, /reverse_kl = -\(p_teacher \* log_p_student\)/);
+});
+
 test('paper-writing prioritizes citation evidence over template discovery', () => {
   const text = readFileSync(join(root, '20-ml-paper-writing/ml-paper-writing/SKILL.md'), 'utf8');
   const gate = text.match(/## Pi citation gate\n([\s\S]*?)(?=\n## )/)?.[1] ?? '';
