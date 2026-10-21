@@ -1,80 +1,76 @@
 ---
 name: llama-factory
-description: Expert guidance for fine-tuning LLMs with LLaMA-Factory - WebUI no-code, 100+ models, 2/3/4/5/6/8-bit QLoRA, multimodal support
-version: 1.0.0
+description: Provides LLaMA-Factory guidance for configuration-driven SFT, LoRA, QLoRA, dataset registration, and checkpoint validation. Use when preparing training configurations or debugging the CLI or WebUI.
+version: 1.1.0
 author: Orchestra Research
 license: MIT
-tags: [Fine-Tuning, LLaMA Factory, LLM, WebUI, No-Code, QLoRA, LoRA, Multimodal, HuggingFace, Llama, Qwen, Gemma]
-dependencies: [llmtuner, torch, transformers, datasets, peft, accelerate, gradio]
+tags: [Fine-Tuning, LLaMA Factory, LoRA, QLoRA, WebUI, HuggingFace]
+dependencies: [llamafactory, torch, transformers, datasets, peft, accelerate, gradio]
 ---
 
-# Llama-Factory Skill
+# Fine-tune with LLaMA-Factory
 
-Comprehensive assistance with llama-factory development, generated from official documentation.
+## When to use
 
-## When to Use This Skill
+Use this skill for LLaMA-Factory training configuration, dataset registration, CLI usage, and WebUI workflows.
+Use Unsloth for Unsloth-specific adapter APIs.
+Use PEFT for framework-independent adapter configuration.
 
-This skill should be triggered when:
-- Working with llama-factory
-- Asking about llama-factory features or APIs
-- Implementing llama-factory solutions
-- Debugging llama-factory code
-- Learning llama-factory best practices
+## Source gate
 
-## Quick Reference
+You MUST read `references/sft-workflow.md` with Pi's `read` tool before proposing SFT configuration.
+Start with [the bounded SFT guide](references/sft-workflow.md).
+Read relevant source sections with `offset` and `limit`; avoid loading entire archives unnecessarily.
+Record the installed LLaMA-Factory version before copying YAML fields or CLI commands.
+Cite the source and section supporting version-sensitive instructions.
+Mark compatibility, undocumented options, and memory estimates as unverified.
+DO NOT infer supported quantization methods from an advertised list of bit widths.
 
-### Common Patterns
+## Data and template gate
 
-*Quick reference patterns will be added as you use the skill.*
+Register custom data in `dataset_info.json` using the schema supported by the installed release.
+Inspect a sample before choosing Alpaca, ShareGPT, preference, or multimodal formatting.
+Match the model, tokenizer, chat template, dataset columns, and supervised response tokens.
+Check role ordering, special tokens, truncation, and train/evaluation separation.
+DO NOT reuse an instruction dataset as preference data without checking its required fields.
 
-## Reference Files
+## Precision distinction
 
-This skill includes comprehensive documentation in `references/`:
+Describe standard QLoRA as frozen quantized base weights plus trainable low-rank adapter parameters.
+Distinguish quantization storage, computation dtype, adapter dtype, and optimizer-state precision.
+Treat adapter training, merging, and quantized inference export as different operations.
+DO NOT promise that every listed backend supports every model, device, and bit width.
 
-- **_images.md** -  Images documentation
-- **advanced.md** - Advanced documentation
-- **getting_started.md** - Getting Started documentation
-- **other.md** - Other documentation
+## Plan a bounded run
 
-Use `view` to read specific reference files when detailed information is needed.
+- [ ] Record the task, model revision, license, hardware, and dependency versions.
+- [ ] Verify dataset registration and tokenized examples.
+- [ ] Select a version-matched SFT example and supported template.
+- [ ] Set target modules, rank, precision, sequence length, and batch settings explicitly.
+- [ ] Select a fresh output directory and held-out evaluation data.
+- [ ] Agree on maximum steps, device allocation, runtime, budget, and stopping rules.
+- [ ] Ask before installing packages, downloading weights, training, or starting a public WebUI.
 
-## Working with This Skill
+## Validation
 
-### For Beginners
-Start with the getting_started or tutorials reference files for foundational concepts.
+After authorization, test one bounded batch before scaling.
+Verify trainable parameter names, finite loss, expected labels, and checkpoint creation.
+Test checkpoint reload with the same base model and tokenizer revision.
+Compare held-out task quality against a baseline with matched decoding settings.
+Record configuration, dataset revision, metrics, and failure status.
+DO NOT enable remote code or overwrite existing outputs merely because an upstream example does so.
 
-### For Specific Features
-Use the appropriate category reference file (api, guides, etc.) for detailed information.
+## Troubleshooting
 
-### For Code Examples
-The quick reference section above contains common patterns extracted from the official docs.
+For missing dataset errors, inspect registration paths and column mappings.
+For unexpected output, inspect the chat template and label masks before changing hyperparameters.
+For precision failures, check the backend, GPU capability, and installed package versions separately.
+For rejected CLI options, inspect the installed command help rather than guessing replacements.
 
-## Resources
+## References
 
-### references/
-Organized documentation extracted from official sources. These files contain:
-- Detailed explanations
-- Code examples with language annotations
-- Links to original documentation
-- Table of contents for quick navigation
+- [Versioned SFT workflow and sources](references/sft-workflow.md)
+- [Installation, data, SFT, merge, and evaluation archive](references/getting_started.md)
+- [Arguments, quantization, adapters, and distributed-training archive](references/advanced.md)
 
-### scripts/
-Add helper scripts here for common automation tasks.
-
-### assets/
-Add templates, boilerplate, or example projects here.
-
-## Notes
-
-- This skill was automatically generated from official documentation
-- Reference files preserve the structure and examples from source docs
-- Code examples include language detection for better syntax highlighting
-- Quick reference patterns are extracted from common usage examples in the docs
-
-## Updating
-
-To refresh this skill with updated documentation:
-1. Re-run the scraper with the same configuration
-2. The skill will be rebuilt with the latest information
-
-
+Treat scraped examples as historical source material, not verified commands for every release.
