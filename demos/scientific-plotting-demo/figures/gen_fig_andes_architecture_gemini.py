@@ -11,6 +11,7 @@ Following the academic-plotting skill (updated):
 Usage: python demo/figures/gen_fig_andes_architecture_gemini.py
 Output: demo/figures/fig_andes_architecture_attempt{1,2,3}.png
 """
+import importlib
 import os
 import sys
 import time
@@ -18,14 +19,25 @@ import time
 # Load .env
 env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".env")
 if os.path.exists(env_path):
-    with open(env_path) as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                key, val = line.split("=", 1)
-                os.environ.setdefault(key.strip(), val.strip())
+    try:
+        with open(env_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, val = line.split("=", 1)
+                    os.environ.setdefault(key.strip(), val.strip())
+    except (OSError, UnicodeError) as exc:
+        print(f"ERROR: Cannot read demo .env file: {exc}", file=sys.stderr)
+        sys.exit(1)
 
-from google import genai
+# Load the optional SDK at runtime; the Pi package does not require it.
+try:
+    genai = importlib.import_module("google.genai")
+except ModuleNotFoundError as exc:
+    if exc.name not in {"google", "google.genai"}:
+        raise
+    print("Optional dependency missing: install google-genai in this Python environment.", file=sys.stderr)
+    sys.exit(1)
 
 API_KEY = os.environ.get("GEMINI_API_KEY")
 if not API_KEY:
