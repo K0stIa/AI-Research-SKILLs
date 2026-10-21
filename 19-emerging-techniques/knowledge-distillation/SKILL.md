@@ -10,6 +10,12 @@ dependencies: [transformers, torch, datasets]
 
 # Knowledge Distillation: Compressing LLMs
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 ## When to Use This Skill
 
 Use Knowledge Distillation when you need to:

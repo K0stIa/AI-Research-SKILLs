@@ -10,6 +10,12 @@ dependencies: [accelerate, torch, transformers]
 
 # HuggingFace Accelerate - Unified Distributed Training
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 ## Quick start
 
 Accelerate simplifies distributed training to 4 lines of code.

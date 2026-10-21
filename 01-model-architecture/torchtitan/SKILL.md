@@ -10,6 +10,12 @@ dependencies: [torch>=2.6.0, torchtitan>=0.2.0, torchao>=0.5.0]
 
 # TorchTitan - PyTorch Native Distributed LLM Pretraining
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 ## Quick start
 
 TorchTitan is PyTorch's official platform for large-scale LLM pretraining with composable 4D parallelism (FSDP2, TP, PP, CP), achieving 65%+ speedups over baselines on H100 GPUs.

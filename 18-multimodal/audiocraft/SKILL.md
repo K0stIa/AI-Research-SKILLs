@@ -10,6 +10,12 @@ dependencies: [audiocraft, torch>=2.0.0, transformers>=4.30.0]
 
 # AudioCraft: Audio Generation
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 Comprehensive guide to using Meta's AudioCraft for text-to-music and text-to-audio generation with MusicGen, AudioGen, and EnCodec.
 
 ## When to use AudioCraft

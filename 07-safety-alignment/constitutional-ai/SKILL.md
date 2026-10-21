@@ -10,6 +10,12 @@ dependencies: [transformers, torch, trl]
 
 # Constitutional AI - Harmlessness from AI Feedback
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 ## Quick start
 
 Constitutional AI (CAI) trains models to be harmless through self-critique and AI feedback, without requiring human labels for harmful outputs.

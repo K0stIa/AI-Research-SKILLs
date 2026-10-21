@@ -10,6 +10,12 @@ dependencies: [tokenizers, transformers, datasets]
 
 # HuggingFace Tokenizers - Fast Tokenization for NLP
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 Fast, production-ready tokenizers with Rust performance and Python ease-of-use.
 
 ## When to use HuggingFace Tokenizers

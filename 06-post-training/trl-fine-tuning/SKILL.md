@@ -10,6 +10,12 @@ dependencies: [trl, transformers, datasets, peft, accelerate, torch]
 
 # TRL - Transformer Reinforcement Learning
 
+## Pi task contract
+
+- Honor the user's requested response format and word limit, including bare JSON without Markdown fences when requested.
+- For explicitly requested local-file inspections, make actual bounded `read` calls within the user's file and line limits. The skill expansion is not filesystem evidence.
+- Never claim inspection or execution without matching tool results. If tools are unavailable, report the limitation instead of inventing facts.
+
 ## Quick start
 
 TRL provides post-training methods for aligning language models with human preferences.
