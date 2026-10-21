@@ -56,12 +56,16 @@
     "docs/PI.md",
     "docs/PI-VERIFICATION.md",
     "scripts/check-pi-package.test.mjs",
+    "scripts/check-pi-verification.test.mjs",
+    "scripts/pi-verification-events.mjs",
+    "scripts/verify-pi-installed.mjs",
+    "scripts/verify-pi-live.mjs",
     "LICENSE",
     "README.md"
   ],
   "scripts": {
     "test": "npm run test:pi",
-    "test:pi": "node --test scripts/check-pi-package.test.mjs"
+    "test:pi": "node --test scripts/check-pi-package.test.mjs scripts/check-pi-verification.test.mjs"
   },
   "repository": {
     "type": "git",
