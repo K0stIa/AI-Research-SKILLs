@@ -1,7 +1,7 @@
 ---
 name: grpo-rl-training
 description: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
-version: 1.0.1
+version: 1.0.2
 author: Orchestra Research
 license: MIT
 tags: [Post-Training, Reinforcement Learning, GRPO, TRL, RLHF, Reward Modeling, Reasoning, DPO, PPO, Structured Output]
@@ -345,38 +345,45 @@ trainer.train()
 
 ## Critical Training Insights
 
-### 1. Loss Behavior (EXPECTED PATTERN)
-- **Loss starts near 0 and INCREASES during training**
-- This is CORRECT - loss measures KL divergence from initial policy
-- Model is learning (diverging from original behavior to optimize rewards)
-- Monitor reward metrics instead of loss for progress
+### 1. Loss Interpretation
+
+Loss is not a direct measurement of KL alone. Its policy-objective terms and any enabled KL penalty depend on the trainer configuration.
+The loss need not increase monotonically, and a rising loss is not proof of learning. Inspect task performance, reward validity, the policy objective, and KL separately.
 
 ### 2. Reward Tracking
-Key metrics to watch:
-- `reward`: Average across all completions
-- `reward_std`: Diversity within groups (should remain > 0)
-- `kl`: KL divergence from reference (should grow moderately)
 
-**Healthy Training Pattern:**
-```
+Key metrics to watch:
+- `reward`: Average reward, interpreted with the reward definition and held-out task results.
+- `reward_std`: Reward variation within groups, not a direct measure of textual diversity.
+- `kl`: Divergence from the chosen reference, interpreted with the configured objective and coefficient.
+
+Zero reward variance does not by itself prove mode collapse: every answer in a group can be correct or every answer can be incorrect.
+Constant rewards provide no relative ranking signal. Inspect reward-function validity and actual completions before diagnosing collapse.
+A fixed threshold such as 0.1 is not universal: multiplying all rewards by a positive factor also scales their standard deviation.
+
+See the [versioned TRL metric notes](https://github.com/huggingface/trl/blob/dc96165438c379fed318ca5ab15a2d1c76325962/docs/source/grpo_trainer.md#L189).
+Check the installed trainer's definitions before interpreting its logs.
+
+**Illustrative log only, not a healthy-training criterion:**
+```text
 Step   Reward    Reward_Std   KL
 100    0.5       0.3          0.02
 200    0.8       0.25         0.05
-300    1.2       0.2          0.08  ← Good progression
+300    1.2       0.2          0.08
 400    1.5       0.15         0.12
 ```
 
-**Warning Signs:**
-- Reward std → 0 (model collapsing to single response)
-- KL exploding (> 0.5) (diverging too much, reduce LR)
-- Reward stuck (reward functions too harsh or model capacity issue)
+**Signals to investigate:**
+- Zero reward variance: distinguish solved groups, failed groups, invalid rewards, and low completion diversity.
+- Large KL changes: inspect the reference, objective coefficient, numerical stability, and optimization settings; no universal 0.5 cutoff applies.
+- Flat rewards: inspect task difficulty, baseline performance, and reward validity before changing the learning rate.
 
 ### 3. Common Pitfalls and Solutions
 
-| Problem | Symptom | Solution |
-|---------|---------|----------|
-| **Mode collapse** | All completions identical | Increase `num_generations`, add diversity penalty |
-| **No learning** | Flat rewards | Check reward function logic, increase LR |
+| Problem | Symptom | Checks before intervention |
+|---------|---------|----------------------------|
+| **Low completion diversity** | Completions are identical | Check whether the task has one valid answer and inspect rewards before changing sampling or regularization |
+| **No reward progress** | Flat rewards | Check baseline performance, task difficulty, and reward logic before changing the learning rate |
 | **OOM errors** | GPU memory exceeded | Reduce `num_generations`, enable gradient checkpointing |
 | **Slow training** | < 1 it/s | Enable `use_vllm=True`, use Unsloth, reduce seq length |
 | **Format ignored** | Model doesn't follow structure | Increase format reward weight, add incremental rewards |
@@ -490,8 +497,8 @@ print(result[0]['generated_text'])
 - [ ] Set up logging (wandb recommended)
 
 **During Training:**
-- [ ] Monitor reward progression (should increase)
-- [ ] Check reward_std (should stay > 0.1)
+- [ ] Monitor rewards alongside held-out task performance
+- [ ] Inspect zero-variance groups and account for the reward scale
 - [ ] Watch for OOM errors (reduce batch size if needed)
 - [ ] Sample generations every 50-100 steps
 - [ ] Validate format compliance on holdout set
