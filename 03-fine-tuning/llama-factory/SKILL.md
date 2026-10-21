@@ -1,7 +1,7 @@
 ---
 name: llama-factory
 description: Provides LLaMA-Factory guidance for configuration-driven SFT, LoRA, QLoRA, dataset registration, and checkpoint validation. Use when preparing training configurations or debugging the CLI or WebUI.
-version: 1.1.0
+version: 1.1.1
 author: Orchestra Research
 license: MIT
 tags: [Fine-Tuning, LLaMA Factory, LoRA, QLoRA, WebUI, HuggingFace]

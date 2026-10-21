@@ -1,7 +1,7 @@
 ---
 name: unsloth
 description: Provides Unsloth fine-tuning guidance for LoRA, QLoRA, dataset preparation, and adapter validation. Use when configuring Unsloth training or debugging quantized fine-tuning.
-version: 1.1.0
+version: 1.1.1
 author: Orchestra Research
 license: MIT
 tags: [Fine-Tuning, Unsloth, LoRA, QLoRA, Memory-Efficient, Optimization]
