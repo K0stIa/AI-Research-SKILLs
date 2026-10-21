@@ -78,6 +78,23 @@ test('skills with reproduced task-contract failures state read and response boun
   }
 });
 
+test('both README category tables match the actual 98-skill inventory', () => {
+  const readme = readFileSync(join(root, 'README.md'), 'utf8');
+  const summaryText = readme.split('<summary><b>View All 23 Categories</b></summary>')[1]?.split('</details>')[0] ?? '';
+  const detailText = readme.split('### All 23 Categories (98 Skills)')[1]?.split('<details>')[0] ?? '';
+  const summary = new Map([...summaryText.matchAll(/\*\*([^*]+)\*\*\s*\((\d+)\)/g)].map(match => [match[1], Number(match[2])]));
+  const detail = new Map(detailText.split('\n').map(line => line.replaceAll('**', '').split('|').map(cell => cell.trim())).filter(cells => cells.length > 3 && /^\d+$/.test(cells[2])).map(cells => [cells[1], Number(cells[2])]));
+  const labels = [['0', 'Autoresearch'], ['01', 'Model Architecture'], ['02', 'Tokenization'], ['03', 'Fine-Tuning'], ['04', 'Mech Interp'], ['05', 'Data Processing'], ['06', 'Post-Training'], ['07', 'Safety & Alignment', 'Safety'], ['08', 'Distributed Training', 'Distributed'], ['09', 'Infrastructure'], ['10', 'Optimization'], ['11', 'Evaluation'], ['12', 'Inference'], ['13', 'MLOps'], ['14', 'Agents'], ['15', 'RAG'], ['16', 'Prompt Engineering', 'Prompt Eng'], ['17', 'Observability'], ['18', 'Multimodal'], ['19', 'Emerging Techniques', 'Emerging'], ['20', 'ML Paper Writing'], ['21', 'Ideation'], ['22', 'Agent-Native Research Artifact']];
+  assert.equal(summary.size, 23);
+  assert.equal(detail.size, 23);
+  const expected = labels.map(([prefix]) => {
+    const category = categories.find(name => name.startsWith(`${prefix}-`));
+    const count = skillFiles(join(root, category)).length;
+    return [prefix, count, count];
+  });
+  assert.deepEqual(labels.map(([prefix, title, alias = title]) => [prefix, summary.get(title), detail.get(alias)]), expected);
+});
+
 test('all skill entrypoints fit a bounded prompt-expansion budget', () => {
   const oversized = files.filter(file => statSync(file).size > 50_000).map(file => ({ file, bytes: statSync(file).size }));
   assert.deepEqual(oversized, [], 'Move scraped manuals into references instead of expanding them for every invocation');
