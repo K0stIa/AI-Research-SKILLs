@@ -1,0 +1,1480 @@
+{
+  "scope": "Focused self-review, bound to exact frozen cases. Supported-with-limits is not full SDK/semantic certification. Source-stale cases remain historical.",
+  "complete": false,
+  "cases": 40,
+  "distinctNames": 36,
+  "notes": [
+    {
+      "name": "ara-research-manager",
+      "status": "fail",
+      "reason": "The tagged-proof referenceFact is not present in the returned event-taxonomy excerpt. A plausible rule from another source is not excerpt-grounded evidence.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "d64d847c218808a4384d279b77f3861f28e254fb9ef5b4f5c1042f285dcb7350",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "ara-research-manager",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/research-manager/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/research-manager/references/event-taxonomy.md",
+        "purpose": "Post-session provenance recorder",
+        "referenceFact": "Only tagged proof validates claims; silence is unverified",
+        "pitfall": "Missing proof never falsifies; only confirmed evidence contradicts",
+        "prerequisites": [
+          "ara/ directory exists or seedable",
+          "conversation history accessible",
+          "next node IDs available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/research-manager/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: ara-research-manager\ndescription: Records research provenance as a post-task epilogue, scanning conversation history at the end of a coding or research session to extract decisions, experiments, dead ends, claims, heuristics, and pivots, and writing them into the ara/ directory with user-vs-AI provenance tags. Use as a session epilogue — never during execution — to maintain a faithful, auditable trace of how a research project actually evolved.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [ARA, Research Recording, Provenance, Session Logging, Knowledge Management, Exploration Tree, Research Tooling]\ndependencies: []\n---\n\n# Live Research Project Manager (Live PM)\n\n\n[313 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/research-manager/references/event-taxonomy.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Event Taxonomy & Routing Rules\n\n## Event Classification\n\nWhen you observe activity in the coding session, classify it into one of these event types.\nUse the **signals** column to identify events from conversation and code context.\n\n### Research Events (Route to `trace/exploration_tree.yaml`)\n\n| Type | Signals | Example |\n|------|---------|---------|\n| **question** | User asks \"what if...\", \"should we...\", \"how does...\" about research direction | \"Should we use attention or convolution for the encoder?\" |\n| **decision** | User chooses between alternatives, commits to a direction | \"Let's go with GQA instead of MHA — lower memory footprint\" |\n| **experiment** | Code runs a test/benchmark, user reports results | \"The learning rate sweep shows 3e-4 is optimal\" |\n| **dead_end** | Approach abandoned, hypothesis falsified, \"this doesn't work\" | \"Tried FP16 but the loss diverges after 1k steps\" |\n| **pivot** | Major direction change triggered by evidence | \"The attention approach is too slow — switching to state space models\" |\n\n### Knowledge Events (Route to `logic/`)\n\n| Type | Signals | Routes To |\n|------|---------|-----------|\n| **claim** | \"I believe...\", \"The system achieves...\", assertion about capability/property | `logic/claims.md` |\n| **heuristic** | \"The trick is...\", \"You need to...\", implementation insight | `logic/solution/heuristics.md` |\n| **concept** | New term defined, disambiguation needed | `logic/concepts.md` |\n| **constraint** | \"This only works when...\", boundary condition | `logic/solution/constraints.md` |\n| **architecture** | System design, component relationships | `logic/solution/architecture.md` |\n\n### Evidence Events (Route to `evidence/`)\n\n| Type | Signals | Routes To |\n|------|---------|-----------|\n| **result_table** | Tabular data, benchmark numbers, comparison matrix | `evidence/tables/table{N}.md` |\n| **result_figure** | Plot data, visualization, chart values | `evidence/figures/fig{N}.md` |\n| **metric** | Single quantitative measurement | Inline in experiment node or evidence file |\n\n### Process Events (Route to `trace/sessions/`)\n\n| Type | Signals | Routes To |\n|------|---------|-----------|\n| **ai-action** | Agent wrote code, ran command, created file | Session record |\n\n[84 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "ara-rigor-reviewer",
+      "status": "supported-with-limits",
+      "reason": "Relevance, type-aware entailment, and evidence sufficiency occur explicitly in the returned checks. Structural versus semantic review distinction is consistent; no actual ARA was reviewed.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "c41d45de9ab709a5b8315060b302b9f9eca0a34e5235bb0004c8ae51dda6974d",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "ara-rigor-reviewer",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/rigor-reviewer/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/rigor-reviewer/references/review-dimensions.md",
+        "purpose": "Semantic epistemic review for Agent-Native Research Artifacts",
+        "referenceFact": "Checks include relevance, type-aware entailment, and evidence sufficiency",
+        "pitfall": "Missing evidence tables cannot support falsification; absence of proof is not proof of absence",
+        "prerequisites": [
+          "Level 1 structural validation passed",
+          "ARA evidence/ directory present",
+          "Claims linked to experiments via proof field"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/rigor-reviewer/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: ara-rigor-reviewer\ndescription: Performs ARA Seal Level 2 semantic epistemic review on Agent-Native Research Artifacts, scoring six dimensions (evidence relevance, falsifiability, scope calibration, argument coherence, exploration integrity, methodological rigor) and producing a constructive, severity-ranked report with a Strong Accept-to-Reject recommendation. Use after Level 1 structural validation passes, when an ARA needs an objective epistemic critique before publication or release.\nversion: 3.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [ARA, Epistemic Review, Research Rigor, Peer Review, Scoring, Audit, Falsifiability, Research Tooling]\ndependencies: []\n---\n\n# ARA Seal Level 2: Semantic Epistemic Review\n\n\n[311 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/rigor-reviewer/references/review-dimensions.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Level 2 Review Dimensions — Scoring Anchors and Check Inventory\n\nSix dimensions of epistemic quality. All checks are semantic: they require reading\ncomprehension and reasoning over the ARA's content. Structural validation (reference\nresolution, field presence, YAML parsing) is handled entirely by Level 1.\n\n---\n\n## D1. Evidence Relevance\n\n**Question**: Does the cited evidence actually support each claim in substance, not just by reference?\n\n### Checks\n\n| Check | What to verify | Finding severity |\n|-------|---------------|-----------------|\n| Relevance | Experiment's Setup/Procedure addresses what the claim actually asserts | major |\n| Type-aware entailment | Experiment design matches claim type (causal→ablation, generalization→heterogeneous, improvement→baseline, descriptive→sampling, scoping→bounds) | major |\n| Evidence sufficiency | Is a single experiment enough to support this claim, or are multiple needed? | suggestion |\n\n### Scoring Anchors\n\n| Score | Description |\n|-------|-------------|\n| 5 | Type-appropriate, relevant evidence for every claim; multi-experiment support where needed |\n| 4 | Evidence relevant for all claims, minor type mismatches |\n| 3 | Most claim-experiment pairs relevant, 1-2 weak matches |\n| 2 | Multiple claims where cited experiments don't substantively address the claim |\n| 1 | Majority of claims cite experiments irrelevant to their statements |\n\n---\n\n## D2. Falsifiability Quality\n\n**Question**: Are claims genuinely falsifiable with meaningful, actionable criteria?\n\n### Checks\n\n| Check | What to verify | Finding severity |\n|-------|---------------|-----------------|\n\n[142 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "autogpt-agents",
+      "status": "fail",
+      "reason": "The example yields name/value tuples, not dictionaries. Its incorrect dict annotation was independently reproduced and repaired; framework API compatibility remains unverified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "fd410734b077fe664d8892b2fefe4760478d46337b34f59b032e37bb501441ff",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "autogpt-agents",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/autogpt/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/autogpt/references/advanced-usage.md",
+        "purpose": "Autonomous visual workflow agent platform.",
+        "referenceFact": "Custom block execute yields async dict results.",
+        "pitfall": "Stop before writing, installing, downloading, or calling tools this verification forbids.",
+        "prerequisites": [
+          "Docker Compose for autogpt platform services.",
+          "Python 3.10+ for block development.",
+          "PostgreSQL plus Redis for backend state."
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/autogpt/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: autogpt-agents\ndescription: Autonomous AI agent platform for building and deploying continuous agents. Use when creating visual workflow agents, deploying persistent autonomous agents, or building complex multi-step AI automation systems.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Agents, AutoGPT, Autonomous Agents, Workflow Automation, Visual Builder, AI Platform]\ndependencies: [autogpt-platform>=0.4.0]\n---\n\n# AutoGPT - Autonomous AI Agent Platform\n\n\n[392 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/autogpt/references/advanced-usage.md",
+          "limit": 40,
+          "success": true,
+          "text": "# AutoGPT Advanced Usage Guide\n\n## Custom Block Development\n\n### Block structure\n\n```python\nfrom backend.data.block import Block, BlockSchema, BlockType\nfrom pydantic import BaseModel\n\nclass MyBlockInput(BaseModel):\n    \"\"\"Input schema for the block.\"\"\"\n    query: str\n    max_results: int = 10\n\nclass MyBlockOutput(BaseModel):\n    \"\"\"Output schema for the block.\"\"\"\n    results: list[str]\n    count: int\n\nclass MyCustomBlock(Block):\n    \"\"\"Custom block for specific functionality.\"\"\"\n\n    id = \"my-custom-block-uuid\"\n    name = \"My Custom Block\"\n    description = \"Does something specific\"\n    block_type = BlockType.STANDARD\n\n    input_schema = MyBlockInput\n    output_schema = MyBlockOutput\n\n    async def execute(self, input_data: MyBlockInput) -> dict:\n        \"\"\"Execute the block logic.\"\"\"\n        # Implement your logic\n        results = await self.process(input_data.query, input_data.max_results)\n\n        yield \"results\", results\n        yield \"count\", len(results)\n\n    async def process(self, query: str, max_results: int) -> list[str]:\n\n[496 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "blip-2-vision-language",
+      "status": "concern",
+      "reason": "LoRA target names match the excerpt. Frozen encoders is imprecise for an image encoder plus decoder LLM, and actual PEFT/BLIP-2 wrapper compatibility was not tested.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "2bbec5c72abcdbaae4e2b46e1b0f5328361b7e3811e27f61becf424e2bcfb10f",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "blip-2-vision-language",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/blip-2/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/blip-2/references/advanced-usage.md",
+        "purpose": "Vision-language pre-training with frozen encoders.",
+        "referenceFact": "LoRA fine-tunes LM q_proj v_proj k_proj out_proj modules.",
+        "pitfall": "Check frozen ViT features versus Q-Former projected queries and generated token IDs.",
+        "prerequisites": [
+          "CUDA GPU and PyTorch version",
+          "transformers>=4.30.0 installed",
+          "Pillow image library available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/blip-2/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: blip-2-vision-language\ndescription: Vision-language pre-training framework bridging frozen image encoders and LLMs. Use when you need image captioning, visual question answering, image-text retrieval, or multimodal chat with state-of-the-art zero-shot performance.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Multimodal, Vision-Language, Image Captioning, VQA, Zero-Shot]\ndependencies: [transformers>=4.30.0, torch>=1.10.0, Pillow]\n---\n\n# BLIP-2: Vision-Language Pre-training\n\n\n[553 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/blip-2/references/advanced-usage.md",
+          "limit": 40,
+          "success": true,
+          "text": "# BLIP-2 Advanced Usage Guide\n\n## Fine-tuning BLIP-2\n\n### LoRA fine-tuning (recommended)\n\n```python\nimport torch\nfrom transformers import Blip2ForConditionalGeneration, Blip2Processor\nfrom peft import LoraConfig, get_peft_model\n\n# Load base model\nmodel = Blip2ForConditionalGeneration.from_pretrained(\n    \"Salesforce/blip2-opt-2.7b\",\n    torch_dtype=torch.float16,\n    device_map=\"auto\"\n)\n\n# Configure LoRA for the language model\nlora_config = LoraConfig(\n    r=16,\n    lora_alpha=32,\n    target_modules=[\"q_proj\", \"v_proj\", \"k_proj\", \"out_proj\"],\n    lora_dropout=0.05,\n    bias=\"none\",\n    task_type=\"CAUSAL_LM\"\n)\n\n# Apply LoRA\nmodel = get_peft_model(model, lora_config)\nmodel.print_trainable_parameters()\n# trainable params: ~4M, all params: ~3.8B (0.1%)\n```\n\n### Fine-tuning Q-Former only\n\n```python\n# Freeze everything except Q-Former\nfor name, param in model.named_parameters():\n    if \"qformer\" not in name.lower():\n\n[641 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "constitutional-ai",
+      "status": "supported-with-limits",
+      "reason": "The reference explicitly describes critique/revision and AI-preference RL and warns against behavioral guarantees and benign over-refusal. Hardware prerequisites remain workload-dependent and unverified.",
+      "run": "task-contract-recheck",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "6f23be1cccd5099a5c8bfe14fb259387e425de5288d11e4296dc782bf7ceee6d",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "constitutional-ai",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/constitutional-ai/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/constitutional-ai/references/constitution-design.md",
+        "purpose": "Guides CAI training workflows",
+        "referenceFact": "Two-phase: critique/revision then AI preference RL",
+        "pitfall": "CAI can cause over-refusal on benign inputs; constitution is not a guarantee of behavior",
+        "prerequisites": [
+          "GPU A100 or equivalent",
+          "TRL library installed",
+          "Reference paper available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/constitutional-ai/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: constitutional-ai\ndescription: Anthropic's method for training harmless AI through self-improvement. Two-phase approach - supervised learning with self-critique/revision, then RLAIF (RL from AI Feedback). Use for safety alignment, reducing harmful outputs without human labels. Powers Claude's safety system.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Safety Alignment, Constitutional AI, RLAIF, Self-Critique, Harmlessness, Anthropic, AI Safety, RL From AI Feedback, Claude]\ndependencies: [transformers, torch, trl]\n---\n\n# Constitutional AI - Harmlessness from AI Feedback\n\n\n[285 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/constitutional-ai/references/constitution-design.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Design a constitution\n\nA constitution is an explicit set of principles used to guide critiques, revisions, or preference judgments.\nIt is not a guarantee that a trained system follows those principles in every situation.\n\n## Design workflow\n\n1. Define the intended users, tasks, protected data, and unacceptable outcomes.\n2. Write principles with stable identifiers and concrete decision criteria.\n3. Specify how to resolve conflicts between principles.\n4. Create harmful, benign, and ambiguous examples for each principle.\n5. Check that reviewers can apply the principles consistently.\n6. Keep an evaluation set separate from examples used to refine the constitution.\n\nTrack both harmful compliance and unnecessary refusals on benign inputs.\nVersion the constitution together with prompts, model revisions, evaluation data, and judgment procedures.\nRequire human review when policy changes affect legal obligations or high-impact decisions.\nDo not mistake agreement between two similar models for independent validation.\n\n## Primary source\n\nBai et al., *Constitutional AI: Harmlessness from AI Feedback*, arXiv:2212.08073v1.\nThe paper describes supervised critique/revision and reinforcement learning from AI preferences.\n\n- https://arxiv.org/abs/2212.08073v1\n- https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback\n\nThe workflow above is operational guidance, not a reproduction of the paper's results.\n"
+        }
+      ]
+    },
+    {
+      "name": "deepspeed",
+      "status": "supported-with-limits",
+      "reason": "The wrapper/boilerplate fact occurs in the excerpt. Data-parallel group size, rather than hybrid world size, is the appropriate global-batch factor. No distributed run occurred.",
+      "run": "canary-budget",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "9c2fd5e38d38bdb9dd5e68cf1602ecc34e54c892baa4c2b39ade5fc57db5e554",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "deepspeed",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/deepspeed/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/deepspeed/references/other.md",
+        "purpose": "Guides DeepSpeed ZeRO distributed training planning.",
+        "referenceFact": "DeepSpeed wraps PyTorch and manages boilerplate distributed training.",
+        "pitfall": "Global batch uses data-parallel group size, not total ranks.",
+        "prerequisites": [
+          "DeepSpeed and torch installed",
+          "CUDA-compatible GPU count verified",
+          "Model checkpoint protocol confirmed"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/deepspeed/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: deepspeed\ndescription: Guides distributed training with DeepSpeed, including ZeRO state partitioning, offload, gradient accumulation, and configuration checks. Use when planning or debugging DeepSpeed training and checkpoint workflows.\nversion: 1.1.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [DeepSpeed, Distributed Training, ZeRO, Mixed Precision, Optimization]\ndependencies: [deepspeed, torch]\n---\n\n# DeepSpeed distributed training\n\n\n[98 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/deepspeed/references/other.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Deepspeed - Other\n\n**Pages:** 15\n\n---\n\n## Training Overview and Features\n\n**URL:** https://www.deepspeed.ai/training/\n\n**Contents:**\n- Training Overview and Features\n    - Contents\n- Overview\n- Distributed, Effective, and Efficient Training with Ease\n- Speed\n- Memory efficiency\n- Scalability\n- Communication efficiency\n- Data efficiency\n- Supporting long sequence length\n\nTraining advanced deep learning models is challenging. Beyond model design, model scientists also need to set up the state-of-the-art training techniques such as distributed training, mixed precision, gradient accumulation, and checkpointing. Yet still, scientists may not achieve the desired system performance and convergence rate. Large model sizes are even more challenging: a large model easily runs out of memory with pure data parallelism and it is difficult to use model parallelism. DeepSpeed addresses these challenges to accelerate model development and training.\n\nThe DeepSpeed API is a lightweight wrapper on PyTorch. This means that you can use everything you love in PyTorch and without learning a new platform. In addition, DeepSpeed manages all of the boilerplate state-of-the-art training techniques, such as distributed training, mixed precision, gradient accumulation, and checkpoints so that you can focus on your model development. Most importantly, you can leverage the distinctive efficiency and effectiveness benefit of DeepSpeed to boost speed and scale with just a few lines of code changes to your PyTorch models.\n\nDeepSpeed achieves high performance and fast convergence through a combination of efficiency optimizations on compute/communication/memory/IO and effectiveness optimizations on advanced hyperparameter tuning and optimizers. For example:\n\nDeepSpeed trains BERT-large to parity in 44 mins using 1024 V100 GPUs (64 DGX-2 boxes) and in 2.4 hours using 256 GPUs (16 DGX-2 boxes).\n\nBERT-large Training Times\n\nBERT code and tutorials will be available soon.\n\nDeepSpeed trains GPT2 (1.5 billion parameters) 3.75x faster than state-of-art, NVIDIA Megatron on Azure GPUs.\n\nRead more: GPT tutorial\n\nDeepSpeed provides memory-efficient data parallelism and enables training models without model parallelism. For example, DeepSpeed can train models with up to 13 billion parameters on a single GPU. In comparison, existing frameworks (e.g., PyTorch’s Distributed Data Parallel) run out of memory with 1.4 billion parameter models.\n\n\n[1152 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "dspy",
+      "status": "fail",
+      "reason": "The Chroma collection fact is grounded, but the universal denial of inference-time schema validation is contradicted by pinned official JSONAdapter and parse_value source. Guidance was clarified; old answer is not accepted.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "7f1e597f6f47189b78ae2a2d2d51bbd5b1372dfba73b1b4ca3530d184a56dac3",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "dspy",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/references/examples.md",
+        "purpose": "Build declarative AI pipelines with automatic prompt optimization",
+        "referenceFact": "ChromaDB retriever configures a collection named my_docs",
+        "pitfall": "Signatures define intent, not enforcement; no formal schema validation occurs at inference time",
+        "prerequisites": [
+          "dspy 3.x installed",
+          "OpenAI or Anthropic API key set",
+          "ChromaDB or vector store running"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: dspy\ndescription: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Prompt Engineering, DSPy, Declarative Programming, RAG, Agents, Prompt Optimization, LM Programming, Stanford NLP, Automatic Optimization, Modular AI]\ndependencies: [dspy, openai, anthropic]\n---\n\n# DSPy: Declarative Language Model Programming\n\n\n[579 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/references/examples.md",
+          "limit": 40,
+          "success": true,
+          "text": "# DSPy Real-World Examples\n\nPractical examples of building production systems with DSPy.\n\n## Table of Contents\n- RAG Systems\n- Agent Systems\n- Classification\n- Data Processing\n- Multi-Stage Pipelines\n\n## RAG Systems\n\n### Basic RAG\n\n```python\nimport dspy\n\nclass BasicRAG(dspy.Module):\n    def __init__(self, num_passages=3):\n        super().__init__()\n        self.retrieve = dspy.Retrieve(k=num_passages)\n        self.generate = dspy.ChainOfThought(\"context, question -> answer\")\n\n    def forward(self, question):\n        passages = self.retrieve(question).passages\n        context = \"\\n\\n\".join(passages)\n        return self.generate(context=context, question=question)\n\n# Configure retriever (example with Chroma)\nfrom dspy.retrieve.chromadb_rm import ChromadbRM\n\nretriever = ChromadbRM(\n    collection_name=\"my_docs\",\n    persist_directory=\"./chroma_db\",\n    k=3\n)\ndspy.settings.configure(rm=retriever)\n\n# Use RAG\n\n[624 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "evaluating-cosmos-policy",
+      "status": "concern",
+      "reason": "Config/checkpoint usage matches the excerpt. The pitfall conflates embedding/statistics/checkpoint compatibility with token alignment; the driver minimum and deployment prerequisites were not verified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "d25fe730ca49f11a02cd032f6d8d4970bf8337559ccb64d4d798ad31a75d8c07",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "evaluating-cosmos-policy",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/cosmos-policy/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/cosmos-policy/references/libero-commands.md",
+        "purpose": "Evaluate Cosmos VLA on LIBERO/RoboCasa sim",
+        "referenceFact": "Uses cosmos_predict2_2b_480p config with public ckpt",
+        "pitfall": "Mismatch between t5 embeddings, dataset stats JSON, and checkpoint version breaks VLA token alignment",
+        "prerequisites": [
+          "CUDA driver 535+ on host",
+          "MuJoCo EGL runtime installed",
+          "libero dataset files present"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/cosmos-policy/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: evaluating-cosmos-policy\ndescription: Evaluates NVIDIA Cosmos Policy on LIBERO and RoboCasa simulation environments. Use when setting up cosmos-policy for robot manipulation evaluation, running headless GPU evaluations with EGL rendering, or profiling inference latency on cluster or local GPU machines.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Cosmos Policy, VLA, Robotics, LIBERO, RoboCasa, Simulation, Evaluation, Profiling, EGL Rendering]\ndependencies: [torch>=2.1.0, mujoco>=3.0.0, robosuite>=1.4.0, \"robocasa @ git+https://github.com/moojink/robocasa-cosmos-policy.git\", transformers>=4.40.0, \"cosmos-policy @ git+https://github.com/NVlabs/cosmos-policy.git\"]\n---\n\n# Cosmos Policy Evaluation\n\n\n[391 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/cosmos-policy/references/libero-commands.md",
+          "limit": 40,
+          "success": true,
+          "text": "# LIBERO Command Matrix\n\nCommand variations for running Cosmos Policy LIBERO evaluation on local machines, interactive GPU shells, or batch systems. All commands use the official public `cosmos_policy.experiments.robot.libero.run_libero_eval` module.\n\n## Preferred path: interactive GPU shell\n\nAcquire one GPU, then run evaluations directly:\n\n```bash\n# Slurm example\nsrun --partition=gpu --gpus-per-node=1 \\\n  --time=01:00:00 --mem=64G --cpus-per-task=8 --pty bash\n\ncd /path/to/cosmos-policy\n\n# Set headless rendering environment\nexport CUDA_VISIBLE_DEVICES=0\nexport MUJOCO_EGL_DEVICE_ID=0\nexport MUJOCO_GL=egl\nexport PYOPENGL_PLATFORM=egl\n\n# Smoke eval (1 trial, single suite)\nuv run --extra cu128 --group libero --python 3.10 \\\n  python -m cosmos_policy.experiments.robot.libero.run_libero_eval \\\n    --config cosmos_predict2_2b_480p_libero__inference_only \\\n    --ckpt_path nvidia/Cosmos-Policy-LIBERO-Predict2-2B \\\n    --config_file cosmos_policy/config/config.py \\\n    --use_wrist_image True \\\n    --use_proprio True \\\n    --normalize_proprio True \\\n    --unnormalize_actions True \\\n    --dataset_stats_path nvidia/Cosmos-Policy-LIBERO-Predict2-2B/libero_dataset_statistics.json \\\n    --t5_text_embeddings_path nvidia/Cosmos-Policy-LIBERO-Predict2-2B/libero_t5_embeddings.pkl \\\n    --trained_with_image_aug True \\\n    --chunk_size 16 \\\n    --num_open_loop_steps 16 \\\n    --task_suite_name libero_10 \\\n    --num_trials_per_task 1 \\\n    --local_log_dir cosmos_policy/experiments/robot/libero/logs/ \\\n    --seed 195 \\\n\n[135 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "experiment-tracking-swanlab",
+      "status": "concern",
+      "reason": "pyecharts through swanlab.echarts is explicitly supported by the excerpt. Identical experiment names are not established as a comparison requirement; a logdir returned by run.finish is unverified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "1a2b3b19da23497debcee98e2f923915af75bfea8748a7329dadf22d26eff84a",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "experiment-tracking-swanlab",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/swanlab/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/swanlab/references/visualization.md",
+        "purpose": "Track and visualize ML experiments locally or self-hosted",
+        "referenceFact": "SwanLab accepts pyecharts chart objects through swanlab.echarts",
+        "pitfall": "Must log seed, config keys, and experiment_name identically to compare runs",
+        "prerequisites": [
+          "swanlab>=0.7.11 installed",
+          "swanlab[dashboard] for local mode",
+          "logged logdir path from run.finish()"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/swanlab/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: experiment-tracking-swanlab\ndescription: Provides guidance for experiment tracking with SwanLab. Use when you need open-source run tracking, local or self-hosted dashboards, and lightweight media logging for ML workflows.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [MLOps, SwanLab, Experiment Tracking, Open Source, Visualization, PyTorch, Transformers, PyTorch Lightning, Fastai, Self-Hosted]\ndependencies: [swanlab>=0.7.11, pillow>=9.0.0, soundfile>=0.12.0]\n---\n\n# SwanLab: Open-Source Experiment Tracking\n\n\n[395 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/swanlab/references/visualization.md",
+          "limit": 40,
+          "success": true,
+          "text": "# SwanLab Visualization Guide\n\nThis guide covers chart objects and validated media types in the public SwanLab docs.\n\n## Chart Objects with `swanlab.echarts`\n\nSwanLab accepts `pyecharts` chart objects through `swanlab.echarts`. Log the chart object directly instead of wrapping a raw option dictionary.\n\n### Line Chart\n\n```python\nimport swanlab\n\nloss_chart = swanlab.echarts.Line()\nloss_chart.add_xaxis([\"epoch-1\", \"epoch-2\", \"epoch-3\", \"epoch-4\"])\nloss_chart.add_yaxis(\"train/loss\", [0.95, 0.63, 0.41, 0.29])\nloss_chart.set_global_opts(\n    title_opts=swanlab.echarts.options.TitleOpts(title=\"Training Loss\")\n)\n\nswanlab.log({\"charts/loss\": loss_chart})\n```\n\n### Multi-Series Line Chart\n\n```python\ncomparison = swanlab.echarts.Line()\ncomparison.add_xaxis([\"1\", \"2\", \"3\", \"4\"])\ncomparison.add_yaxis(\"train/loss\", [0.95, 0.63, 0.41, 0.29])\ncomparison.add_yaxis(\"val/loss\", [1.02, 0.72, 0.55, 0.49])\ncomparison.set_global_opts(\n    title_opts=swanlab.echarts.options.TitleOpts(title=\"Train vs Val Loss\")\n)\n\nswanlab.log({\"charts/comparison\": comparison})\n```\n\n### Bar Chart\n\n```python\n\n[194 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "faiss",
+      "status": "fail",
+      "reason": "The answer promotes an unmeasured 90-95% accuracy table into a general fact. Recall depends on data and search/index settings. Selection guidance was repaired; no FAISS benchmark was run.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "0d320736ee2cb60c5fd5fc628e7d28b18960eae4611f83c9c806b38e7925de36",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "faiss",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/references/index_types.md",
+        "purpose": "Efficient billion-scale vector similarity search library",
+        "referenceFact": "IVF+PQ for >10M vectors with 90-95% accuracy",
+        "pitfall": "ingestion and retrieval must share same d, dtype float32, and index type (IP for cosine)",
+        "prerequisites": [
+          "faiss-cpu or faiss-gpu installed",
+          "numpy version compatible",
+          "training vectors available before add"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: faiss\ndescription: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [RAG, FAISS, Similarity Search, Vector Search, Facebook AI, GPU Acceleration, Billion-Scale, K-NN, HNSW, High Performance, Large Scale]\ndependencies: [faiss-cpu, faiss-gpu, numpy]\n---\n\n# FAISS - Efficient Similarity Search\n\n\n[210 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/references/index_types.md",
+          "limit": 40,
+          "success": true,
+          "text": "# FAISS Index Types Guide\n\nComplete guide to choosing and using FAISS index types.\n\n## Index selection guide\n\n| Dataset Size | Index Type | Training | Accuracy | Speed |\n|--------------|------------|----------|----------|-------|\n| < 10K | Flat | No | 100% | Slow |\n| 10K-1M | IVF | Yes | 95-99% | Fast |\n| 1M-10M | HNSW | No | 99% | Fastest |\n| > 10M | IVF+PQ | Yes | 90-95% | Fast, low memory |\n\n## Flat indices (exact search)\n\n### IndexFlatL2 - L2 (Euclidean) distance\n\n```python\nimport faiss\nimport numpy as np\n\nd = 128  # Dimension\nindex = faiss.IndexFlatL2(d)\n\n# Add vectors\nvectors = np.random.random((1000, d)).astype('float32')\nindex.add(vectors)\n\n# Search\nk = 5\nquery = np.random.random((1, d)).astype('float32')\ndistances, indices = index.search(query, k)\n```\n\n**Use when:**\n- Dataset < 10,000 vectors\n- Need 100% accuracy\n- Serving as baseline\n\n### IndexFlatIP - Inner product (cosine similarity)\n\n[241 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "fine-tuning-openvla-oft",
+      "status": "fail",
+      "reason": "Suite names are grounded. Action chunk length is not controller frequency; the unqualified 25-step setting is environment-specific and is not established by the returned LIBERO excerpt.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "ca6447ee7ba7225ff010c57f54af8a31330e46a9fd7313ff5793f71601ef51a9",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "fine-tuning-openvla-oft",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openvla-oft/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openvla-oft/references/libero-workflow.md",
+        "purpose": "Fine-tune OpenVLA-OFT robot action policies",
+        "referenceFact": "LIBERO task suites are libero_spatial, libero_object, libero_goal, libero_10.",
+        "pitfall": "Action chunk size must match controller frequency: NUM_ACTIONS_CHUNK=25 vs num_open_loop_steps≈25.",
+        "prerequisites": [
+          "torch==2.2.0 and peft==0.11.1 installed",
+          "LIBERO repo cloned and requirements installed",
+          "HuggingFace repo cloned for LIBERO RLDS data"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openvla-oft/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: fine-tuning-openvla-oft\ndescription: Fine-tunes and evaluates OpenVLA-OFT and OpenVLA-OFT+ policies for robot action generation with continuous action heads, LoRA adaptation, and FiLM conditioning on LIBERO simulation and ALOHA real-world setups. Use when reproducing OpenVLA-OFT paper results, training custom VLA action heads (L1 or diffusion), deploying server-client inference for ALOHA, or debugging normalization, LoRA merge, and cross-GPU issues.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [OpenVLA, OpenVLA-OFT, VLA, Robotics, Fine-Tuning, LIBERO, ALOHA, LoRA, FiLM, Action Chunking, Deployment, Continuous Actions]\ndependencies: [torch==2.2.0, transformers>=4.40.0, peft==0.11.1, draccus==0.8.0, accelerate>=0.25.0, wandb>=0.16.0, fastapi>=0.100.0, uvicorn>=0.24.0, tensorflow==2.15.0, robosuite==1.4.0]  # Exact pins: OpenVLA-OFT paper results were validated on torch==2.2.0, peft==0.11.1, tensorflow==2.15.0; upgrading torch may require re-tuning the LoRA adapter merge step and re-validating action head outputs\n---\n\n# OpenVLA-OFT\n\n\n[430 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openvla-oft/references/libero-workflow.md",
+          "limit": 40,
+          "success": true,
+          "text": "# LIBERO Workflow\n\n## Scope\n\nUse this guide for OpenVLA-OFT setup, evaluation, and fine-tuning on LIBERO simulation task suites.\n\nTask suite names used by evaluator:\n- `libero_spatial`\n- `libero_object`\n- `libero_goal`\n- `libero_10`\n\n## 1) Setup and dependencies\n\n```bash\nconda create -n openvla-oft python=3.10 -y\nconda activate openvla-oft\npip3 install torch torchvision torchaudio\npip install -e .\n\ngit clone https://github.com/Lifelong-Robot-Learning/LIBERO.git\npip install -e LIBERO\npip install -r experiments/robot/libero/libero_requirements.txt\n```\n\nOptional dataset download from docs:\n\n```bash\ngit clone git@hf.co:datasets/openvla/modified_libero_rlds\n```\n\n## 2) Evaluate official checkpoints\n\nExample for LIBERO-Spatial:\n\n```bash\npython experiments/robot/libero/run_libero_eval.py \\\n  --pretrained_checkpoint moojink/openvla-7b-oft-finetuned-libero-spatial \\\n  --task_suite_name libero_spatial \\\n  --center_crop True \\\n\n[75 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "fine-tuning-serving-openpi",
+      "status": "supported-with-limits",
+      "reason": "The excerpt lists eight baselines and LeRobot/RLDS variants. Matching observation transforms and checkpoint/backend artifacts is a relevant check. Versions and device execution remain unverified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "c9ecd75627e0eab9ae1e00b42082f9827eb99b0bafb39af4a3e2165f525c9a05",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "fine-tuning-serving-openpi",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openpi/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openpi/references/config-recipes.md",
+        "purpose": "Fine-tune and serve OpenPI VLA policies",
+        "referenceFact": "Eight config baselines map to LeRobot or RLDS data",
+        "pitfall": "Check client observation keys/shapes and JAX vs PyTorch artifact match the serving config transforms exactly",
+        "prerequisites": [
+          "uv>=0.4.0 and jax>=0.4.30 installed",
+          "torch>=2.1.0 and transformers>=4.53.2 present",
+          "LeRobot or RLDS dataset plus precomputed norm stats"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openpi/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: fine-tuning-serving-openpi\ndescription: Fine-tune and serve Physical Intelligence OpenPI models (pi0, pi0-fast, pi0.5) using JAX or PyTorch backends for robot policy inference across ALOHA, DROID, and LIBERO environments. Use when adapting pi0 models to custom datasets, converting JAX checkpoints to PyTorch, running policy inference servers, or debugging norm stats and GPU memory issues.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [OpenPI, Physical Intelligence, VLA, Robotics, JAX, PyTorch, Fine-Tuning, Policy Serving, ALOHA, DROID, LIBERO, pi0]\ndependencies: [uv>=0.4.0, jax>=0.4.30, torch>=2.1.0, transformers>=4.53.2]\n---\n\n# OpenPI Fine-Tuning and Serving\n\n\n[469 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/openpi/references/config-recipes.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Config Recipes\n\nUse these as starting points when choosing a config to copy or adapt.\n\n## Common config baselines\n\n| Config | Typical use |\n|--------|-------------|\n| `pi05_libero` | Base pi0.5-style LIBERO fine-tuning recipe |\n| `pi0_libero` | pi0 full fine-tuning on LIBERO-format data |\n| `pi0_fast_libero` | pi0-fast full fine-tuning on LIBERO-format data |\n| `pi0_aloha_pen_uncap` | ALOHA custom data fine-tuning pattern |\n| `pi05_aloha_pen_uncap` | ALOHA pi0.5 custom data fine-tuning pattern |\n| `pi05_droid_finetune` | Small custom DROID dataset in LeRobot format |\n| `pi05_full_droid_finetune` | Full DROID RLDS large-scale training |\n| `pi0_fast_full_droid_finetune` | Full DROID RLDS with pi0-fast |\n\n## Essential command sequence\n\n```bash\n# 1) Compute normalization stats\nuv run scripts/compute_norm_stats.py --config-name <config_name>\n\n# 2) Train\nXLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py <config_name> \\\n  --exp-name=<run_name> --overwrite\n\n# 3) Serve checkpoint for verification\nuv run scripts/serve_policy.py policy:checkpoint \\\n  --policy.config=<config_name> \\\n  --policy.dir=checkpoints/<config_name>/<run_name>/<step>\n```\n\n## RLDS variant for full DROID\n\n```bash\nuv run --group rlds scripts/compute_norm_stats.py \\\n  --config-name pi05_full_droid_finetune --max-frames 10000000\n\nXLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run --group rlds scripts/train.py \\\n\n[10 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "fine-tuning-with-trl",
+      "status": "supported-with-limits",
+      "reason": "SFT cross-entropy is explicit in the excerpt. Preference-label noise is a relevant risk for preference training. SFT alone does not require chosen/rejected data; prerequisites need task-specific interpretation.",
+      "run": "task-contract-recheck",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "4d8519589885f956703fd12b7230787bcd526103b91133ca23a1cacd3587eb14",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "fine-tuning-with-trl",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/trl-fine-tuning/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/trl-fine-tuning/references/sft-training.md",
+        "purpose": "Align LLMs with human preference feedback",
+        "referenceFact": "SFT minimizes cross-entropy on prompt-completion pairs",
+        "pitfall": "Reward model scores mislead when preference data lacks clear chosen/rejected winners, optimizing noise",
+        "prerequisites": [
+          "CUDA GPU ≥16GB VRAM",
+          "trl≥0.7.1 transformers≥4.30",
+          "Verified chosen/rejected preference dataset"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/trl-fine-tuning/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: fine-tuning-with-trl\ndescription: Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Transformers.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Post-Training, TRL, Reinforcement Learning, Fine-Tuning, SFT, DPO, PPO, GRPO, RLHF, Preference Alignment, HuggingFace]\ndependencies: [trl, transformers, datasets, peft, accelerate, torch]\n---\n\n# TRL - Transformer Reinforcement Learning\n\n\n[450 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/trl-fine-tuning/references/sft-training.md",
+          "limit": 40,
+          "success": true,
+          "text": "# SFT Training Guide\n\nComplete guide to Supervised Fine-Tuning (SFT) with TRL for instruction tuning and task-specific fine-tuning.\n\n## Overview\n\nSFT trains models on input-output pairs to minimize cross-entropy loss. Use for:\n- Instruction following\n- Task-specific fine-tuning\n- Chatbot training\n- Domain adaptation\n\n## Dataset Formats\n\n### Format 1: Prompt-Completion\n\n```json\n[\n  {\n    \"prompt\": \"What is the capital of France?\",\n    \"completion\": \"The capital of France is Paris.\"\n  }\n]\n```\n\n### Format 2: Conversational (ChatML)\n\n```json\n[\n  {\n    \"messages\": [\n      {\"role\": \"user\", \"content\": \"What is Python?\"},\n      {\"role\": \"assistant\", \"content\": \"Python is a programming language.\"}\n    ]\n  }\n]\n```\n\n### Format 3: Text-only\n\n\n[129 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "gguf-quantization",
+      "status": "concern",
+      "reason": "The draft-token flag is present in the retained example, but current llama.cpp CLI compatibility was not checked. A GPU/Metal backend and a 7B model are not universal GGUF prerequisites.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "a1e008111016b4cdc572b07b3eb08419704754f591b75611a84d8bcf75cf2f99",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "gguf-quantization",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gguf/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gguf/references/advanced-usage.md",
+        "purpose": "GGUF quantization and llama.cpp reference",
+        "referenceFact": "llama-speculative uses --draft 8 for speculative decoding",
+        "pitfall": "Q4_K_M bits vary per-layer; imatrix quality gain is unmeasured",
+        "prerequisites": [
+          "llama.cpp >= 0.2.0 installed",
+          "GPU or Metal acceleration available",
+          "7B model with imatrix calibration data"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gguf/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: gguf-quantization\ndescription: GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [GGUF, Quantization, llama.cpp, CPU Inference, Apple Silicon, Model Compression, Optimization]\ndependencies: [llama-cpp-python>=0.2.0]\n---\n\n# GGUF - Quantization Format for llama.cpp\n\n\n[416 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gguf/references/advanced-usage.md",
+          "limit": 40,
+          "success": true,
+          "text": "# GGUF Advanced Usage Guide\n\n## Speculative Decoding\n\n### Draft Model Approach\n\n```bash\n# Use smaller model as draft for faster generation\n./llama-speculative \\\n    -m large-model-q4_k_m.gguf \\\n    -md draft-model-q4_k_m.gguf \\\n    -p \"Write a story about AI\" \\\n    -n 500 \\\n    --draft 8  # Draft tokens before verification\n```\n\n### Self-Speculative Decoding\n\n```bash\n# Use same model with different context for speculation\n./llama-cli -m model-q4_k_m.gguf \\\n    --lookup-cache-static lookup.bin \\\n    --lookup-cache-dynamic lookup-dynamic.bin \\\n    -p \"Hello world\"\n```\n\n## Batched Inference\n\n### Process Multiple Prompts\n\n```python\nfrom llama_cpp import Llama\n\nllm = Llama(\n    model_path=\"model-q4_k_m.gguf\",\n    n_ctx=4096,\n    n_gpu_layers=35,\n    n_batch=512  # Larger batch for parallel processing\n)\n\n\n[465 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "gptq",
+      "status": "fail",
+      "reason": "The copied 5-10% perplexity claim has no model/evaluation conditions. That calibration guidance was repaired. The proposed auto-gptq minimum and GPU constraint are unverified, not established prerequisites.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "de52c0554ead85e05ae65085e13760b40290985e07470543de80618defee700e",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "gptq",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/references/calibration.md",
+        "purpose": "Verify GPTQ quantization accuracy and speed claims",
+        "referenceFact": "Poor calibration causes 5–10% perplexity increase",
+        "pitfall": "3–4× speedup depends on kernel and GPU; 1.5% loss is model-specific and unmeasured here",
+        "prerequisites": [
+          "auto-gptq ≥0.9 with ExLlamaV2 kernel",
+          "C4 128 samples × 512 tokens calibration data",
+          "Target GPU with compute ≥8.0 (Ampere+)"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: gptq\ndescription: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Optimization, GPTQ, Quantization, 4-Bit, Post-Training, Memory Optimization, Consumer GPUs, Fast Inference, QLoRA, Group-Wise Quantization]\ndependencies: [auto-gptq, transformers, optimum, peft]\n---\n\n# GPTQ (Generative Pre-trained Transformer Quantization)\n\n\n[439 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/references/calibration.md",
+          "limit": 40,
+          "success": true,
+          "text": "# GPTQ Calibration Guide\n\nComplete guide to calibration data selection and quantization process.\n\n## Calibration Data Selection\n\n### Why calibration matters\n\nCalibration data is used to:\n1. **Compute weight importance** (Hessian matrix)\n2. **Minimize quantization error** for important weights\n3. **Preserve model accuracy** after quantization\n\n**Impact**:\n- Good calibration: <1.5% perplexity increase\n- Poor calibration: 5-10% perplexity increase\n- No calibration: Model may output gibberish\n\n### Dataset size\n\n**Recommended**:\n- **128-256 samples** of 512 tokens each\n- Total: 65K-131K tokens\n\n**More is not always better**:\n- <64 samples: Underfitting (poor quality)\n- 128-256 samples: Sweet spot\n- >512 samples: Diminishing returns, slower quantization\n\n### Dataset selection by domain\n\n**General purpose models (GPT, Llama)**:\n```python\nfrom datasets import load_dataset\n\n# C4 dataset (recommended for general models)\ndataset = load_dataset(\"c4\", split=\"train\", streaming=True)\ncalibration_data = [\n    tokenizer(example[\"text\"])[\"input_ids\"][:512]\n    for example in dataset.take(128)\n\n[298 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "grpo-rl-training",
+      "status": "fail",
+      "reason": "Loss need not follow the asserted increasing trajectory. Zero reward variance also occurs for all-correct groups, and fixed variance thresholds depend on reward scale. Tiny counterexamples and pinned TRL metric notes support the repair.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "a05c2eb21964b54831e4a57b4170c2eccd8161385b68771f96b45cf782b8b4b7",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "grpo-rl-training",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/grpo-rl-training/SKILL.md",
+        "referencePath": null,
+        "purpose": "GRPO RL training guidance via TRL",
+        "referenceFact": "Loss starts near 0 and INCREASES",
+        "pitfall": "KL divergence misleadingly low when reward_std collapses to zero (model collapse)",
+        "prerequisites": [
+          "TRL≥0.14, transformers≥4.47",
+          "CUDA GPU ≥16 GB VRAM",
+          "Reward functions return list[float]"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/grpo-rl-training/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: grpo-rl-training\ndescription: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Post-Training, Reinforcement Learning, GRPO, TRL, RLHF, Reward Modeling, Reasoning, DPO, PPO, Structured Output]\ndependencies: [transformers>=4.47.0, trl>=0.14.0, datasets>=3.2.0, peft>=0.14.0, torch]\n---\n\n# GRPO/RL Training with TRL\n\n\n[561 more lines in file. Use offset=13 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "guidance",
+      "status": "concern",
+      "reason": "The environment-key fact is explicit. The Pydantic statement is ambiguous about runtime versus documentation guarantees; an API key and transformers are backend-dependent, not universal requirements.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "d60a7eafd79985f0dfe672af12fb0759bbfd00f0966898a3b5ca406481c06dae",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "guidance",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/guidance/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/guidance/references/backends.md",
+        "purpose": "Constrained LLM output control",
+        "referenceFact": "Anthropic models read ANTHROPIC_API_KEY from environment",
+        "pitfall": "It claims no Pydantic validation; valid JSON still needs parsing validation",
+        "prerequisites": [
+          "guidance installed",
+          "transformers installed",
+          "api key set"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/guidance/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: guidance\ndescription: Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workflows with Guidance - Microsoft Research's constrained generation framework\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Prompt Engineering, Guidance, Constrained Generation, Structured Output, JSON Validation, Grammar, Microsoft Research, Format Enforcement, Multi-Step Workflows]\ndependencies: [guidance, transformers]\n---\n\n# Guidance: Constrained LLM Generation\n\n\n[561 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/guidance/references/backends.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Backend Configuration Guide\n\nComplete guide to configuring Guidance with different LLM backends.\n\n## Table of Contents\n- API-Based Models (Anthropic, OpenAI)\n- Local Models (Transformers, llama.cpp)\n- Backend Comparison\n- Performance Tuning\n- Advanced Configuration\n\n## API-Based Models\n\n### Anthropic Claude\n\n#### Basic Setup\n\n```python\nfrom guidance import models\n\n# Using environment variable\nlm = models.Anthropic(\"claude-sonnet-4-5-20250929\")\n# Reads ANTHROPIC_API_KEY from environment\n\n# Explicit API key\nlm = models.Anthropic(\n    model=\"claude-sonnet-4-5-20250929\",\n    api_key=\"your-api-key-here\"\n)\n```\n\n#### Available Models\n\n```python\n# Claude 3.5 Sonnet (Latest, recommended)\nlm = models.Anthropic(\"claude-sonnet-4-5-20250929\")\n\n# Claude 3.7 Sonnet (Fast, cost-effective)\nlm = models.Anthropic(\"claude-sonnet-3.7-20250219\")\n\n\n[515 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "hqq-quantization",
+      "status": "supported-with-limits",
+      "reason": "The excerpt's example selects Marlin at compute capability 80+. The answer correctly conditions quality on measurement. Backend setter compatibility and the hardware/version prerequisites were not executed or verified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "2cb62a281a05f7a948b53c6158469b7813589a12acbbb6bc7d3a311154f32776",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "hqq-quantization",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/hqq/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/hqq/references/advanced-usage.md",
+        "purpose": "HQQ calibration-free weight quantization for LLMs",
+        "referenceFact": "Backend selection uses CUDA compute cap >=80 for Marlin",
+        "pitfall": "2-bit quality claim needs group_size tuning and hardware-dependent backend; no accuracy benchmark provided",
+        "prerequisites": [
+          "hqq>=0.2.0 installed",
+          "torch>=2.0.0 available",
+          "GPU compute capability 80+"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/hqq/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: hqq-quantization\ndescription: Half-Quadratic Quantization for LLMs without calibration data. Use when quantizing models to 4/3/2-bit precision without needing calibration datasets, for fast quantization workflows, or when deploying with vLLM or HuggingFace Transformers.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Quantization, HQQ, Optimization, Memory Efficiency, Inference, Model Compression]\ndependencies: [hqq>=0.2.0, torch>=2.0.0]\n---\n\n# HQQ - Half-Quadratic Quantization\n\n\n[434 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/hqq/references/advanced-usage.md",
+          "limit": 40,
+          "success": true,
+          "text": "# HQQ Advanced Usage Guide\n\n## Custom Backend Configuration\n\n### Backend Selection by Hardware\n\n```python\nfrom hqq.core.quantize import HQQLinear\nimport torch\n\ndef select_optimal_backend():\n    \"\"\"Select best backend based on hardware.\"\"\"\n    device = torch.cuda.get_device_properties(0)\n    compute_cap = device.major * 10 + device.minor\n\n    if compute_cap >= 80:  # Ampere+\n        return \"marlin\"\n    elif compute_cap >= 70:  # Volta/Turing\n        return \"aten\"\n    else:\n        return \"pytorch_compile\"\n\nbackend = select_optimal_backend()\nHQQLinear.set_backend(backend)\nprint(f\"Using backend: {backend}\")\n```\n\n### Per-Layer Backend Assignment\n\n```python\nfrom hqq.core.quantize import HQQLinear\n\ndef set_layer_backends(model):\n    \"\"\"Assign optimal backends per layer type.\"\"\"\n    for name, module in model.named_modules():\n        if isinstance(module, HQQLinear):\n            if \"attn\" in name:\n                module.set_backend(\"marlin\")  # Fast for attention\n            elif \"mlp\" in name:\n                module.set_backend(\"bitblas\")  # Flexible for MLP\n\n[489 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "huggingface-accelerate",
+      "status": "concern",
+      "reason": "The listed Megatron parallelism modes are grounded. A moving HEAD is not a reproducible integration version, and the GPU minimum and four-line simplification are not general workflow guarantees.",
+      "run": "task-contract-recheck",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "b93a7d58c5c347dc6624513dc84fd88e7edc9b6ed19e3135656a243c5898e200",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "huggingface-accelerate",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/references/megatron-integration.md",
+        "purpose": "Simplifies PyTorch distributed training to four lines",
+        "referenceFact": "Accelerate supports Megatron-LM TP, PP, DP, and sequence parallelism",
+        "pitfall": "ZeRO sharding is not model-parallelism; identical FSDP plan across every rank is the invariant",
+        "prerequisites": [
+          "accelerate pip-installed with torch >= 1.12",
+          "CUDA GPU with ≥ 24 GB VRAM",
+          "Megatron-LM cloned at HEAD for TP/PP"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: huggingface-accelerate\ndescription: Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Automatic device placement, mixed precision (FP16/BF16/FP8). Interactive config, single launch command. HuggingFace ecosystem standard.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Distributed Training, HuggingFace, Accelerate, DeepSpeed, FSDP, Mixed Precision, PyTorch, DDP, Unified API, Simple]\ndependencies: [accelerate, torch, transformers]\n---\n\n# HuggingFace Accelerate - Unified Distributed Training\n\n\n[327 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/references/megatron-integration.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Megatron Integration with Accelerate\n\n## Overview\n\nAccelerate supports Megatron-LM for massive model training with tensor parallelism and pipeline parallelism.\n\n**Megatron capabilities**:\n- **Tensor Parallelism (TP)**: Split layers across GPUs\n- **Pipeline Parallelism (PP)**: Split model depth across GPUs\n- **Data Parallelism (DP)**: Replicate model across GPU groups\n- **Sequence Parallelism**: Split sequences for long contexts\n\n## Setup\n\n### Install Megatron-LM\n\n```bash\n# Clone Megatron-LM repository\ngit clone https://github.com/NVIDIA/Megatron-LM.git\ncd Megatron-LM\npip install -e .\n\n# Install Apex (NVIDIA optimizations)\ngit clone https://github.com/NVIDIA/apex\ncd apex\npip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \\\n  --config-settings \"--build-option=--cpp_ext\" --config-settings \"--build-option=--cuda_ext\" ./\n```\n\n### Accelerate Configuration\n\n```bash\naccelerate config\n```\n\n**Questions**:\n```\nIn which compute environment are you running?\n> This machine\n\n\n[450 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "implementing-llms-litgpt",
+      "status": "concern",
+      "reason": "The catalog counts are quoted accurately from the reference but not refreshed upstream. Choosing LoRA over full fine-tuning is task-dependent, not a universal remedy.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "64d3a6808b414fa53e48b17c4e034866921989849beeb97e8f09251e97562d8e",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "implementing-llms-litgpt",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/litgpt/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/litgpt/references/supported-models.md",
+        "purpose": "LitGPT LLM fine-tuning and training workflows",
+        "referenceFact": "LitGPT supports 20+ model families with 100+ model variants",
+        "pitfall": "Choose LoRA over full finetune; measure GPU VRAM before picking",
+        "prerequisites": [
+          "NVIDIA GPU with CUDA 11.8+",
+          "litgpt installed with extra dependencies",
+          "dataset in Alpaca JSON or pretokenized format"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/litgpt/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: implementing-llms-litgpt\ndescription: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Model Architecture, LitGPT, Lightning AI, LLM Implementation, LoRA, QLoRA, Fine-Tuning, Llama, Gemma, Phi, Mistral, Educational]\ndependencies: [litgpt, torch, transformers]\n---\n\n# LitGPT - Clean LLM Implementations\n\n\n[458 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/litgpt/references/supported-models.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Supported Models\n\nComplete list of model architectures supported by LitGPT with parameter sizes and variants.\n\n## Overview\n\nLitGPT supports **20+ model families** with **100+ model variants** ranging from 135M to 405B parameters.\n\n**List all models**:\n```bash\nlitgpt download list\n```\n\n**List pretrain-capable models**:\n```bash\nlitgpt pretrain list\n```\n\n## Model Families\n\n### Llama Family\n\n**Llama 3, 3.1, 3.2, 3.3**:\n- **Sizes**: 1B, 3B, 8B, 70B, 405B\n- **Use Cases**: General-purpose, long-context (128K), multimodal\n- **Best For**: Production applications, research, instruction following\n\n**Code Llama**:\n- **Sizes**: 7B, 13B, 34B, 70B\n- **Use Cases**: Code generation, completion, infilling\n- **Best For**: Programming assistants, code analysis\n\n**Function Calling Llama 2**:\n- **Sizes**: 7B\n- **Use Cases**: Tool use, API integration\n- **Best For**: Agents, function execution\n\n**Llama 2**:\n- **Sizes**: 7B, 13B, 70B\n- **Use Cases**: General-purpose (predecessor to Llama 3)\n\n[297 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "instructor",
+      "status": "concern",
+      "reason": "CompanyInfo fields are excerpt-grounded. The not-enforced wording is ambiguous: a skill document does not enforce behavior, but runtime response_model validation must not be denied. Provider/schema behavior remains untested.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "0262d4d9072e1aee1256dd315a00e23008415a543c30f851ed29850a3c4a5bc9",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "instructor",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/instructor/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/instructor/references/examples.md",
+        "purpose": "Extract structured data with Pydantic validation",
+        "referenceFact": "Class CompanyInfo has name, founded, industry, employees",
+        "pitfall": "Skill is documentation; schema guarantee is user's Pydantic model, not enforced; needs provider, model, and validation testing.",
+        "prerequisites": [
+          "instructor installed with all extras",
+          "OpenAI or Anthropic API key",
+          "CompanyInfo schema verified against source text"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/instructor/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: instructor\ndescription: Extract structured data from LLM responses with Pydantic validation, retry failed extractions automatically, parse complex JSON with type safety, and stream partial results with Instructor - battle-tested structured output library\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Prompt Engineering, Instructor, Structured Output, Pydantic, Data Extraction, JSON Parsing, Type Safety, Validation, Streaming, OpenAI, Anthropic]\ndependencies: [instructor, pydantic, openai, anthropic]\n---\n\n# Instructor: Structured LLM Outputs\n\n\n[729 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/instructor/references/examples.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Real-World Examples\n\nPractical examples of using Instructor for structured data extraction.\n\n## Data Extraction\n\n```python\nclass CompanyInfo(BaseModel):\n    name: str\n    founded: int\n    industry: str\n    employees: int\n\ntext = \"Apple was founded in 1976 in the technology industry with 164,000 employees.\"\n\ncompany = client.messages.create(\n    model=\"claude-sonnet-4-5-20250929\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": f\"Extract: {text}\"}],\n    response_model=CompanyInfo\n)\n```\n\n## Classification\n\n```python\nclass Sentiment(str, Enum):\n    POSITIVE = \"positive\"\n    NEGATIVE = \"negative\"\n    NEUTRAL = \"neutral\"\n\nclass Review(BaseModel):\n    sentiment: Sentiment\n    confidence: float = Field(ge=0.0, le=1.0)\n\nreview = client.messages.create(\n    model=\"claude-sonnet-4-5-20250929\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": \"This product is amazing!\"}],\n    response_model=Review\n\n[68 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "langchain",
+      "status": "concern",
+      "reason": "ReAct is excerpt-grounded. A generic no-external-code warning missed the example's actual calculator evaluation sink. That source defect was reproduced with benign probes and repaired; old case predates the changed source/reference selection.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "ebcd1f0da7ba6255eea3251761478e6b5cd19cbe9b8107c9885710664b9a4f0b",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "langchain",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/references/agents.md",
+        "purpose": "Rapid LLM app prototyping framework",
+        "referenceFact": "ReAct pattern = Reasoning + Acting",
+        "pitfall": "Never execute external code; stop when output exceeds read limits or needs live testing.",
+        "prerequisites": [
+          "langchain>=0.3 installed",
+          "Python 3.10+ runtime",
+          "Valid LLM API key"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: langchain\ndescription: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Agents, LangChain, RAG, Tool Calling, ReAct, Memory Management, Vector Stores, LLM Applications, Chatbots, Production]\ndependencies: [langchain, langchain-core, langchain-openai, langchain-anthropic]\n---\n\n# LangChain - Build LLM Applications with Agents & RAG\n\n\n[469 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/references/agents.md",
+          "limit": 40,
+          "success": true,
+          "text": "# LangChain Agents Guide\n\nComplete guide to building agents with ReAct, tool calling, and streaming.\n\n## What are agents?\n\nAgents combine language models with tools to solve complex tasks through reasoning and action:\n\n1. **Reasoning**: LLM decides what to do\n2. **Acting**: Execute tools based on reasoning\n3. **Observation**: Receive tool results\n4. **Loop**: Repeat until task complete\n\nThis is the **ReAct pattern** (Reasoning + Acting).\n\n## Basic agent creation\n\n```python\nfrom langchain.agents import create_agent\nfrom langchain_anthropic import ChatAnthropic\n\n# Define tools\ndef calculator(expression: str) -> str:\n    \"\"\"Evaluate a math expression.\"\"\"\n    return str(eval(expression))\n\ndef search(query: str) -> str:\n    \"\"\"Search for information.\"\"\"\n    return f\"Results for: {query}\"\n\n# Create agent\nagent = create_agent(\n    model=ChatAnthropic(model=\"claude-sonnet-4-5-20250929\"),\n    tools=[calculator, search],\n    system_prompt=\"You are a helpful assistant. Use tools when needed.\"\n)\n\n# Run agent\nresult = agent.invoke({\n    \"messages\": [{\"role\": \"user\", \"content\": \"What is 25 * 17?\"}]\n\n[460 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "langsmith-observability",
+      "status": "supported-with-limits",
+      "reason": "Score/comment return values and the prediction snippet are explicit. Trace identity, sanitized data, and sampling are relevant observability checks. SDK and account behavior remain untested.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "ba7fccc946cce71faf8ebad042ef96f7401387c22330e524eb10f3b90cc68925",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "langsmith-observability",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/17-observability/langsmith/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/17-observability/langsmith/references/advanced-usage.md",
+        "purpose": "LLM observability for debugging evaluation monitoring",
+        "referenceFact": "Custom evaluators return score and comment with predicted answer snippet",
+        "pitfall": "Observations map to runs via trace IDs not request IDs; check sanitized inputs and sampling rate for PII and reproducibility",
+        "prerequisites": [
+          "langsmith>=0.2.0 installed",
+          "LANGSMITH_API_KEY set",
+          "LANGSMITH_TRACING true"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/17-observability/langsmith/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: langsmith-observability\ndescription: LLM observability platform for tracing, evaluation, and monitoring. Use when debugging LLM applications, evaluating model outputs against datasets, monitoring production systems, or building systematic testing pipelines for AI applications.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Observability, LangSmith, Tracing, Evaluation, Monitoring, Debugging, Testing, LLM Ops, Production]\ndependencies: [langsmith>=0.2.0]\n---\n\n# LangSmith - LLM Observability Platform\n\n\n[411 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/17-observability/langsmith/references/advanced-usage.md",
+          "limit": 40,
+          "success": true,
+          "text": "# LangSmith Advanced Usage Guide\n\n## Custom Evaluators\n\n### Simple Custom Evaluator\n\n```python\nfrom langsmith import evaluate\n\ndef accuracy_evaluator(run, example):\n    \"\"\"Check if prediction matches reference.\"\"\"\n    prediction = run.outputs.get(\"answer\", \"\")\n    reference = example.outputs.get(\"answer\", \"\")\n\n    score = 1.0 if prediction.strip().lower() == reference.strip().lower() else 0.0\n\n    return {\n        \"key\": \"accuracy\",\n        \"score\": score,\n        \"comment\": f\"Predicted: {prediction[:50]}...\"\n    }\n\nresults = evaluate(\n    my_model,\n    data=\"test-dataset\",\n    evaluators=[accuracy_evaluator]\n)\n```\n\n### LLM-as-Judge Evaluator\n\n```python\nfrom langsmith import evaluate\nfrom openai import OpenAI\n\nclient = OpenAI()\n\ndef llm_judge_evaluator(run, example):\n    \"\"\"Use LLM to evaluate response quality.\"\"\"\n    prediction = run.outputs.get(\"answer\", \"\")\n\n[509 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "llama-cpp",
+      "status": "concern",
+      "reason": "The answer repeats an unsupported fixed 40 tok/s table without hardware/workload/version conditions. Architecture/backend verification is useful, but the throughput figure is not an accepted target measurement.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "ce645375266d884d3f94f52146fd8d82ab4d0af41da25bf7c7d58f6ffca6f77f",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "llama-cpp",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/12-inference-serving/llama-cpp/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/12-inference-serving/llama-cpp/references/quantization.md",
+        "purpose": "Verify GGUF model and hardware before benchmarks",
+        "referenceFact": "Q4_K_M at 40 tok/s recommended for best quality-speed balance",
+        "pitfall": "Must confirm GGUF quantization matches model arch AND backend (Metal/CUDA/ROCm) is compiled before measuring tok/s",
+        "prerequisites": [
+          "GGUF model file present and verified",
+          "llama.cpp built with matching backend flag",
+          "quantization tier compatible with model architecture"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/12-inference-serving/llama-cpp/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: llama-cpp\ndescription: Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Inference Serving, Llama.cpp, CPU Inference, Apple Silicon, Edge Deployment, GGUF, Quantization, Non-NVIDIA, AMD GPUs, Intel GPUs, Embedded]\ndependencies: [llama-cpp-python]\n---\n\n# llama.cpp\n\n\n[247 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/12-inference-serving/llama-cpp/references/quantization.md",
+          "limit": 40,
+          "success": true,
+          "text": "# GGUF Quantization Guide\n\nComplete guide to GGUF quantization formats and model conversion.\n\n## Quantization Overview\n\n**GGUF** (GPT-Generated Unified Format) - Standard format for llama.cpp models.\n\n### Format Comparison\n\n| Format | Perplexity | Size (7B) | Tokens/sec | Notes |\n|--------|------------|-----------|------------|-------|\n| FP16 | 5.9565 (baseline) | 13.0 GB | 15 tok/s | Original quality |\n| Q8_0 | 5.9584 (+0.03%) | 7.0 GB | 25 tok/s | Nearly lossless |\n| **Q6_K** | 5.9642 (+0.13%) | 5.5 GB | 30 tok/s | Best quality/size |\n| **Q5_K_M** | 5.9796 (+0.39%) | 4.8 GB | 35 tok/s | Balanced |\n| **Q4_K_M** | 6.0565 (+1.68%) | 4.1 GB | 40 tok/s | **Recommended** |\n| Q4_K_S | 6.1125 (+2.62%) | 3.9 GB | 42 tok/s | Faster, lower quality |\n| Q3_K_M | 6.3184 (+6.07%) | 3.3 GB | 45 tok/s | Small models only |\n| Q2_K | 6.8673 (+15.3%) | 2.7 GB | 50 tok/s | Not recommended |\n\n**Recommendation**: Use **Q4_K_M** for best balance of quality and speed.\n\n## Converting Models\n\n### HuggingFace to GGUF\n\n```bash\n# 1. Download HuggingFace model\nhuggingface-cli download meta-llama/Llama-2-7b-chat-hf \\\n    --local-dir models/llama-2-7b-chat/\n\n# 2. Convert to FP16 GGUF\npython convert_hf_to_gguf.py \\\n    models/llama-2-7b-chat/ \\\n    --outtype f16 \\\n    --outfile models/llama-2-7b-chat-f16.gguf\n\n# 3. Quantize to Q4_K_M\n./llama-quantize \\\n\n[174 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "llamaguard",
+      "status": "supported-with-limits",
+      "reason": "The reference explicitly disclaims custom-category accuracy and discusses model revision, category evaluation, and injection. GPU memory/access requirements depend on the selected model and precision.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "08d309c6a4d2481ee424748635b530492529ea82473a241cb90ad2bbaaf35d23",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "llamaguard",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/llamaguard/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/llamaguard/references/custom-categories.md",
+        "purpose": "LlamaGuard input/output safety moderation",
+        "referenceFact": "Custom categories lack accuracy assertions",
+        "pitfall": "Must evaluate accuracy, injection robustness, and policy alignment before trusting output",
+        "prerequisites": [
+          "GPU with 7GB+ VRAM",
+          "HuggingFace access token for model",
+          "Verified model revision on production"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/llamaguard/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: llamaguard\ndescription: Meta's 7-8B specialized moderation model for LLM input/output filtering. 6 safety categories - violence/hate, sexual content, weapons, substances, self-harm, criminal planning. 94-95% accuracy. Deploy with vLLM, HuggingFace, Sagemaker. Integrates with NeMo Guardrails.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Safety Alignment, LlamaGuard, Content Moderation, Meta, Guardrails, Safety Classification, Input Filtering, Output Filtering, AI Safety]\ndependencies: [transformers, torch, vllm]\n---\n\n# LlamaGuard - AI Content Moderation\n\n\n[326 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/07-safety-alignment/llamaguard/references/custom-categories.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Custom safety categories\n\nLlama Guard 3's published model card defines fourteen hazard categories, S1 through S14.\nDo not assume the taxonomy, prompt template, or category numbering is identical across Llama Guard releases.\n\n## Customize deliberately\n\n1. Pin the model revision and retain its official chat template.\n2. Write explicit category definitions with allowed and disallowed examples.\n3. Separate the product's policy identifiers from the model's output labels.\n4. Evaluate customized prompts on held-out positive, negative, and ambiguous examples.\n5. Measure category-level precision, recall, and false-positive rates.\n\nChanging prompt text does not retrain the model or establish reliable detection of a new category.\nDo not silently reinterpret an unknown label as `safe`.\nRoute malformed output, unknown categories, and unavailable moderation through an explicit failure policy.\nPreserve disagreements for review instead of forcing a confident category assignment.\n\nThe model card warns that factual categories require up-to-date knowledge and that the classifier can face prompt injection.\nUse moderation as one layer, not as an authorization mechanism for tool execution.\n\n## Source\n\nOfficial model card, taxonomy, usage, and limitations:\nhttps://huggingface.co/meta-llama/Llama-Guard-3-8B/blob/main/README.md\n\nNo custom-category accuracy is asserted by this reference.\n"
+        }
+      ]
+    },
+    {
+      "name": "llava",
+      "status": "concern",
+      "reason": "The 558K stage-one count is present in the excerpt. A dimension mismatch is not necessarily silent, and dataset/model-version compatibility and training resources remain unverified.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "7f454ce5ef6b8ddd6fb382ff6cb4526ac09a56b324b7733800fc775782720e05",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "llava",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/llava/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/llava/references/training.md",
+        "purpose": "Vision-language chatbot with CLIP encoder",
+        "referenceFact": "Stage 1 uses 558K image-caption pairs",
+        "pitfall": "CLIP ViT-L/14 resolution and normalization must match projector; wrong base model checkpoint causes silent dimension mismatch",
+        "prerequisites": [
+          "A100 GPU or compatible NVIDIA GPU",
+          "CLIP ViT-L/14 pretrained weights available",
+          "558K image-caption CC3M dataset downloaded"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/llava/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: llava\ndescription: Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language chatbots or image understanding tasks. Best for conversational image analysis.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [LLaVA, Vision-Language, Multimodal, Visual Question Answering, Image Chat, CLIP, Vicuna, Conversational AI, Instruction Tuning, VQA]\ndependencies: [transformers, torch, pillow]\n---\n\n# LLaVA - Large Language and Vision Assistant\n\n\n[293 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/llava/references/training.md",
+          "limit": 40,
+          "success": true,
+          "text": "# LLaVA Training Guide\n\nGuide to training and fine-tuning LLaVA models.\n\n## Training stages\n\n### Stage 1: Feature alignment (Pretraining)\n\n**Purpose**: Align vision encoder with language model\n\n**Data**: 558K image-caption pairs (CC3M subset)\n\n```bash\n# Download pretrained projector or train from scratch\nbash scripts/v1_5/pretrain.sh\n```\n\n**Configuration:**\n- Base model: Vicuna-7B or LLaMA-2-7B\n- Vision encoder: CLIP ViT-L/14\n- Training time: ~20 hours on 8× A100\n\n### Stage 2: Visual instruction tuning\n\n**Purpose**: Teach model to follow visual instructions\n\n**Data**: 150K GPT-generated multimodal instruction data\n\n```bash\n# Fine-tune with instruction data\nbash scripts/v1_5/finetune.sh\n```\n\n**Configuration:**\n- Epochs: 1\n- Batch size: 128 (across 8 GPUs)\n- Learning rate: 2e-5\n- Training time: ~24 hours on 8× A100\n\n## Data format\n\n[158 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "ml-paper-writing",
+      "status": "fail",
+      "reason": "The answer treats desk rejection and a fixed NeurIPS item count as unconditional rather than checking the actual venue/year rules. The local checklist assertion is not current conference-policy evidence.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "8a40c4b5ca81f2fccc4947837d0f6c9cd6d2198e08a8c1794e0837b8f5ec2d32",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "ml-paper-writing",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/20-ml-paper-writing/ml-paper-writing/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/20-ml-paper-writing/ml-paper-writing/references/checklists.md",
+        "purpose": "Guide writing ML/AI conference papers",
+        "referenceFact": "Missing checklist results in desk rejection",
+        "pitfall": "Always complete NeurIPS 16-item checklist appendix before submission",
+        "prerequisites": [
+          "LaTeX distribution installed",
+          "conference template files present",
+          "paper results verified correct"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/20-ml-paper-writing/ml-paper-writing/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: ml-paper-writing\ndescription: Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. For systems venues (OSDI, NSDI, ASPLOS, SOSP), use systems-paper-writing instead.\nversion: 1.2.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Academic Writing, NeurIPS, ICML, ICLR, ACL, AAAI, COLM, LaTeX, Paper Writing, Citations, Research]\ndependencies: [semanticscholar, arxiv, habanero, requests]\n---\n\n# ML Paper Writing for Top AI Conferences\n\n\n[988 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/20-ml-paper-writing/ml-paper-writing/references/checklists.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Conference Paper Checklists\n\nThis reference documents the mandatory checklist requirements for major ML/AI conferences. All major venues now require paper checklists—missing them results in desk rejection.\n\n**For systems conference checklists (OSDI, NSDI, ASPLOS, SOSP)**, see the [systems-paper-writing](../../systems-paper-writing/) skill.\n\n## Contents\n\n- [NeurIPS Paper Checklist](#neurips-paper-checklist)\n- [ICML Paper Checklist](#icml-paper-checklist)\n- [ICLR Requirements](#iclr-requirements)\n- [ACL Requirements](#acl-requirements)\n- [Universal Pre-Submission Checklist](#universal-pre-submission-checklist)\n\n## NeurIPS Paper Checklist\n\n### Mandatory Components\n\nAll NeurIPS submissions must include a completed paper checklist. Papers lacking this element face **automatic desk rejection**. The checklist appears after references and supplemental material, outside the page limit.\n\n### 16 Required Checklist Items\n\n#### 1. Claims Alignment\nAuthors must verify that abstract and introduction claims match theoretical and experimental results, with clearly stated contributions, assumptions, and limitations.\n\n**What to check:**\n- [ ] Abstract claims match actual results\n- [ ] Introduction doesn't overclaim\n- [ ] Contributions are specific and falsifiable\n\n#### 2. Limitations Discussion\nPapers should include a dedicated \"Limitations\" section addressing strong assumptions, robustness to violations, scope constraints, and performance-influencing factors.\n\n**What to include:**\n- [ ] Dedicated Limitations section\n- [ ] Honest assessment of scope\n- [ ] Conditions where method may fail\n\n#### 3. Theory & Proofs\nTheoretical contributions require full assumption statements and complete proofs (main paper or appendix with proof sketches for intuition).\n\n[308 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "mlflow",
+      "status": "supported-with-limits",
+      "reason": "The local serving command occurs explicitly in the excerpt, and provenance logging is relevant. Python/package compatibility, tracking storage, serving, and registry behavior remain untested.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "fef94b0816fbd7949cd29dabfc3174e46311c054b300719565d03e5afca35133",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "mlflow",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/mlflow/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/mlflow/references/deployment.md",
+        "purpose": "Track experiments and deploy models",
+        "referenceFact": "MLflow serves models via mlflow models serve",
+        "pitfall": "Run names, git commit, data hashes, seed values logged as params/tags",
+        "prerequisites": [
+          "Python 3.8+ with pip installed",
+          "MLflow installed via pip",
+          "A tracking server or local path available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/mlflow/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: mlflow\ndescription: Track ML experiments, manage model registry with versioning, deploy models to production, and reproduce experiments with MLflow - framework-agnostic ML lifecycle platform\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [MLOps, MLflow, Experiment Tracking, Model Registry, ML Lifecycle, Deployment, Model Versioning, PyTorch, TensorFlow, Scikit-Learn, HuggingFace]\ndependencies: [mlflow, sqlalchemy, boto3]\n---\n\n# MLflow: ML Lifecycle Management Platform\n\n\n[693 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/13-mlops/mlflow/references/deployment.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Deployment Guide\n\nComplete guide to deploying MLflow models to production environments.\n\n## Table of Contents\n- Deployment Options\n- Local Serving\n- REST API Serving\n- Docker Deployment\n- Cloud Deployment\n- Batch Inference\n- Production Patterns\n- Monitoring\n\n## Deployment Options\n\nMLflow supports multiple deployment targets:\n\n| Target | Use Case | Complexity |\n|--------|----------|------------|\n| **Local Server** | Development, testing | Low |\n| **REST API** | Production serving | Medium |\n| **Docker** | Containerized deployment | Medium |\n| **AWS SageMaker** | Managed AWS deployment | High |\n| **Azure ML** | Managed Azure deployment | High |\n| **Kubernetes** | Scalable orchestration | High |\n| **Batch** | Offline predictions | Low |\n\n## Local Serving\n\n### Serve Model Locally\n\n```bash\n# Serve registered model\nmlflow models serve -m \"models:/product-classifier/Production\" -p 5001\n\n# Serve from run\nmlflow models serve -m \"runs:/abc123/model\" -p 5001\n\n# Serve with custom host\n\n[708 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "model-merging",
+      "status": "supported-with-limits",
+      "reason": "The consistency formula uses neighboring alpha outputs as stated. The answer correctly separates that proxy from measured task quality. The paper and merge implementation were not independently reproduced.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "fca29fdc62cb3f9354b1bda3112a8e0b15daa8e97192b9c1f6eeaa7e449dc8e1",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "model-merging",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-merging/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-merging/references/coefficient-tuning.md",
+        "purpose": "Unsupervised coefficient selection via output stability",
+        "referenceFact": "ConsistencyScore measures similarity of nearby alpha outputs",
+        "pitfall": "Method claims best alpha found, but merge quality must still be measured on a labeled benchmark; consistency is not final accuracy",
+        "prerequisites": [
+          "mergekit installed and on PATH",
+          "two identical-architecture models on disk",
+          "small unlabeled eval prompt set available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-merging/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: model-merging\ndescription: Merge multiple fine-tuned models using mergekit to combine capabilities without retraining. Use when creating specialized models by blending domain-specific expertise (math + coding + chat), improving performance beyond single models, or experimenting rapidly with model variants. Covers SLERP, TIES-Merging, DARE, Task Arithmetic, linear merging, and production deployment strategies.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Emerging Techniques, Model Merging, Mergekit, SLERP, TIES, DARE, Task Arithmetic, Model Fusion, No Retraining, Multi-Capability, Arcee AI]\ndependencies: [mergekit, transformers, torch]\n---\n\n# Model Merging: Combining Pre-trained Models\n\n\n[486 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-merging/references/coefficient-tuning.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Unsupervised Coefficient Tuning via Generation Consistency\n\nReference for the generation-consistency-based coefficient selection method introduced in:\n\n> **\"AdaMMS: Model Merging for Heterogeneous Multimodal Large Language Models with Unsupervised Coefficient Optimization\"**\n> Yiyang Du, Xiaochen Wang, Chi Chen, Jiabo Ye, Yiru Wang, Peng Li, Ming Yan, Ji Zhang, Fei Huang, Zhifang Sui, Maosong Sun, Yang Liu. CVPR 2025. [arXiv:2503.23733](https://arxiv.org/abs/2503.23733)\n> Proposes an unsupervised proxy—*generation consistency*—to automatically select merging coefficients without labeled data or manual search.\n\n---\n\n## Problem: Coefficient Selection in Model Merging\n\nMost merging methods (Task Arithmetic, TIES, DARE, SLERP) expose one or more scalar coefficients (e.g., `weight`, `density`, `lambda`, `t`) that strongly affect final quality. Common approaches:\n\n| Approach | Drawback |\n|---|---|\n| Manual/intuition | Unreliable, requires human expertise |\n| Grid search with eval set | Requires labeled data; expensive (N merges × eval cost) |\n| Bayesian optimization | Needs ground-truth signal per trial |\n| **Generation Consistency (this method)** | Unsupervised, label-free, small unlabeled data subset only |\n\n---\n\n## Core Idea: Generation Consistency\n\n**Key insight**: When a coefficient value is near-optimal, merged models at nearby coefficient values produce *similar* outputs—because the loss landscape is smooth around a good solution. Near poor solutions (too high or too low coefficient), outputs diverge sharply as the model is at an unstable point.\n\nFor a candidate coefficient `α`, compute:\n\n```\nConsistencyScore(α) = avg_similarity(outputs(α), outputs(α - δ))\n                    + avg_similarity(outputs(α), outputs(α + δ))\n```\n\nwhere `δ` is a small step size (e.g., 0.1) and similarity is measured over a small unlabeled dataset. **The coefficient with the highest consistency score is selected.**\n\n---\n\n## Algorithm\n\n\n[375 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "model-pruning",
+      "status": "fail",
+      "reason": "The importance formula is grounded, but changing weights does not generally preserve network activations. Target accuracy needs measurement; local tied-score pruning tests do not validate that broader statement.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "cdfef9af18df80b6aa76261be6878e3c5c811ddd37d0adb860c1bdd9dd0c2a3f",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "model-pruning",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-pruning/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-pruning/references/wanda.md",
+        "purpose": "Reduce LLM size and accelerate inference.",
+        "referenceFact": "Importance equals weight magnitude times activation norm.",
+        "pitfall": "Method changes weights but preserves activations; accuracy claim requires empirical measurement on the target model.",
+        "prerequisites": [
+          "CUDA-capable GPU with ≥16GB memory",
+          "transformers and torch installed",
+          "calibration dataset (e.g., wikitext) available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-pruning/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: model-pruning\ndescription: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Emerging Techniques, Model Pruning, Wanda, SparseGPT, Sparsity, Model Compression, N:M Sparsity, One-Shot Pruning, Structured Pruning, Unstructured Pruning, Fast Inference]\ndependencies: [transformers, torch]\n---\n\n# Model Pruning: Compressing LLMs\n\n\n[484 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/model-pruning/references/wanda.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Wanda: Pruning by Weights and Activations\n\nBased on ICLR 2024 paper (arXiv 2306.11695) - A Simple and Effective Pruning Approach for Large Language Models\n\n## Overview\n\n**Source**: https://arxiv.org/abs/2306.11695\n**Conference**: ICLR 2024\n**GitHub**: https://github.com/locuslab/wanda\n\nWanda prunes LLMs by weight magnitude × input activation, achieving 50% sparsity with <1% accuracy loss, no retraining required.\n\n## Core Innovation\n\n### Pruning Criterion\n\n**Key insight**: Weight importance = magnitude × usage\n\nMathematical notation, not executable Python:\n\n```text\nimportance(w_ij) = |w_ij| × ||X_i||\n\nwhere:\n- w_ij: Weight connecting input i to output j\n- X_i: Input activation norm for dimension i\n- ||·||: L2 norm\n```\n\n**Intuition**:\n- Large weight magnitude → important parameter\n- High activation → frequently used dimension\n- Product captures both factors\n\n### Comparison with Magnitude Pruning\n\n**Magnitude pruning** (baseline):\n```text\nimportance = |weight|  # Only considers weight size\n```\n\n[311 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "moe-training",
+      "status": "concern",
+      "reason": "Rounded Mixtral total/active counts and top-two routing match the excerpt. A separate corpus per expert is not established as a universal prerequisite; routing capacity and training behavior remain untested.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "feeceec94adf032b7fdb2be40095702fc812de164035e0e87bf9d2dd7f47bb28",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "moe-training",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/moe-training/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/moe-training/references/architectures.md",
+        "purpose": "Train sparse MoE models with limited compute.",
+        "referenceFact": "Mixtral: 47B total, 13B active per token via top-2 routing.",
+        "pitfall": "Top-k routing preserves k-count; expert uniformity changes. The '5× cheaper' claim needs benchmarking, not assumption.",
+        "prerequisites": [
+          "deepspeed>=0.6 installed",
+          "CUDA GPUs for expert parallelism",
+          "training corpus per expert"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/moe-training/SKILL.md",
+          "limit": 12,
+          "offset": 1,
+          "success": true,
+          "text": "---\nname: moe-training\ndescription: Train Mixture of Experts (MoE) models using DeepSpeed or HuggingFace. Use when training large-scale models with limited compute (5× cost reduction vs dense models), implementing sparse architectures like Mixtral 8x7B or DeepSeek-V3, or scaling model capacity without proportional compute increase. Covers MoE architectures, routing mechanisms, load balancing, expert parallelism, and inference optimization.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Emerging Techniques, MoE, Mixture Of Experts, Sparse Models, DeepSpeed, Expert Parallelism, Mixtral, DeepSeek, Routing, Load Balancing, Efficient Training]\ndependencies: [deepspeed, transformers, torch, accelerate]\n---\n\n# MoE Training: Mixture of Experts\n\n\n[515 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/moe-training/references/architectures.md",
+          "limit": 40,
+          "offset": 1,
+          "success": true,
+          "text": "# MoE Model Architectures\n\nComprehensive guide to different Mixture of Experts architectures and their design patterns.\n\n## Table of Contents\n- Mixtral 8x7B (Mistral AI)\n- DeepSeek-V3 (DeepSeek AI)\n- Switch Transformers (Google)\n- GLaM (Google)\n- Comparison Table\n\n## Mixtral 8x7B (Mistral AI - 2024)\n\n### Architecture Overview\n\n**Parameters:**\n- Total: 47B parameters\n- Active per token: 13B (2 experts out of 8)\n- Each expert: ~7B parameters\n\n**Key Features:**\n- **Top-2 routing**: Each token routed to 2 experts\n- **8 experts per layer**: Sparse activation\n- **SMoE architecture**: Sparse Mixture of Experts\n- **Grouped-Query Attention (GQA)**: Efficient attention mechanism\n\n### Layer Structure\n\n```python\n# Mixtral Transformer Block\nclass MixtralDecoderLayer(nn.Module):\n    def __init__(self, config):\n        super().__init__()\n        self.hidden_size = config.hidden_size\n\n        # Self-attention\n        self.self_attn = MixtralAttention(config)\n\n        # MoE Feed-Forward\n        self.block_sparse_moe = MixtralSparseMoeBlock(config)\n\n[393 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "nanogpt",
+      "status": "concern",
+      "reason": "The excerpt detects scaled_dot_product_attention availability, not selection of a hardware Flash kernel. Different attention paths do not remove model/configuration sequence limits. W&B and Shakespeare data are workflow choices, not universal prerequisites.",
+      "run": "matrix-main",
+      "noteFile": "review-01/manual-notes.json",
+      "answerSha256": "6aa08b4496b4bbe1f8d9081066106a6365583f7389b18d88a6cbee26b46cf9d5",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "nanogpt",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/nanogpt/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/nanogpt/references/architecture.md",
+        "purpose": "Educational 300-line GPT-2 training",
+        "referenceFact": "self.flash uses scaled_dot_product_attention",
+        "pitfall": "Flash vs manual causal mask changes block_size limits and VRAM",
+        "prerequisites": [
+          "torch>=2.0 for flash attention",
+          "wandb installed for logging",
+          "shakespeare_char data prepared first"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/nanogpt/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: nanogpt\ndescription: Educational GPT implementation in ~300 lines. Reproduces GPT-2 (124M) on OpenWebText. Clean, hackable code for learning transformers. By Andrej Karpathy. Perfect for understanding GPT architecture from scratch. Train on Shakespeare (CPU) or OpenWebText (multi-GPU).\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Model Architecture, NanoGPT, GPT-2, Educational, Andrej Karpathy, Transformer, Minimalist, From Scratch, Training]\ndependencies: [torch, transformers, datasets, tiktoken, wandb]\n---\n\n# nanoGPT - Minimalist GPT Training\n\n\n[283 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/nanogpt/references/architecture.md",
+          "limit": 40,
+          "success": true,
+          "text": "# NanoGPT Architecture\n\n## Model Structure (~300 Lines)\n\nNanoGPT implements a clean GPT-2 architecture in minimal code for educational purposes.\n\n### Complete Model (model.py)\n\n```python\nimport torch\nimport torch.nn as nn\nfrom torch.nn import functional as F\n\nclass CausalSelfAttention(nn.Module):\n    \"\"\"Multi-head masked self-attention layer.\"\"\"\n\n    def __init__(self, config):\n        super().__init__()\n        assert config.n_embd % config.n_head == 0\n\n        # Key, query, value projections for all heads (batched)\n        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=config.bias)\n        # Output projection\n        self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)\n\n        # Regularization\n        self.attn_dropout = nn.Dropout(config.dropout)\n        self.resid_dropout = nn.Dropout(config.dropout)\n\n        self.n_head = config.n_head\n        self.n_embd = config.n_embd\n        self.dropout = config.dropout\n\n        # Flash attention flag\n        self.flash = hasattr(torch.nn.functional, 'scaled_dot_product_attention')\n\n        if not self.flash:\n            # Causal mask (lower triangular)\n            self.register_buffer(\"bias\", torch.tril(\n                torch.ones(config.block_size, config.block_size)\n\n[343 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "dspy",
+      "run": "recheck-after-repairs",
+      "status": "supported-with-limits",
+      "reason": "The RAG retrieval/ChainOfThought fact is explicit. The pitfall now correctly separates adapter parsing from guaranteed success, factual accuracy, and safety, rather than denying runtime validation. Provider credentials remain backend-dependent.",
+      "noteFile": "review-02/affected-rerun-manual-notes.json",
+      "answerSha256": "8a5a415bb93bfb3e98eb2027ed77a19c707e2bd7e17db2252cc7d4ee95977c4b",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "dspy",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/references/examples.md",
+        "purpose": "DSPy declarative LM programming skill",
+        "referenceFact": "RAG retrieves passages then generates an answer via ChainOfThought",
+        "pitfall": "Signature and adapter do not guarantee parse success, factual correctness, or safety; holdout validation is required",
+        "prerequisites": [
+          "installed dspy package",
+          "available LM provider credentials",
+          "representative training or test examples"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: dspy\ndescription: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming\nversion: 1.0.2\nauthor: Orchestra Research\nlicense: MIT\ntags: [Prompt Engineering, DSPy, Declarative Programming, RAG, Agents, Prompt Optimization, LM Programming, Stanford NLP, Automatic Optimization, Modular AI]\ndependencies: [dspy, openai, anthropic]\n---\n\n# DSPy: Declarative Language Model Programming\n\n\n[593 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/16-prompt-engineering/dspy/references/examples.md",
+          "limit": 40,
+          "success": true,
+          "text": "# DSPy Real-World Examples\n\nPractical examples of building production systems with DSPy.\n\n## Table of Contents\n- RAG Systems\n- Agent Systems\n- Classification\n- Data Processing\n- Multi-Stage Pipelines\n\n## RAG Systems\n\n### Basic RAG\n\n```python\nimport dspy\n\nclass BasicRAG(dspy.Module):\n    def __init__(self, num_passages=3):\n        super().__init__()\n        self.retrieve = dspy.Retrieve(k=num_passages)\n        self.generate = dspy.ChainOfThought(\"context, question -> answer\")\n\n    def forward(self, question):\n        passages = self.retrieve(question).passages\n        context = \"\\n\\n\".join(passages)\n        return self.generate(context=context, question=question)\n\n# Configure retriever (example with Chroma)\nfrom dspy.retrieve.chromadb_rm import ChromadbRM\n\nretriever = ChromadbRM(\n    collection_name=\"my_docs\",\n    persist_directory=\"./chroma_db\",\n    k=3\n)\ndspy.settings.configure(rm=retriever)\n\n# Use RAG\n\n[624 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "faiss",
+      "run": "recheck-after-repairs",
+      "status": "concern",
+      "reason": "The new exhaustive-search versus relevance fact is grounded and no fixed recall is promised. Purpose follows the verifier rather than the library, while dtype-breakage and mandatory training-data prerequisites require index/wrapper-specific qualification; SDK behavior was not tested.",
+      "noteFile": "review-02/affected-rerun-manual-notes.json",
+      "answerSha256": "cf1bcec1aea0ae589370ad97ff228784100c7589991a945a795df89a323382d7",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "faiss",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/references/index_types.md",
+        "purpose": "Verify FAISS similarity search skill accuracy",
+        "referenceFact": "Exact means exhaustive search under chosen distance, not relevance guarantee.",
+        "pitfall": "Mismatched dimension, metric (IP vs L2), or float32 dtype between index.add and search breaks results.",
+        "prerequisites": [
+          "faiss-cpu or faiss-gpu installed",
+          "numpy ≥1.21",
+          "Training data float32 numpy array"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: faiss\ndescription: Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without metadata. Best for high-performance applications.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [RAG, FAISS, Similarity Search, Vector Search, Facebook AI, GPU Acceleration, Billion-Scale, K-NN, HNSW, High Performance, Large Scale]\ndependencies: [faiss-cpu, faiss-gpu, numpy]\n---\n\n# FAISS - Efficient Similarity Search\n\n\n[210 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/faiss/references/index_types.md",
+          "limit": 40,
+          "success": true,
+          "text": "# FAISS Index Types Guide\n\nComplete guide to choosing and using FAISS index types.\n\n## Index selection guide\n\nThese dataset-size bands are starting points, not index limits.\nRecall and latency depend on the dataset, metric, index/search parameters, and hardware.\nMeasure recall@k against an exact Flat baseline; report dimensions, k, the query set, and index/search settings.\n\n| Example scale | Candidate | Training | Retrieval behavior | Main trade-off |\n|---------------|-----------|----------|--------------------|----------------|\n| < 10K | Flat | No | Exact metric search | Full scan; useful baseline |\n| 10K-1M | IVF | Yes | Measure recall@k for chosen nprobe | Cluster pruning versus recall |\n| 1M-10M | HNSW | No | Measure recall@k for chosen efSearch | Graph memory versus latency |\n| > 10M | IVF+PQ | Yes | Measure recall@k for chosen parameters | Compressed storage versus distance error |\n\nExact means exhaustive search under the chosen distance. It is not a relevance or task-accuracy guarantee.\n\n## Flat indices (exact search)\n\n### IndexFlatL2 - L2 (Euclidean) distance\n\n```python\nimport faiss\nimport numpy as np\n\nd = 128  # Dimension\nindex = faiss.IndexFlatL2(d)\n\n# Add vectors\nvectors = np.random.random((1000, d)).astype('float32')\nindex.add(vectors)\n\n# Search\nk = 5\nquery = np.random.random((1, d)).astype('float32')\ndistances, indices = index.search(query, k)\n```\n\n\n[247 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "gptq",
+      "run": "recheck-after-repairs",
+      "status": "fail",
+      "reason": "The calibration fact and measurement caveat improved, but the answer again invents auto-gptq 0.9+. Official PyPI metadata retrieved at 2026-10-21T09:54:53Z reports latest 0.7.1 and no 0.9/0.9.0 release. That registry evidence does not support the stated minimum. Dataset access/license remains unverified.",
+      "noteFile": "review-02/affected-rerun-manual-notes.json",
+      "answerSha256": "58658a4ae6f7f9416b82c396a1470d662968fd54e1f5eea8666c7be049164d9f",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "gptq",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/references/calibration.md",
+        "purpose": "Plan calibration, reduce storage, verify quality.",
+        "referenceFact": "Calibration activations help estimate layerwise reconstruction-error sensitivity.",
+        "pitfall": "Use version-checked kernels to check speed/latency; verify held-out quality before claiming gains.",
+        "prerequisites": [
+          "auto-gptq 0.9+ installed",
+          "C4 dataset accessible and licensed",
+          "measuring held-out quality before using"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: gptq\ndescription: GPTQ post-training weight quantization for LLMs. Use to plan calibration, reduce weight storage, and evaluate quality and latency on a version-checked backend. Covers group-wise quantization, transformers integration, and adapter workflows; compatibility and performance require validation.\nversion: 1.0.2\nauthor: Orchestra Research\nlicense: MIT\ntags: [Optimization, GPTQ, Quantization, 4-Bit, Post-Training, Memory Optimization, Consumer GPUs, Fast Inference, QLoRA, Group-Wise Quantization]\ndependencies: [auto-gptq, transformers, optimum, peft]\n---\n\n# GPTQ (Generative Pre-trained Transformer Quantization)\n\n\n[453 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/gptq/references/calibration.md",
+          "limit": 40,
+          "success": true,
+          "text": "# GPTQ Calibration Guide\n\nComplete guide to calibration data selection and quantization process.\n\n## Calibration Data Selection\n\n### Why calibration matters\n\nCalibration activations help estimate layerwise reconstruction-error sensitivity and guide quantization updates.\nThis does not establish a universal perplexity or task-quality bound.\n\n**Measure impact:**\n- Compare quantized and unquantized models on representative held-out data using the same tokenizer, corpus, sequence handling, and evaluation code.\n- Report the baseline metric, quantized metric, calibration coverage, quantization settings, and backend versions.\n- Labels such as good or poor calibration do not imply a fixed percentage change. Treat downstream quality as unverified until measured.\n\n### Dataset size\n\n**Illustrative starting budget, not a minimum or quality guarantee:**\n- 128-256 samples of at most 512 tokens each.\n- The upper token budget is approximately 65K-131K tokens; shorter examples reduce it.\n\nChoose coverage and sample count using held-out quality and quantization cost. Additional data can help coverage, but no universal sample-count sweet spot follows.\nVerify each example dataset's repository, configuration, schema, license, and access before loading it. Dataset availability is not established by this guide's examples.\n\n### Dataset selection by domain\n\n**General purpose models (GPT, Llama)**:\n```python\nfrom datasets import load_dataset\n\n# C4 dataset (recommended for general models)\ndataset = load_dataset(\"c4\", split=\"train\", streaming=True)\ncalibration_data = [\n    tokenizer(example[\"text\"])[\"input_ids\"][:512]\n    for example in dataset.take(128)\n]\n```\n\n**Code models (CodeLlama, StarCoder)**:\n\n[294 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "grpo-rl-training",
+      "run": "recheck-after-repairs",
+      "status": "supported-with-limits",
+      "reason": "The fact quotes the actual main-file description. The pitfall now correctly distinguishes equally correct and equally wrong groups. Version compatibility and a ground-truth requirement remain task/reward-design dependent and unexecuted.",
+      "noteFile": "review-02/affected-rerun-manual-notes.json",
+      "answerSha256": "c81ef86b379b14ca4c473310af83fb6bac817e8614933b48355490dabb905330",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "grpo-rl-training",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/grpo-rl-training/SKILL.md",
+        "referencePath": null,
+        "purpose": "Expert GRPO fine-tuning guidance with TRL",
+        "referenceFact": "Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training",
+        "pitfall": "Reward variance (reward_std) misleads when rewards are flat across completions, since all group members can be equally correct or wrong",
+        "prerequisites": [
+          "TRL>=0.14 installed",
+          "torch>=2.x available",
+          "dataset with ground truth"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/grpo-rl-training/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: grpo-rl-training\ndescription: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training\nversion: 1.0.2\nauthor: Orchestra Research\nlicense: MIT\ntags: [Post-Training, Reinforcement Learning, GRPO, TRL, RLHF, Reward Modeling, Reasoning, DPO, PPO, Structured Output]\ndependencies: [transformers>=4.47.0, trl>=0.14.0, datasets>=3.2.0, peft>=0.14.0, torch]\n---\n\n# GRPO/RL Training with TRL\n\n\n[568 more lines in file. Use offset=13 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "optimizing-attention-flash",
+      "run": "matrix-main",
+      "status": "concern",
+      "reason": "The Transformers integration statement matches the returned dated reference. The compute-capability check is weaker than the answer's own Ampere+ requirement and does not validate the actual FA2 backend/build. Software/hardware compatibility remains unexecuted.",
+      "noteFile": "review-02/additional-manual-notes.json",
+      "answerSha256": "93b6c879880287f04ba2215845fe6c7b56c0558b4d519a7a0912df228f688627",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "optimizing-attention-flash",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/flash-attention/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/flash-attention/references/transformers-integration.md",
+        "purpose": "Verify Flash Attention integration for Transformers.",
+        "referenceFact": "HuggingFace Transformers v4.36+ supports Flash Attention 2 natively.",
+        "pitfall": "Check CUDA compute ≥(7,5) and PyTorch ≥2.2; measure speedup with profiler, not anecdotes.",
+        "prerequisites": [
+          "CUDA 12.0+ on NVIDIA Ampere+",
+          "PyTorch ≥2.2 installed",
+          "transformers ≥4.36 present"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/flash-attention/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: optimizing-attention-flash\ndescription: Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (>512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA, flash-attn library, H100 FP8, and sliding window attention.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Optimization, Flash Attention, Attention Optimization, Memory Efficiency, Speed Optimization, Long Context, PyTorch, SDPA, H100, FP8, Transformers]\ndependencies: [flash-attn, torch, transformers]\n---\n\n# Flash Attention - Fast Memory-Efficient Attention\n\n\n[356 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/flash-attention/references/transformers-integration.md",
+          "limit": 40,
+          "success": true,
+          "text": "# HuggingFace Transformers Integration\n\n## Contents\n- Enabling Flash Attention in Transformers\n- Supported model architectures\n- Configuration examples\n- Performance comparisons\n- Troubleshooting model-specific issues\n\n## Enabling Flash Attention in Transformers\n\nHuggingFace Transformers (v4.36+) supports Flash Attention 2 natively.\n\n**Simple enable for any supported model**:\n```python\nfrom transformers import AutoModel\n\nmodel = AutoModel.from_pretrained(\n    \"meta-llama/Llama-2-7b-hf\",\n    attn_implementation=\"flash_attention_2\",\n    torch_dtype=torch.float16,\n    device_map=\"auto\"\n)\n```\n\n**Install requirements**:\n```bash\npip install transformers>=4.36\npip install flash-attn --no-build-isolation\n```\n\n## Supported model architectures\n\nAs of Transformers 4.40:\n\n**Fully supported**:\n- Llama / Llama 2 / Llama 3\n- Mistral / Mixtral\n- Falcon\n- GPT-NeoX\n\n[254 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "openrlhf-training",
+      "run": "matrix-main",
+      "status": "fail",
+      "reason": "Dynamic sharing is excerpt-grounded, but a tight KL penalty does not universally reward high entropy or truth. The retained two-policy numerical counterexample favors a low-entropy reference. Eight A100/H100 GPUs are not established as a universal requirement.",
+      "noteFile": "review-02/additional-manual-notes.json",
+      "answerSha256": "40d443a0d0be61dd9790c1b1800d2c907f5e37c350cdc73438a62e6b557bf567",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "openrlhf-training",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/openrlhf/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/openrlhf/references/hybrid-engine.md",
+        "purpose": "High-performance RLHF framework with Ray+vLLM",
+        "referenceFact": "Dynamic sleep/wake cycles share GPU resources",
+        "pitfall": "KL penalty too tight → model rewards high entropy, not truth",
+        "prerequisites": [
+          "NVIDIA A100/H100 GPUs ≥8",
+          "Ray cluster ≥1 node",
+          "OpenRLHF/Llama-3-8b-sft-mixture available"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/openrlhf/SKILL.md",
+          "limit": 12,
+          "offset": 1,
+          "success": true,
+          "text": "---\nname: openrlhf-training\ndescription: High-performance RLHF framework with Ray+vLLM acceleration. Use for PPO, GRPO, RLOO, DPO training of large models (7B-70B+). Built on Ray, vLLM, ZeRO-3. 2× faster than DeepSpeedChat with distributed architecture and GPU resource sharing.\nversion: 1.0.0\nauthor: Orchestra Research\nlicense: MIT\ntags: [Post-Training, OpenRLHF, RLHF, PPO, GRPO, RLOO, DPO, Ray, vLLM, Distributed Training, Large Models, ZeRO-3]\ndependencies: [openrlhf, ray, vllm, torch, transformers, deepspeed]\n---\n\n# OpenRLHF - High-Performance RLHF Training\n\n\n[238 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/openrlhf/references/hybrid-engine.md",
+          "limit": 40,
+          "offset": 1,
+          "success": true,
+          "text": "# Hybrid Engine Architecture\n\nComplete guide to OpenRLHF's GPU resource sharing system for maximizing utilization during RLHF training.\n\n## Overview\n\nThe Hybrid Engine allows Actor, Critic, Reward, Reference models and vLLM engines to share GPU resources, minimizing idle time and maximizing GPU utilization through dynamic sleep/wake cycles.\n\n## Architecture\n\n### Core Components\n\n**Enable Hybrid Engine**:\n```bash\n--colocate_all_models  # Enable GPU sharing across all models\n```\n\n**Components that share GPUs**:\n1. **Actor Model** - Policy being trained\n2. **Critic Model** - Value function for PPO\n3. **Reward Model** - Scores completions\n4. **Reference Model** - KL penalty baseline\n5. **vLLM Engines** - Fast inference generation\n\n### GPU Allocation Strategy\n\n**Optimal ratio** (vLLM : Actor : Critic = 1:1:1):\n```bash\n# 70B model on 48× A100 GPUs\n--vllm_num_engines 4          # 16 GPUs total\n--vllm_tensor_parallel_size 4  # 4 GPUs per engine\n--actor_num_nodes 1            # 16 GPUs\n--actor_num_gpus_per_node 16\n--critic_num_nodes 1           # 16 GPUs\n--critic_num_gpus_per_node 16\n```\n\n**Constraint**: `actor_num_nodes * actor_num_gpus_per_node == vllm_num_engines * vllm_tensor_parallel_size`\n\n## vLLM Sleep Mode\n\n[248 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "quantizing-models-bitsandbytes",
+      "run": "matrix-main",
+      "status": "fail",
+      "reason": "The answer copies nominal 35GB weight storage and a fixed 20MB adapter budget without total training-state accounting. The guide's own illustrative 335M parameters alone imply 670MB at two bytes each. Red 081aa8e and green 4dc40f4 repair memory/quality guarantees; fresh rerun is separate.",
+      "noteFile": "review-02/additional-manual-notes.json",
+      "answerSha256": "02c951d68275d1d25f8ea2b01449f91c3445c3d85eb2c01923958a9494f380fb",
+      "sourceCurrentAtFinal": false,
+      "answer": {
+        "skill": "quantizing-models-bitsandbytes",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/bitsandbytes/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/bitsandbytes/references/qlora-training.md",
+        "purpose": "Verify quantization memory claims against hardware",
+        "referenceFact": "QLoRA 70B: 140GB down to 35GB plus 20MB adapters",
+        "pitfall": "Memory figures assume CUDA 12 and NF4 double-quant; actual VRAM varies by CUDA version",
+        "prerequisites": [
+          "NVIDIA GPU with CUDA 12.0+",
+          "bitsandbytes installed matching PyTorch version",
+          "Verified against specific model variant not generic claim"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/bitsandbytes/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: quantizing-models-bitsandbytes\ndescription: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Optimization, Bitsandbytes, Quantization, 8-Bit, 4-Bit, Memory Optimization, QLoRA, NF4, INT8, HuggingFace, Efficient Inference]\ndependencies: [bitsandbytes, transformers, accelerate, torch]\n---\n\n# bitsandbytes - LLM Quantization\n\n\n[400 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/10-optimization/bitsandbytes/references/qlora-training.md",
+          "limit": 40,
+          "success": true,
+          "text": "# QLoRA Training\n\nComplete guide to fine-tuning large language models using 4-bit quantization with QLoRA (Quantized Low-Rank Adaptation).\n\n## Overview\n\nQLoRA enables fine-tuning 70B+ parameter models on consumer GPUs by:\n- Loading base model in 4-bit (75% memory reduction)\n- Training only small LoRA adapters (~20MB)\n- Maintaining near-full-precision quality\n\n**Memory savings**:\n- Llama 2 70B: 140GB → 35GB (4-bit) + 20MB (LoRA) = **35GB total**\n- Fits on single A100 80GB!\n\n**Accuracy**: <1% degradation vs full fine-tuning\n\n## Quick Start\n\n### Basic QLoRA Fine-tuning\n\n```python\nfrom transformers import AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments\nfrom peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training\nimport torch\n\n# Step 1: Load model in 4-bit\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_compute_dtype=torch.bfloat16,\n    bnb_4bit_quant_type=\"nf4\",\n    bnb_4bit_use_double_quant=True\n)\n\nmodel = AutoModelForCausalLM.from_pretrained(\n    \"meta-llama/Llama-2-70b-hf\",\n    quantization_config=bnb_config,\n    device_map=\"auto\",\n    torch_dtype=torch.bfloat16\n)\n\n[483 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    },
+    {
+      "name": "simpo-training",
+      "run": "matrix-main",
+      "status": "concern",
+      "reason": "The sigmoid/default statement is explicit. The purpose describes the verification task rather than SimPO capability. Full sequence-length normalization, actual SDK versions, and the preference-training path are not established by this bounded excerpt or the arithmetic-only tests.",
+      "noteFile": "review-02/additional-manual-notes.json",
+      "answerSha256": "92c9949cdc9393f49b011720d5509c0c206a396bf2a61d6ab60cfcf73b3ebbfd",
+      "sourceCurrentAtFinal": true,
+      "answer": {
+        "skill": "simpo-training",
+        "mainPath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/simpo/SKILL.md",
+        "referencePath": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/simpo/references/loss-functions.md",
+        "purpose": "Verify skill content without executing.",
+        "referenceFact": "Sigmoid is default and smooth differentiable loss.",
+        "pitfall": "Uses preference reward signal; poor data quality misleads metrics.",
+        "prerequisites": [
+          "CUDA 12 installed",
+          "PyTorch 2.2 available",
+          "Preferenced pairs dataset"
+        ],
+        "executed": false
+      },
+      "actualReads": [
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/simpo/SKILL.md",
+          "limit": 12,
+          "success": true,
+          "text": "---\nname: simpo-training\ndescription: Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO.\nversion: 1.0.1\nauthor: Orchestra Research\nlicense: MIT\ntags: [Post-Training, SimPO, Preference Optimization, Alignment, DPO Alternative, Reference-Free, LLM Alignment, Efficient Training]\ndependencies: [torch, transformers, datasets, trl, accelerate]\n---\n\n# SimPO - Simple Preference Optimization\n\n\n[208 more lines in file. Use offset=13 to continue.]"
+        },
+        {
+          "path": "/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/simpo/references/loss-functions.md",
+          "limit": 40,
+          "success": true,
+          "text": "# Loss Functions\n\nComplete guide to SimPO loss functions and mathematical formulations.\n\n## Overview\n\nSimPO supports two loss types:\n- **Sigmoid** (default) - Smooth, differentiable loss\n- **Hinge** - Margin-based, sparse loss\n\nBoth are reference-free (no reference model needed).\n\n## SimPO Loss Formula\n\n### Core Calculation\n\n**Step 1: Log probability ratio**:\n```\npi_logratios = log P_θ(y_chosen|x) - log P_θ(y_rejected|x)\n```\n\n**Step 2: Apply target margin**:\n```\nlogits = pi_logratios - γ/β\n```\nWhere:\n- γ/β = `gamma_beta_ratio` (target margin)\n\n**Step 3: Compute loss** (depends on loss type)\n\n### Sigmoid Loss (Default)\n\n**Formula**:\n```\nL = -log σ(β * logits) * (1 - ε) - log σ(-β * logits) * ε\n```\n\nWhere:\n- β = `beta` (reward scaling)\n- σ = sigmoid function\n\n[305 more lines in file. Use offset=41 to continue.]"
+        }
+      ]
+    }
+  ]
+}

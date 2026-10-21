@@ -1,0 +1,1353 @@
+{
+  "schemaVersion": 1,
+  "productRevision": "4dc40f4f29a633f49d94d713cb987d4410413834",
+  "verdict": "deterministic-package-pass; all-skill-behavioral-and-semantic-acceptance-open",
+  "packageAccepted": {
+    "revision": "4dc40f4f29a633f49d94d713cb987d4410413834",
+    "package": "ai-research-skills-1.0.1.tgz",
+    "sha256": "61fecff4eb23af8ce1aef940378485495c8ef8ab8d8032d283d4d9ca1ca7c875",
+    "files": 478,
+    "skills": 98,
+    "references": 291,
+    "unpackedSize": 7968586,
+    "categoryFiles": 466,
+    "categoryMismatches": 0,
+    "standaloneFiles": 11,
+    "jobs": [
+      {
+        "name": "source-tests",
+        "exitCode": 0
+      },
+      {
+        "name": "numeric",
+        "exitCode": 0
+      },
+      {
+        "name": "optional-demo",
+        "exitCode": 0
+      },
+      {
+        "name": "inventory",
+        "exitCode": 0
+      },
+      {
+        "name": "pack",
+        "exitCode": 0
+      },
+      {
+        "name": "unpack",
+        "exitCode": 0
+      },
+      {
+        "name": "isolated-tests",
+        "exitCode": 0
+      },
+      {
+        "name": "installed-inventory",
+        "exitCode": 0
+      }
+    ],
+    "tests": "34 Node + 27 CPU + 1 optional-demo",
+    "optionalDemoPackaged": false,
+    "numericSuitePackaged": false,
+    "passed": true
+  },
+  "checks": {
+    "nodeTests": 34,
+    "cpuTests": 27,
+    "optionalDemoTests": 1,
+    "extractedNodeTests": 34,
+    "inventorySkills": 98,
+    "categories": 23,
+    "changedSkillVersions": 51,
+    "isolatedScenarios": 27,
+    "distinctRedCommits": 25,
+    "historicalChecksumFiles": [
+      51,
+      34,
+      128
+    ],
+    "yaml": {
+      "skills": 98,
+      "standaloneYaml": 1,
+      "pyyaml": "6.0.3",
+      "passed": true
+    },
+    "fences": {
+      "markdownFiles": 396,
+      "fencedBlocks": 7019,
+      "pythonBlocks": 3892,
+      "unclosedBlocks": 0,
+      "scope": "Ordinary fences only; non-Python syntax and container parsing not certified."
+    },
+    "credentialPatternFiles": 437,
+    "credentialPatternCandidates": 0
+  },
+  "live": {
+    "totalSkills": 98,
+    "cases": 130,
+    "skillsAttempted": 98,
+    "currentAttempted": 98,
+    "currentMechanicalPass": 72,
+    "latestCurrentMechanicalPass": 72,
+    "currentMechanicallyPassingCases": 73,
+    "semanticReviewComplete": false,
+    "current": [
+      {
+        "name": "academic-plotting",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "ara-compiler",
+        "cases": 3,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "ara-research-manager",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "ara-rigor-reviewer",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "audiocraft-audio-generation",
+        "cases": 3,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "autogpt-agents",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "awq-quantization",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "axolotl",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "blip-2-vision-language",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "brainstorming-research-ideas",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "chroma",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "clip",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "constitutional-ai",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "creative-thinking-for-research",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "crewai-multi-agent",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "deepspeed",
+        "cases": 3,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "distributed-llm-pretraining-torchtitan",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "dspy",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "evaluating-code-models",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "evaluating-cosmos-policy",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "evaluating-llms-harness",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "evolving-ai-agents",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "experiment-tracking-swanlab",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "faiss",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "fine-tuning-openvla-oft",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "fine-tuning-serving-openpi",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "fine-tuning-with-trl",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "gguf-quantization",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "gptq",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "grpo-rl-training",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "guidance",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "hqq-quantization",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "huggingface-accelerate",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "huggingface-tokenizers",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "implementing-llms-litgpt",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "instructor",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "knowledge-distillation",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "lambda-labs-gpu-cloud",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "task-contract-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "langchain",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "recheck-after-repairs",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "langsmith-observability",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "llama-cpp",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "llama-factory",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "llamaguard",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "llamaindex",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "llava",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "long-context",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "mamba-architecture",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "stale-source-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "miles-rl-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "ml-paper-writing",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "ml-training-recipes",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "mlflow",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "modal-serverless-gpu",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "model-merging",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "model-pruning",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "moe-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "nanogpt",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "nemo-curator",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "nemo-evaluator-sdk",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "nemo-guardrails",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "nnsight-remote-interpretability",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "openrlhf-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "optimizing-attention-flash",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "orchestra-autoresearch",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "outlines",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "peft-fine-tuning",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "phoenix-observability",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "pinecone",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "presenting-conference-talks",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "prompt-guard",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "pytorch-fsdp2",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "pytorch-lightning",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "pyvene-interventions",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "qdrant-vector-search",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "quantizing-models-bitsandbytes",
+        "cases": 2,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "bitsandbytes-recheck",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "ray-data",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "ray-train",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "rwkv-architecture",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "segment-anything-model",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "sentence-transformers",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "sentencepiece",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "serving-llms-vllm",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "sglang",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "simpo-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "skypilot-multi-cloud-orchestration",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "slime-rl-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "sparse-autoencoder-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "speculative-decoding",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "stable-diffusion-image-generation",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "systems-paper-writing",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "tensorboard",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "tensorrt-llm",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "torchforge-rl-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": false,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": false
+      },
+      {
+        "name": "training-llms-megatron",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "transformer-lens-interpretability",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "unsloth",
+        "cases": 3,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "verl-rl-training",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "weights-and-biases",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      },
+      {
+        "name": "whisper",
+        "cases": 1,
+        "currentAttempted": true,
+        "currentMechanicalPass": true,
+        "latestCurrentRun": "matrix-main",
+        "latestCurrentMechanicalPass": true
+      }
+    ],
+    "aggregateAccepted": false,
+    "sourceCurrencyScope": "Main and selected reference hashes, plus no saved in-run source change; read evidence is a separate check.",
+    "countInterpretation": "Pooled explicit attempts, not one frozen-source first-pass reliability experiment. Any pass and latest-current pass are both reported.",
+    "currentMechanicalGaps": [
+      "academic-plotting",
+      "autogpt-agents",
+      "brainstorming-research-ideas",
+      "chroma",
+      "clip",
+      "creative-thinking-for-research",
+      "distributed-llm-pretraining-torchtitan",
+      "evaluating-code-models",
+      "evaluating-llms-harness",
+      "evolving-ai-agents",
+      "huggingface-tokenizers",
+      "knowledge-distillation",
+      "langchain",
+      "llamaindex",
+      "long-context",
+      "miles-rl-training",
+      "ml-training-recipes",
+      "modal-serverless-gpu",
+      "nemo-curator",
+      "nnsight-remote-interpretability",
+      "pytorch-fsdp2",
+      "sentence-transformers",
+      "sentencepiece",
+      "sparse-autoencoder-training",
+      "stable-diffusion-image-generation",
+      "torchforge-rl-training"
+    ],
+    "cohorts": [
+      {
+        "run": "canary",
+        "revision": "42a519346f01ab1f9d9dba7aca7fefd7b9c1bb28",
+        "selected": 2,
+        "attempted": 2,
+        "completed": 1,
+        "contractPassed": 0,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": false,
+        "failures": [
+          {
+            "name": "deepspeed",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "unsloth",
+            "failures": [
+              "word-cap-exceeded"
+            ],
+            "timedOut": false
+          }
+        ]
+      },
+      {
+        "run": "canary-budget",
+        "revision": "8385a059d1e4a3d68378febf54deb63746553682",
+        "selected": 2,
+        "attempted": 2,
+        "completed": 2,
+        "contractPassed": 2,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": true,
+        "failures": []
+      },
+      {
+        "run": "matrix-main",
+        "revision": "a1495b57160d54c7916e6fce1240c3f8296b06c8",
+        "selected": 98,
+        "attempted": 98,
+        "completed": 94,
+        "contractPassed": 73,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": false,
+        "failures": [
+          {
+            "name": "academic-plotting",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "ara-compiler",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/compiler/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/compiler/references/ara-schema.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "audiocraft-audio-generation",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/audiocraft/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/audiocraft/references/advanced-usage.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "chroma",
+            "failures": [
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "clip",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/clip/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/clip/references/applications.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "constitutional-ai",
+            "failures": [
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "distributed-llm-pretraining-torchtitan",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/torchtitan/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/torchtitan/references/fsdp.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "evaluating-llms-harness",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness/references/benchmark-guide.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "fine-tuning-with-trl",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/trl-fine-tuning/SKILL.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "huggingface-accelerate",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/08-distributed-training/accelerate/references/megatron-integration.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "huggingface-tokenizers",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers/references/training.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "knowledge-distillation",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation/references/minillm.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "lambda-labs-gpu-cloud",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/09-infrastructure/lambda-labs/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/09-infrastructure/lambda-labs/references/advanced-usage.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "llamaindex",
+            "failures": [
+              "invalid-json-answer",
+              "missing-answer-object",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/llamaindex/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/llamaindex/references/query_engines.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "long-context",
+            "failures": [
+              "wrong-reference-path",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/long-context/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/long-context/references/extension_methods.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "mamba-architecture",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/mamba/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/mamba/references/selective-ssm.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "miles-rl-training",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object",
+              "unapproved-read-path",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/miles/references/api-reference.md"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "modal-serverless-gpu",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/09-infrastructure/modal/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/09-infrastructure/modal/references/advanced-usage.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "nemo-curator",
+            "failures": [
+              "missing-referenceFact",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/05-data-processing/nemo-curator/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/05-data-processing/nemo-curator/references/filtering.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "nnsight-remote-interpretability",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/04-mechanistic-interpretability/nnsight/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/04-mechanistic-interpretability/nnsight/references/README.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "sentence-transformers",
+            "failures": [
+              "transport-incomplete",
+              "wrong-reference-path",
+              "unapproved-read-path",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/15-rag/sentence-transformers/references/models.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "sentencepiece",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/sentencepiece/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/sentencepiece/references/training.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "sparse-autoencoder-training",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "stable-diffusion-image-generation",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/stable-diffusion/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/stable-diffusion/references/advanced-usage.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "torchforge-rl-training",
+            "failures": [
+              "wrong-reference-path",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/torchforge/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/06-post-training/torchforge/references/api-reference.md"
+            ],
+            "timedOut": false
+          }
+        ]
+      },
+      {
+        "run": "task-contract-recheck",
+        "revision": "18a78127f6352ece9960bf7b65567566fcf8c258",
+        "selected": 12,
+        "attempted": 12,
+        "completed": 10,
+        "contractPassed": 4,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": false,
+        "failures": [
+          {
+            "name": "ara-compiler",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/compiler/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/22-agent-native-research-artifact/compiler/references/ara-schema.md"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "audiocraft-audio-generation",
+            "failures": [
+              "source-changed-during-run"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "chroma",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "clip",
+            "failures": [
+              "missing-referenceFact",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/clip/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/18-multimodal/clip/references/applications.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "distributed-llm-pretraining-torchtitan",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/torchtitan/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/01-model-architecture/torchtitan/references/fsdp.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "evaluating-llms-harness",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/lm-evaluation-harness/references/benchmark-guide.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "huggingface-tokenizers",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/02-tokenization/huggingface-tokenizers/references/training.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "knowledge-distillation",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/19-emerging-techniques/knowledge-distillation/references/minillm.md"
+            ],
+            "timedOut": false
+          }
+        ]
+      },
+      {
+        "run": "recheck-after-repairs",
+        "revision": "82409b92868ebd21a60efc4e708e9fb31b5e3554",
+        "selected": 6,
+        "attempted": 6,
+        "completed": 5,
+        "contractPassed": 4,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": false,
+        "failures": [
+          {
+            "name": "autogpt-agents",
+            "failures": [
+              "transport-incomplete",
+              "invalid-json-answer",
+              "missing-answer-object"
+            ],
+            "timedOut": true
+          },
+          {
+            "name": "langchain",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/langchain/references/agents.md"
+            ],
+            "timedOut": false
+          }
+        ]
+      },
+      {
+        "run": "stale-source-recheck",
+        "revision": "82409b92868ebd21a60efc4e708e9fb31b5e3554",
+        "selected": 9,
+        "attempted": 9,
+        "completed": 9,
+        "contractPassed": 7,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": false,
+        "failures": [
+          {
+            "name": "evaluating-code-models",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/bigcode-evaluation-harness/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/11-evaluation/bigcode-evaluation-harness/references/benchmarks.md"
+            ],
+            "timedOut": false
+          },
+          {
+            "name": "evolving-ai-agents",
+            "failures": [
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/a-evolve/SKILL.md",
+              "missing-successful-read:/home/k0stia/code/pi/AI-Research-SKILLs/14-agents/a-evolve/references/architecture.md"
+            ],
+            "timedOut": false
+          }
+        ]
+      },
+      {
+        "run": "bitsandbytes-recheck",
+        "revision": "4dc40f4f29a633f49d94d713cb987d4410413834",
+        "selected": 1,
+        "attempted": 1,
+        "completed": 1,
+        "contractPassed": 1,
+        "workspaceMutated": false,
+        "libraryComplete": false,
+        "originalPassed": true,
+        "failures": []
+      }
+    ]
+  },
+  "semantic": {
+    "complete": false,
+    "reviewedCases": 40,
+    "distinctReviewedNames": 36,
+    "statuses": {
+      "fail": 12,
+      "supported-with-limits": 12,
+      "concern": 16
+    },
+    "currentReviewedCases": 33,
+    "acceptedAllSkills": false,
+    "detail": "SEMANTIC.json"
+  },
+  "evidenceRoot": "/home/k0stia/code/pi/.pi/verification/ai-research-exhaustive-20261021T065003Z",
+  "limits": [
+    "No complete framework/device/training integration certification",
+    "Non-Python fence syntax and full TeX/PDF builds not completed",
+    "Large vendor archives not fully LSP-validated",
+    "Focused self-review, not independent or repository-wide security certification",
+    "No installation, pretrained-model download, optimizer step, paid provisioning, publication, push, or personal/model-server setting change"
+  ]
+}
