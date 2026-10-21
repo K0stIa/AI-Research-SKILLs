@@ -84,6 +84,34 @@ test('skill contracts require correct bounded successful reads and valid respons
   assert.equal(evaluate({}, reads.map(e => e.args ? { ...e, args: { ...e.args, path: '/other/file.md' } } : e)).contractPassed, false);
 });
 
+test('reference read budget is cumulative across a case', async () => {
+  const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
+  const contract = { name: 'fixture', mainPath: '/fixture/SKILL.md', referencePath: '/fixture/references/guide.md', maxWords: 140 };
+  const answer = { skill: contract.name, mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: 'Inspect a workflow.', referenceFact: 'Check the input schema.', pitfall: 'Validate compatibility.', prerequisites: ['Version unverified.', 'Data unverified.', 'Hardware unverified.'], executed: false };
+  function evaluate(referenceReads) {
+    const requests = [{ path: contract.mainPath, offset: 1, limit: 12 }, ...referenceReads.map(args => ({ path: contract.referencePath, ...args }))];
+    const events = requests.flatMap(({ failed = false, ...args }, i) => [
+      { type: 'tool_execution_start', toolCallId: `read-${i}`, toolName: 'read', args },
+      { type: 'tool_execution_end', toolCallId: `read-${i}`, toolName: 'read', isError: failed, result: { content: [{ type: 'text', text: failed ? 'Read failed.' : 'Excerpt.' }] } },
+    ]);
+    events.push({ type: 'message_end', message: { role: 'assistant', stopReason: 'stop', content: [{ type: 'text', text: JSON.stringify(answer) }] } }, { type: 'agent_end' });
+    return evaluateSkillRun({ stdout: events.map(JSON.stringify).join('\n'), exitCode: 0, timedOut: false }, contract);
+  }
+  assert.equal(evaluate([{ offset: 1, limit: 40 }]).contractPassed, true);
+  assert.equal(evaluate([{ offset: 1, limit: 20 }, { offset: 21, limit: 20 }]).contractPassed, true);
+  for (const requests of [
+    [{ offset: 1, limit: 40 }, { offset: 41, limit: 40 }],
+    [{ offset: 1, limit: 20 }, { offset: 21, limit: 21 }],
+    [{ offset: 1, limit: 40 }, { offset: 1, limit: 1 }],
+    [{ offset: 1, limit: 25 }, { offset: 2, limit: 16 }],
+    [{ offset: 1, limit: 40, failed: true }, { offset: 1, limit: 1 }],
+  ]) {
+    const result = evaluate(requests);
+    assert.ok(result.contractFailures.includes('reference-read-budget-exceeded'), JSON.stringify(requests));
+    assert.equal(result.contractPassed, false);
+  }
+});
+
 test('matrix contracts enforce per-field budgets and exact requested read scopes', async () => {
   const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
   const contract = { name: 'fixture', mainPath: '/fixture/SKILL.md', referencePath: '/fixture/references/guide.md', maxWords: 140 };
