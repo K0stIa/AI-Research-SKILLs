@@ -53,3 +53,16 @@ Fresh installed sessions use existing discovery without forced package precedenc
 Source changes invalidate earlier live evidence. All 98 skills were attempted, but passing static checks and transport completion do not establish all-skill behavioral or semantic acceptance.
 
 See `verifications/pi-exhaustive/REPORT.md`, `TDD.md`, and `AUDIT.md`. Full framework/device validation and the remaining live/semantic acceptance gaps stay open under the unchanged execution limits.
+
+## Astra three-finding follow-up
+
+Targets: `evaluateSkillRun` in `scripts/pi-verification-events.mjs`, the extracted `distillation_loss`, and the full `wanda_prune` reference example.
+
+Dependents and coverage:
+
+- `scripts/verify-pi-matrix.mjs` and `scripts/check-pi-verification.test.mjs` call the shared response evaluator. Host snapshot scripts also import it. New tests cover cumulative requested reference lines, not just the existing per-call cap. Transport analysis remains unchanged.
+- `scripts/check-distillation.test.py` extracts the numerical examples. Existing all-ignored coverage uses float64; add a finite-input FP16 overflow case and gradient assertions.
+- Existing Wanda coverage extracts only the per-output fragment. Add full-function toy CPU calibration with sequence axes, unequal batches, L2-sensitive mask selection, exact per-output sparsity, and hook cleanup. Fix the full example consistently rather than leaving its global threshold and `.data` writes inconsistent with that fragment.
+- The knowledge-distillation and model-pruning skills receive patch-version increments. Names, paths, and package categories remain unchanged.
+
+Risk: Medium. Tightening the evaluator affects historical reevaluations; the numerical examples can change copied application behavior. Preserve old records and write new source-current evaluations separately. No release/story capsule exists for this repair. User approved the three-finding plan in `bugs/BUG-pi-astra-followup.md`. No new runtime dependencies or live matrix calls are required.
