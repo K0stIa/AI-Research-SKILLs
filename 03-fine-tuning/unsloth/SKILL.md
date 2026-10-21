@@ -1,80 +1,71 @@
 ---
 name: unsloth
-description: Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization
-version: 1.0.0
+description: Provides Unsloth fine-tuning guidance for LoRA, QLoRA, dataset preparation, and adapter validation. Use when configuring Unsloth training or debugging quantized fine-tuning.
+version: 1.1.0
 author: Orchestra Research
 license: MIT
-tags: [Fine-Tuning, Unsloth, Fast Training, LoRA, QLoRA, Memory-Efficient, Optimization, Llama, Mistral, Gemma, Qwen]
+tags: [Fine-Tuning, Unsloth, LoRA, QLoRA, Memory-Efficient, Optimization]
 dependencies: [unsloth, torch, transformers, trl, datasets, peft]
 ---
 
-# Unsloth Skill
+# Fine-tune with Unsloth
 
-Comprehensive assistance with unsloth development, generated from official documentation.
+## When to use
 
-## When to Use This Skill
+Use this skill for Unsloth adapter training, data formatting, checkpoint validation, and export planning.
+Use the PEFT skill for framework-independent adapter APIs.
+Use LLaMA-Factory for configuration-driven training or its WebUI.
 
-This skill should be triggered when:
-- Working with unsloth
-- Asking about unsloth features or APIs
-- Implementing unsloth solutions
-- Debugging unsloth code
-- Learning unsloth best practices
+## Source gate
 
-## Quick Reference
+You MUST read `references/qlora-workflow.md` with Pi's `read` tool before explaining quantization or proposing training.
+Start with [the bounded QLoRA guide](references/qlora-workflow.md), not the complete scraped documentation.
+Read only relevant sections of large references with `offset` and `limit`.
+Check installed package versions before giving version-sensitive API calls.
+Cite the source and section supporting technical claims.
+Mark unsupported API behavior, compatibility, and memory estimates as unverified.
+DO NOT infer API support from a model name or marketing description.
 
-### Common Patterns
+## Quantization distinction
 
-*Quick reference patterns will be added as you use the skill.*
+Describe standard QLoRA as frozen quantized base weights plus trainable low-rank adapter parameters.
+Distinguish base-weight storage precision, computation dtype, adapter dtype, and optimizer-state precision.
+DO NOT describe ordinary QLoRA as an 8-bit adapter or repeated adapter re-quantization.
+Treat quantization-aware training, model merging, and inference quantization as separate workflows.
+DO NOT guarantee speedups, memory savings, or unchanged task quality without matching measurements.
 
-## Reference Files
+## Plan a bounded run
 
-This skill includes comprehensive documentation in `references/`:
+- [ ] Record task, model revision, tokenizer, chat template, and license constraints.
+- [ ] Record Python, PyTorch, CUDA, Unsloth, Transformers, TRL, PEFT, and quantization-backend versions.
+- [ ] Inspect a dataset sample, its fields, splits, and intended supervised response tokens.
+- [ ] Select compatible target modules, rank, alpha, compute dtype, and sequence length.
+- [ ] Separate training and held-out evaluation data.
+- [ ] Agree on device, maximum steps, runtime, memory budget, and stopping rules.
+- [ ] Ask before downloads, dependency installation, training, paid compute, or publication.
 
-- **llms-txt.md** - Llms-Txt documentation
+## Validate before scaling
 
-Use `view` to read specific reference files when detailed information is needed.
+Inspect tokenized examples and loss masks before launching a run.
+Verify that expected adapter parameters are trainable and base parameters remain frozen.
+After authorization, test a bounded batch and inspect finite loss and adapter gradients.
+Check actual trainable-parameter counts rather than assuming every loaded tensor receives updates.
+Compare a held-out baseline with the adapted model using the same decoding settings.
+Save adapter weights, configuration, tokenizer settings, dependency versions, and evaluation evidence.
+Test adapter reload with the original base revision before claiming a checkpoint is reusable.
 
-## Working with This Skill
+## Troubleshooting
 
-### For Beginners
-Start with the getting_started or tutorials reference files for foundational concepts.
+For memory failures, inspect sequence length, batch size, optimizer state, and activation memory separately.
+For poor output, check template compatibility, label masking, truncation, and data quality before increasing rank.
+For unchanged behavior, inspect trainable tensors and adapter reload paths before claiming quantization caused failure.
+For missing API support, consult the exact installed version and report the remaining uncertainty.
 
-### For Specific Features
-Use the appropriate category reference file (api, guides, etc.) for detailed information.
+## References
 
-### For Code Examples
-The quick reference section above contains common patterns extracted from the official docs.
+- [QLoRA workflow and sources](references/qlora-workflow.md)
+- [Official documentation index](references/llms.md)
+- [Scraped documentation archive](references/llms-full.md)
 
-## Resources
-
-### references/
-Organized documentation extracted from official sources. These files contain:
-- Detailed explanations
-- Code examples with language annotations
-- Links to original documentation
-- Table of contents for quick navigation
-
-### scripts/
-Add helper scripts here for common automation tasks.
-
-### assets/
-Add templates, boilerplate, or example projects here.
-
-## Notes
-
-- This skill was automatically generated from official documentation
-- Reference files preserve the structure and examples from source docs
-- Code examples include language detection for better syntax highlighting
-- Quick reference patterns are extracted from common usage examples in the docs
-
-## Updating
-
-To refresh this skill with updated documentation:
-1. Re-run the scraper with the same configuration
-2. The skill will be rebuilt with the latest information
-
-<!-- Trigger re-upload 1763621536 -->
-
-
-
+The archive contains historical examples and version-specific claims.
+Verify their applicability before copying them into a recipe.
