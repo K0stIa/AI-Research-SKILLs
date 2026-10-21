@@ -1,7 +1,7 @@
 ---
 name: model-pruning
 description: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
-version: 1.0.2
+version: 1.0.3
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Model Pruning, Wanda, SparseGPT, Sparsity, Model Compression, N:M Sparsity, One-Shot Pruning, Structured Pruning, Unstructured Pruning, Fast Inference]
@@ -46,6 +46,8 @@ pip install torch transformers accelerate
 
 **Source**: ICLR 2024 (arXiv 2306.11695)
 
+This one-pass teaching example matches the [reference algorithm](./references/wanda.md). It is not the paper's layer-sequential recalibration pipeline. It collects unmasked activation statistics from ordinary Linear layers and leaves the model in evaluation mode. Use finite weights and calibration inputs on compatible devices. Float32 scores can overflow for extreme values; existing zeros can increase final sparsity. Quality, sparse execution, offload, custom layers, and speed require separate validation.
+
 ```python
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -65,62 +67,57 @@ calib_data = [
     "Artificial intelligence powers modern applications.",
 ]
 
-# Wanda pruning function
+# Wanda pruning function; calib_data contains tokenized input dictionaries.
 def wanda_prune(model, calib_data, sparsity=0.5):
-    """
-    Wanda: Prune by weight magnitude × input activation.
+    """Illustrative one-pass calibration and per-output pruning of Linear weights."""
+    if not 0.0 <= sparsity <= 1.0:
+        raise ValueError("sparsity must be between zero and one")
+    squared_sums = {}
 
-    Args:
-        sparsity: Fraction of weights to prune (0.5 = 50%)
-    """
-    # 1. Collect activation statistics
-    activations = {}
-
-    def hook_fn(name):
+    def activation_hook(name):
         def hook(module, input, output):
-            # Store input activation norms
-            activations[name] = input[0].detach().abs().mean(dim=0)
+            X = input[0].detach()
+            if X.numel() == 0:
+                return
+            # Collapse batch/sequence axes; accumulate squared sums, not batch means.
+            values = X.reshape(-1, X.shape[-1]).float()
+            batch_sums = values.square().sum(dim=0)
+            if name in squared_sums:
+                squared_sums[name] += batch_sums
+            else:
+                squared_sums[name] = batch_sums
+            if not torch.isfinite(squared_sums[name]).all():
+                raise ValueError("Calibration statistics must be finite")
         return hook
 
-    # Register hooks for all linear layers
     hooks = []
-    for name, module in model.named_modules():
-        if isinstance(module, torch.nn.Linear):
-            hooks.append(module.register_forward_hook(hook_fn(name)))
+    try:
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.Linear):
+                hooks.append(module.register_forward_hook(activation_hook(name)))
+        model.eval()
+        with torch.no_grad():
+            for batch in calib_data:
+                model(**batch)
+    finally:
+        for hook in hooks:
+            hook.remove()
 
-    # Run calibration data
-    model.eval()
     with torch.no_grad():
-        for text in calib_data:
-            inputs = tokenizer(text, return_tensors="pt").to(model.device)
-            model(**inputs)
-
-    # Remove hooks
-    for hook in hooks:
-        hook.remove()
-
-    # 2. Prune weights based on |weight| × activation
-    for name, module in model.named_modules():
-        if isinstance(module, torch.nn.Linear) and name in activations:
-            W = module.weight.data
-            act = activations[name]
-
-            # Compute importance: |weight| × activation
-            importance = W.abs() * act.unsqueeze(0)
-
-            # Flatten and find threshold
-            threshold = torch.quantile(importance.flatten(), sparsity)
-
-            # Create mask
-            mask = importance >= threshold
-
-            # Apply mask (prune)
-            W *= mask.float()
-
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.Linear) and name in squared_sums:
+                W = module.weight
+                activation = squared_sums[name].sqrt()
+                number_to_prune = int(sparsity * W.shape[1])
+                for row in W:
+                    importance = row.float().abs() * activation
+                    indices = torch.argsort(importance, stable=True)[:number_to_prune]
+                    row[indices] = 0
     return model
 
-# Apply Wanda pruning (50% sparsity, one-shot, no retraining)
-pruned_model = wanda_prune(model, calib_data, sparsity=0.5)
+# Tokenize before calibration; the pruning function has no tokenizer global.
+calib_batches = [tokenizer(text, return_tensors="pt").to(model.device) for text in calib_data]
+pruned_model = wanda_prune(model, calib_batches, sparsity=0.5)
 
 # Save
 pruned_model.save_pretrained("./llama-2-7b-wanda-50")
