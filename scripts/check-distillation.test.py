@@ -293,6 +293,23 @@ class CausalDistillationExample(unittest.TestCase):
         self.assertTrue(torch.isfinite(actual).item())
         self.assertEqual(actual.item(), 0.0)
 
+    def test_all_ignored_fp16_overflow_has_zero_loss_and_gradients(self):
+        student = torch.full((1, 3, 2), 40000.0, dtype=torch.float16, requires_grad=True)
+        teacher = student.detach().clone().requires_grad_()
+        labels = torch.full((1, 3), -100, dtype=torch.long)
+        self.assertTrue(torch.isfinite(student).all().item())
+        self.assertTrue(torch.isinf(student[:, :-1, :].sum()).item())
+        actual = self.loss(student, teacher, labels)
+        self.assertTrue(torch.isfinite(actual).item(), "Ignored finite FP16 logits must not produce NaN")
+        self.assertEqual(actual.item(), 0.0)
+        actual.backward()
+        self.assertIsNone(teacher.grad)
+        gradient = student.grad
+        if gradient is None:
+            self.fail("Student gradient is missing")
+        else:
+            torch.testing.assert_close(gradient, torch.zeros_like(student), rtol=0, atol=0)
+
     def test_forward_loss_does_not_train_teacher(self):
         self.loss(self.student, self.teacher, self.labels).backward()
         self.assertIsNone(self.teacher.grad)
