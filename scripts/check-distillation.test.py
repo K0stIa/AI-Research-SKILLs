@@ -21,12 +21,12 @@ import torch.nn.functional as F
 GUIDE = Path(__file__).resolve().parents[1] / "19-emerging-techniques/knowledge-distillation/SKILL.md"
 
 
-def load_example_function(name: str) -> Callable[..., torch.Tensor]:
-    for code in re.findall(r"^```python\s*\n([\s\S]*?)^```", GUIDE.read_text(), re.M):
+def load_example_function(name: str, path: Path = GUIDE) -> Callable[..., torch.Tensor]:
+    for code in re.findall(r"^```python\s*\n([\s\S]*?)^```", path.read_text(), re.M):
         for node in ast.parse(code).body:
             if isinstance(node, ast.FunctionDef) and node.name == name:
                 namespace: dict[str, object] = {"torch": torch, "F": F}
-                exec(compile(ast.Module(body=[node], type_ignores=[]), str(GUIDE), "exec"), namespace)
+                exec(compile(ast.Module(body=[node], type_ignores=[]), str(path), "exec"), namespace)
                 return cast(Callable[..., torch.Tensor], namespace[name])
     raise AssertionError(f"Missing example function: {name}")
 
@@ -66,6 +66,40 @@ class ReverseKlExample(unittest.TestCase):
     def test_extreme_finite_logits_do_not_produce_nan(self):
         logits = torch.tensor([[1000.0, -1000.0]], dtype=torch.float64)
         self.assertTrue(torch.isfinite(self.loss(logits, -logits)).item())
+
+
+class MiniLlmReferenceExample(ReverseKlExample):
+    """Exercise the reference independently of the already-correct main guide."""
+    def setUp(self):
+        super().setUp()
+        self.path = GUIDE.parent / "references/minillm.md"
+        self.loss = load_example_function("reverse_kl_loss", self.path)
+
+    def test_student_gradient_includes_student_entropy(self):
+        p = self.student.detach().softmax(dim=-1)
+        log_ratio = self.student.detach().log_softmax(dim=-1) - self.teacher.detach().log_softmax(dim=-1)
+        expected = p * (log_ratio - (p * log_ratio).sum(dim=-1, keepdim=True))
+        self.loss(self.student, self.teacher).backward()
+        self.assertIsNone(self.teacher.grad)
+        self.assertIsNotNone(self.student.grad)
+        torch.testing.assert_close(self.student.grad, expected)
+
+    def test_reference_names_the_two_kl_directions_consistently(self):
+        text = self.path.read_text()
+        forward = text.split("### Forward KL Divergence (Standard)", 1)[1].split("## MiniLLM Solution:", 1)[0]
+        reverse = text.split("### Reverse KL Divergence", 1)[1].split("### Mathematical Formulation", 1)[0]
+        self.assertIn("KL(Teacher || Student)", forward)
+        self.assertIn("Mode-covering", forward)
+        self.assertIn("KL(Student || Teacher)", reverse)
+        self.assertIn("Mode-seeking", reverse)
+
+    def test_reference_does_not_present_teacher_imitation_as_on_policy_minillm(self):
+        text = self.path.read_text()
+        self.assertNotIn("loss = -student_outputs.logits.mean()", text)
+        self.assertNotIn("**Challenge**: Reverse KL requires sampling from teacher.", text)
+        self.assertIn("not a full MiniLLM implementation", text)
+        self.assertIn("teacher-mixed sampling", text)
+        self.assertIn("length normalization", text)
 
 
 class WandbValueSpaceExample(unittest.TestCase):
