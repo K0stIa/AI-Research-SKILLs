@@ -1,7 +1,7 @@
 ---
 name: knowledge-distillation
 description: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
-version: 1.0.3
+version: 1.0.4
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Knowledge Distillation, Model Compression, Teacher-Student, MiniLLM, Reverse KLD, Soft Targets, Temperature Scaling, Logit Distillation, Model Transfer]
@@ -84,7 +84,8 @@ def distillation_loss(student_logits, teacher_logits, labels, temperature=2.0, a
     targets = labels[:, 1:].reshape(-1)
     valid = targets != -100
     if not valid.any():
-        return student.sum() * 0.0
+        # An empty differentiable sum avoids overflow from ignored FP16 values.
+        return student[valid].sum()
 
     student, teacher, targets = student[valid], teacher[valid], targets[valid]
     hard_loss = F.cross_entropy(student, targets)
