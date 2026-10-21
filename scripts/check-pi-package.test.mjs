@@ -205,6 +205,21 @@ test('distillation guidance names forward and reverse KL in the correct directio
   assert.match(text, /mask.*soft.*hard/i);
 });
 
+test('GPTQ recipes distinguish measurements and checkpoint availability from illustrations', () => {
+  const main = readFileSync(join(root, '10-optimization/gptq/SKILL.md'), 'utf8');
+  const calibration = readFileSync(join(root, '10-optimization/gptq/references/calibration.md'), 'utf8');
+  const description = main.match(/^description: (.*)$/m)?.[1] ?? '';
+  assert.doesNotMatch(description, /\d[%×]|minimal accuracy loss/);
+  const impact = calibration.split('### Dataset size')[0];
+  assert.doesNotMatch(impact, /\d+(?:-\d+)?%/);
+  assert.match(impact, /held-out/);
+  assert.match(impact, /unquantized/);
+  assert.match(main, /## Verification boundaries/);
+  assert.match(main, /unverified illustrations/);
+  assert.match(main, /not total runtime memory/);
+  assert.doesNotMatch(main, /TheBloke\/Llama-2-405B-GPTQ/);
+});
+
 test('FAISS index selection avoids unmeasured recall percentages and preserves cosine normalization', () => {
   const text = readFileSync(join(root, '15-rag/faiss/references/index_types.md'), 'utf8');
   const selection = text.split('## Index selection guide')[1]?.split('\n## ')[0] ?? '';
