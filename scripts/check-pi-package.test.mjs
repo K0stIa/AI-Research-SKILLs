@@ -103,6 +103,17 @@ test('LLaMA-Factory entrypoint requires versioned SFT and dataset checks', () =>
   assert.ok(existsSync(join(root, '03-fine-tuning/llama-factory/references/sft-workflow.md')));
 });
 
+test('paper-writing prioritizes citation evidence over template discovery', () => {
+  const text = readFileSync(join(root, '20-ml-paper-writing/ml-paper-writing/SKILL.md'), 'utf8');
+  const gate = text.match(/## Pi citation gate\n([\s\S]*?)(?=\n## )/)?.[1] ?? '';
+  assert.match(gate, /MUST read.*references\/citation-workflow\.md/);
+  assert.match(gate, /DO NOT inspect templates/);
+  assert.match(gate, /unverified/i);
+  assert.match(gate, /\[CITATION NEEDED\]/);
+  assert.match(gate, /unavailable/i);
+  assert.doesNotMatch(text, /~40% error rate/);
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
