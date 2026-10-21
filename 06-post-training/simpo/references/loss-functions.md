@@ -276,19 +276,15 @@ sft_weight: 0.0
 
 **Loss calculation**:
 ```python
-# Step 1: Compute log probs
-chosen_logps = avg_log_prob(policy(chosen))    # e.g., -1.2
-rejected_logps = avg_log_prob(policy(rejected)) # e.g., -2.5
+import math
 
-# Step 2: Log ratio and margin
-pi_logratios = -1.2 - (-2.5) = 1.3
-logits = 1.3 - 0.5 = 0.8
-
-# Step 3: Sigmoid loss
-loss = -log(sigmoid(2.0 * 0.8))
-     = -log(sigmoid(1.6))
-     = -log(0.832)
-     = 0.184
+# Illustrative average policy log-probabilities, not model executions.
+chosen_logps = -1.2
+rejected_logps = -2.5
+beta = 2.0
+pi_logratios = chosen_logps - rejected_logps  # 1.3
+logits = beta * (pi_logratios - 0.5)  # 1.6
+loss = math.log1p(math.exp(-logits))  # approximately 0.183901
 ```
 
 ### Example 2: SimPO with SFT
@@ -303,16 +299,14 @@ sft_weight: 0.1
 
 **Loss calculation**:
 ```python
-# SimPO loss (as above)
-simpo_loss = 0.184
+import math
 
-# SFT loss
-sft_loss = -chosen_logps = -(-1.2) = 1.2
-
-# Total loss
-total_loss = simpo_loss + 0.1 * sft_loss
-           = 0.184 + 0.12
-           = 0.304
+# Recompute using this example's beta=2.5, not the beta=2.0 result.
+chosen_logps, rejected_logps = -1.2, -2.5
+beta = 2.5
+simpo_loss = math.log1p(math.exp(-beta * (chosen_logps - rejected_logps - 0.5)))
+sft_loss = -chosen_logps  # 1.2
+total_loss = simpo_loss + 0.1 * sft_loss  # approximately 0.246928
 ```
 
 ## Debugging
