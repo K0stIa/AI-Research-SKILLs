@@ -62,68 +62,56 @@ import torch
 from transformers import AutoModelForCausalLM
 
 def wanda_prune(model, calib_data, sparsity=0.5):
-    """
-    Wanda pruning algorithm.
-
-    Steps:
-    1. Collect activation statistics on calibration data
-    2. Compute importance = |weight| × activation
-    3. Prune lowest importance weights
-    4. Return pruned model (no retraining!)
-    """
-
-    # Step 1: Collect activations
-    activations = {}
+    """Illustrative one-pass calibration and per-output pruning of Linear weights."""
+    if not 0.0 <= sparsity <= 1.0:
+        raise ValueError("sparsity must be between zero and one")
+    squared_sums = {}
 
     def activation_hook(name):
         def hook(module, input, output):
-            # Store input activation norms
             X = input[0].detach()
-            # Per-input-dimension norm
-            act_norm = X.abs().mean(dim=0)  # Average over batch/sequence
-            if name in activations:
-                activations[name] += act_norm
+            if X.numel() == 0:
+                return
+            # Collapse batch/sequence axes; accumulate squared sums, not batch means.
+            values = X.reshape(-1, X.shape[-1]).float()
+            batch_sums = values.square().sum(dim=0)
+            if name in squared_sums:
+                squared_sums[name] += batch_sums
             else:
-                activations[name] = act_norm
+                squared_sums[name] = batch_sums
+            if not torch.isfinite(squared_sums[name]).all():
+                raise ValueError("Calibration statistics must be finite")
         return hook
 
-    # Register hooks
     hooks = []
-    for name, module in model.named_modules():
-        if isinstance(module, torch.nn.Linear):
-            hook = module.register_forward_hook(activation_hook(name))
-            hooks.append(hook)
+    try:
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.Linear):
+                hooks.append(module.register_forward_hook(activation_hook(name)))
+        model.eval()
+        with torch.no_grad():
+            for batch in calib_data:
+                model(**batch)
+    finally:
+        for hook in hooks:
+            hook.remove()
 
-    # Run calibration
-    model.eval()
     with torch.no_grad():
-        for batch in calib_data:
-            model(**batch)
-
-    # Remove hooks
-    for hook in hooks:
-        hook.remove()
-
-    # Step 2 & 3: Prune based on importance
-    for name, module in model.named_modules():
-        if isinstance(module, torch.nn.Linear) and name in activations:
-            W = module.weight.data
-            act = activations[name]
-
-            # Compute importance (per output dimension)
-            importance = W.abs() * act.unsqueeze(0)  # (out_features, in_features)
-
-            # Find threshold for sparsity
-            threshold = torch.quantile(importance.flatten(), sparsity)
-
-            # Create mask
-            mask = importance >= threshold
-
-            # Apply pruning
-            W.data *= mask.float()
-
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.Linear) and name in squared_sums:
+                W = module.weight
+                activation = squared_sums[name].sqrt()
+                number_to_prune = int(sparsity * W.shape[1])
+                for row in W:
+                    importance = row.float().abs() * activation
+                    indices = torch.argsort(importance, stable=True)[:number_to_prune]
+                    row[indices] = 0
     return model
 ```
+
+This sketch collects one full-model pass of feature-wise L2 statistics, then prunes `floor(sparsity * in_features)` coordinates per output. It uses float32 statistics and scores, including for FP16 inputs. Empty or unobserved layers remain unchanged. Non-finite calibration statistics abort before pruning, and hooks are removed even when calibration fails. As in the original example, calibration sets the model to evaluation mode.
+
+Use finite weights and suitable calibration inputs. Padding is not masked by this hook, and extreme values can exceed float32 score range. This is not the paper's layer-sequential recalibration pipeline and does not implement offload, quantized/custom layers, quality recovery, or sparse execution. Existing zeros can increase the final zero count. Measure quality and resource use separately; these toy checks establish neither retained accuracy nor inference speed.
 
 ### Per-Output Pruning
 

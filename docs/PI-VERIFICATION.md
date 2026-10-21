@@ -38,8 +38,9 @@ From a repository checkout with an existing PyTorch installation:
 CUDA_VISIBLE_DEVICES="" python3 scripts/check-distillation.test.py
 ```
 
-These tests extract local examples. They check KL direction, causal alignment, masking, gradients, and SimPO arithmetic.
-They also check W&B controls, Wanda pruning with tied scores, GRPO metric counterexamples, a GPTQ module map, and one AutoGPT example's async-generator protocol.
+These tests extract local examples. They check KL direction, causal alignment, masking, gradients, all-ignored FP16 overflow, and SimPO arithmetic.
+They also check W&B controls, GRPO metric counterexamples, a GPTQ module map, and one AutoGPT example's async-generator protocol.
+Wanda checks exercise both the per-output fragment and the full one-pass example: sequence axes, unequal-batch L2 accumulation, tied scores, sparsity endpoints, empty calibration, float32 statistics for FP16 input, and hook cleanup. These checks do not establish the full paper's layer-sequential pipeline.
 They load no pretrained models and take no optimizer steps. The module-map test uses parameter-free toy modules, not a real model or backend dispatch.
 
 Only run this test on a trusted checkout. It executes extracted repository functions; it is not a sandbox for hostile source.
