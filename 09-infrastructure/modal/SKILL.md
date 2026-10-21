@@ -1,7 +1,7 @@
 ---
 name: modal-serverless-gpu
 description: Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Infrastructure, Serverless, GPU, Cloud, Deployment, Modal]
@@ -130,18 +130,28 @@ def main():
 ```python
 # Single GPU
 @app.function(gpu="A100")
+def single_gpu():
+    pass
 
 # Specific memory variant
 @app.function(gpu="A100-80GB")
+def specific_gpu():
+    pass
 
 # Multiple GPUs (up to 8)
 @app.function(gpu="H100:4")
+def multiple_gpus():
+    pass
 
 # GPU with fallbacks
 @app.function(gpu=["H100", "A100", "L40S"])
+def fallback_gpu():
+    pass
 
-# Any available GPU
+# Any available GPU; verify selector support in the installed Modal version.
 @app.function(gpu="any")
+def any_gpu():
+    pass
 ```
 
 ## Container images

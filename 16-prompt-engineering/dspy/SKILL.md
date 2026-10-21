@@ -1,7 +1,7 @@
 ---
 name: dspy
 description: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Prompt Engineering, DSPy, Declarative Programming, RAG, Agents, Prompt Optimization, LM Programming, Stanford NLP, Automatic Optimization, Modular AI]
@@ -515,7 +515,7 @@ class SummarizeArticle(dspy.Signature):
 ```python
 # Create diverse training examples
 trainset = [
-    dspy.Example(question="factual", answer="...).with_inputs("question"),
+    dspy.Example(question="factual", answer="...").with_inputs("question"),
     dspy.Example(question="reasoning", answer="...").with_inputs("question"),
     dspy.Example(question="calculation", answer="...").with_inputs("question"),
 ]

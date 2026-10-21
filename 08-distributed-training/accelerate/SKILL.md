@@ -1,7 +1,7 @@
 ---
 name: huggingface-accelerate
 description: Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Automatic device placement, mixed precision (FP16/BF16/FP8). Interactive config, single launch command. HuggingFace ecosystem standard.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Distributed Training, HuggingFace, Accelerate, DeepSpeed, FSDP, Mixed Precision, PyTorch, DDP, Unified API, Simple]
@@ -19,8 +19,8 @@ Accelerate simplifies distributed training to 4 lines of code.
 pip install accelerate
 ```
 
-**Convert PyTorch script** (4 lines):
-```python
+**Convert PyTorch script**. This is a diff, not an executable Python block:
+```diff
 import torch
 + from accelerate import Accelerator
 

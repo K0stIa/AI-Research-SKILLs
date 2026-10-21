@@ -1,7 +1,7 @@
 ---
 name: nemo-guardrails
 description: NVIDIA's runtime safety framework for LLM applications. Features jailbreak detection, input/output validation, fact-checking, hallucination detection, PII filtering, toxicity detection. Uses Colang 2.0 DSL for programmable rails. Production-ready, runs on T4 GPU.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Safety Alignment, NeMo Guardrails, NVIDIA, Jailbreak Detection, Guardrails, Colang, Runtime Safety, Hallucination Detection, PII Filtering, Production]
@@ -239,16 +239,16 @@ define flow
 
 **Issue: High latency from multiple checks**
 
-Parallelize checks:
+Schedule independent asynchronous checks inside a Python action implementation.
+This helper is not Colang syntax. Register the action and flow using the installed NeMo Guardrails version.
+Each supplied check must return an awaitable boolean result:
+
 ```python
-define flow parallel checks
-  user ...
-  parallel:
-    $toxicity = check toxicity
-    $jailbreak = check jailbreak
-    $pii = check pii
-  if $toxicity or $jailbreak or $pii
-    bot refuse
+import asyncio
+
+async def any_check_flags(text, checks):
+    results = await asyncio.gather(*(check(text) for check in checks))
+    return any(results)
 ```
 
 **Issue: Hallucination detection misses errors**

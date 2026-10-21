@@ -1,7 +1,7 @@
 ---
 name: fine-tuning-serving-openpi
 description: Fine-tune and serve Physical Intelligence OpenPI models (pi0, pi0-fast, pi0.5) using JAX or PyTorch backends for robot policy inference across ALOHA, DROID, and LIBERO environments. Use when adapting pi0 models to custom datasets, converting JAX checkpoints to PyTorch, running policy inference servers, or debugging norm stats and GPU memory issues.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [OpenPI, Physical Intelligence, VLA, Robotics, JAX, PyTorch, Fine-Tuning, Policy Serving, ALOHA, DROID, LIBERO, pi0]
@@ -379,7 +379,7 @@ Fix: set `XLA_PYTHON_CLIENT_MEM_FRACTION=0.9`, lower batch size, or configure `f
 ```python
 # In config: use model-parallel sharding
 TrainConfig(
-    ...
+    # Preserve the other required fields from the selected registered config.
     fsdp_devices=4,  # Shard across 4 GPUs
 )
 ```

@@ -1,7 +1,7 @@
 ---
 name: grpo-rl-training
 description: Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Post-Training, Reinforcement Learning, GRPO, TRL, RLHF, Reward Modeling, Reasoning, DPO, PPO, Structured Output]
@@ -336,8 +336,8 @@ model = FastLanguageModel.get_peft_model(
     use_gradient_checkpointing="unsloth",
 )
 
-# Rest is identical to standard setup
-trainer = GRPOTrainer(model=model, ...)
+# Supply the remaining arguments from the version-checked standard setup.
+trainer = GRPOTrainer(model=model, **trainer_kwargs)
 trainer.train()
 ```
 
@@ -393,7 +393,7 @@ For complex tasks, train in stages:
 trainer_stage1 = GRPOTrainer(
     model=model,
     reward_funcs=[incremental_format_reward, format_reward],
-    ...
+    **stage1_kwargs,  # Dataset, tokenizer/processing, and training arguments.
 )
 trainer_stage1.train()
 
@@ -401,7 +401,7 @@ trainer_stage1.train()
 trainer_stage2 = GRPOTrainer(
     model=model,
     reward_funcs=[format_reward, correctness_reward],
-    ...
+    **stage2_kwargs,  # Dataset, tokenizer/processing, and training arguments.
 )
 trainer_stage2.train()
 ```

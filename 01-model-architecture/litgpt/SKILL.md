@@ -1,7 +1,7 @@
 ---
 name: implementing-llms-litgpt
 description: Implements and trains LLMs using Lightning AI's LitGPT with 20+ pretrained architectures (Llama, Gemma, Phi, Qwen, Mistral). Use when need clean model implementations, educational understanding of architectures, or production fine-tuning with LoRA/QLoRA. Single-file implementations, no abstraction layers.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Model Architecture, LitGPT, Lightning AI, LLM Implementation, LoRA, QLoRA, Fine-Tuning, Llama, Gemma, Phi, Mistral, Educational]
@@ -233,7 +233,7 @@ python scripts/prepare_dataset.py \
 
 Edit config file or use existing:
 
-```python
+```yaml
 # config/pythia-160m.yaml
 model_name: pythia-160m
 block_size: 2048

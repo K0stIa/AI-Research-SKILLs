@@ -1,7 +1,7 @@
 ---
 name: nnsight-remote-interpretability
 description: Provides guidance for interpreting and manipulating neural network internals using nnsight with optional NDIF remote execution. Use when needing to run interpretability experiments on massive models (70B+) without local GPU resources, or when working with any PyTorch architecture.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [nnsight, NDIF, Remote Execution, Mechanistic Interpretability, Model Internals]
@@ -352,7 +352,7 @@ print(hidden)  # Works!
 ```python
 # For long operations, increase timeout
 with model.trace("prompt", remote=True, timeout=300) as tracer:
-    # Long operation...
+    pass  # Replace with the authorized traced operation.
 ```
 
 ### Issue: Memory with many saved activations

@@ -1,7 +1,7 @@
 ---
 name: knowledge-distillation
 description: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Knowledge Distillation, Model Compression, Teacher-Student, MiniLLM, Reverse KLD, Soft Targets, Temperature Scaling, Logit Distillation, Model Transfer]
@@ -201,7 +201,9 @@ probs_T4 = softmax(logits / 4.0)  # [0.42, 0.34, 0.24]
 
 ### 2. Loss Function Components
 
-```python
+Schematic loss notation, not executable Python:
+
+```text
 # Total loss = alpha * soft_loss + (1 - alpha) * hard_loss
 
 # Soft loss: Learn from teacher's knowledge
@@ -405,26 +407,25 @@ alpha = 0.9  # Strong distillation
 
 ### 2. Model Size Ratio
 
-```python
-# Good ratios (teacher/student)
-70B / 7B = 10×    # Excellent
-13B / 1B = 13×    # Good
-7B / 1B = 7×      # Acceptable
+Capacity ratios alone do not determine distillation quality:
 
-# Avoid too large gap
-70B / 1B = 70×    # Too large, ineffective
+```text
+# Parameter-count ratios (teacher/student)
+70B / 7B = 10
+13B / 1B = 13
+7B / 1B = 7
+70B / 1B = 70
 ```
 
 ### 3. Data Quality
 
 ```python
-# Best: Use teacher-generated data + real data
-train_data = {
-    "teacher_generated": 70%,  # Diverse, high-quality
-    "real_data": 30%            # Ground truth
+# Illustrative sampling weights, not a validated optimum or a dataset.
+sampling_weights = {
+    "teacher_generated": 0.70,
+    "real_data": 0.30,
 }
-
-# Avoid: Only real data (doesn't utilize teacher fully)
+# Choose the mix using provenance checks and held-out evaluation.
 ```
 
 ## Evaluation
