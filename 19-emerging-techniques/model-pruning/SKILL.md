@@ -1,7 +1,7 @@
 ---
 name: model-pruning
 description: Reduce LLM size and accelerate inference using pruning techniques like Wanda and SparseGPT. Use when compressing models without retraining, achieving 50% sparsity with minimal accuracy loss, or enabling faster inference on hardware accelerators. Covers unstructured pruning, structured pruning, N:M sparsity, magnitude pruning, and one-shot methods.
-version: 1.0.3
+version: 1.0.4
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Model Pruning, Wanda, SparseGPT, Sparsity, Model Compression, N:M Sparsity, One-Shot Pruning, Structured Pruning, Unstructured Pruning, Fast Inference]
@@ -333,7 +333,9 @@ def iterative_prune_finetune(model, target_sparsity=0.5, iterations=5):
 
 ## Production Deployment
 
-### Complete Pruning Pipeline
+### Pruning integration sketch
+
+This is not an unattended production job. Wanda skips blank text rows, caps sequences at 2048 tokens and moves batches onto `model.device`. Check model context/device support; supply a compatible `finetune_dataset` and a version-checked SparseGPT adapter before running the remaining steps. Trainer integration, recovery quality and sparse speed remain unverified.
 
 ```python
 from transformers import Trainer, TrainingArguments
@@ -352,7 +354,12 @@ def production_pruning_pipeline(
 
     # 3. Apply pruning
     if method == "wanda":
-        pruned_model = wanda_prune(model, calib_dataset, sparsity=target_sparsity)
+        calib_batches = (
+            tokenizer(row["text"], return_tensors="pt", truncation=True, max_length=2048).to(model.device)
+            for row in calib_dataset
+            if row["text"].strip()
+        )
+        pruned_model = wanda_prune(model, calib_batches, sparsity=target_sparsity)
     elif method == "sparsegpt":
         pruner = SparseGPT(model)
         pruned_model = pruner.prune(calib_dataset, sparsity=target_sparsity)
