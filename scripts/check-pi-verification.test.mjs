@@ -1,4 +1,9 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { analyzeRun } from './pi-verification-events.mjs';
 
@@ -11,6 +16,22 @@ function run(messages, overrides = {}) {
   });
 }
 const text = [{ type: 'text', text: 'Verified answer.' }];
+
+test('live CLI rejects inherited object properties as scenario names before launching Pi', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'pi-invalid-scenario-'));
+  try {
+    const result = spawnSync(process.execPath, [fileURLToPath(new URL('./verify-pi-live.mjs', import.meta.url)), directory, 'constructor', '0.1'], {
+      encoding: 'utf8',
+      timeout: 10_000,
+      env: { ...process.env, PI_BIN: join(directory, 'not-installed') },
+    });
+    assert.ifError(result.error);
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /Usage:/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
 
 test('a completed assistant response is necessary for a successful run', () => {
   assert.equal(run([{ stopReason: 'stop', content: text }]).completed, true);
