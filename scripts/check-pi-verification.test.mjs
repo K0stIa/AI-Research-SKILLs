@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +16,44 @@ function run(messages, overrides = {}) {
   });
 }
 const text = [{ type: 'text', text: 'Verified answer.' }];
+
+test('the installed matrix covers all 98 skills and cannot pass missing or overwritten evidence', async () => {
+  const { buildSkillMatrix } = await import('./verify-pi-matrix.mjs');
+  const root = fileURLToPath(new URL('../', import.meta.url));
+  const matrix = buildSkillMatrix(root);
+  assert.equal(matrix.length, 98);
+  assert.equal(new Set(matrix.map(item => item.name)).size, 98);
+  for (const item of matrix) {
+    assert.ok(existsSync(item.mainPath));
+    assert.ok(item.referencePath === null || existsSync(item.referencePath));
+    assert.ok(item.probe.length > 30);
+  }
+  assert.match(matrix.find(item => item.name === 'unsloth').referencePath, /qlora-workflow\.md$/);
+  const directory = mkdtempSync(join(tmpdir(), 'pi-matrix-fixture-'));
+  try {
+    const capture = join(directory, 'argv.json');
+    const fake = join(directory, 'fake-pi.cjs');
+    writeFileSync(fake, '#!/usr/bin/env node\nconst fs = require("node:fs"); fs.writeFileSync(process.env.CAPTURE, JSON.stringify({ args: process.argv.slice(2), cwd: process.cwd() })); console.log(JSON.stringify({ type: "agent_end" }));\n', { mode: 0o755 });
+    const output = join(directory, 'evidence');
+    const args = [fileURLToPath(new URL('./verify-pi-matrix.mjs', import.meta.url)), output, '2', '1', '30', matrix[0].name];
+    const options = { encoding: 'utf8', timeout: 15_000, env: { ...process.env, PI_BIN: fake, CAPTURE: capture } };
+    const result = spawnSync(process.execPath, args, options);
+    assert.ifError(result.error);
+    assert.equal(result.status, 1, result.stderr);
+    const summary = JSON.parse(readFileSync(join(output, 'summary.json'), 'utf8'));
+    assert.equal(summary.libraryComplete, false);
+    assert.equal(summary.passed, false);
+    assert.equal(summary.attempted, 1);
+    const recorded = JSON.parse(readFileSync(capture, 'utf8'));
+    assert.ok(recorded.args.includes('--no-session'));
+    assert.ok(recorded.args.includes('--no-extensions'));
+    assert.ok(!recorded.args.includes('-e') && !recorded.args.includes('--no-skills'));
+    assert.ok(recorded.cwd.startsWith(output));
+    const saved = readFileSync(join(output, `${matrix[0].name}.jsonl`), 'utf8');
+    assert.equal(spawnSync(process.execPath, args, options).status, 2);
+    assert.equal(readFileSync(join(output, `${matrix[0].name}.jsonl`), 'utf8'), saved);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
 
 test('skill contracts require correct bounded successful reads and valid response evidence', async () => {
   const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
