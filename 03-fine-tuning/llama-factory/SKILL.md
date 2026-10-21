@@ -38,6 +38,7 @@ DO NOT reuse an instruction dataset as preference data without checking its requ
 
 Describe standard QLoRA as frozen quantized base weights plus trainable low-rank adapter parameters.
 Distinguish quantization storage, computation dtype, adapter dtype, and optimizer-state precision.
+DO NOT equate four-bit storage with INT4 or assume tensor dtypes without inspecting the configuration.
 Treat adapter training, merging, and quantized inference export as different operations.
 DO NOT promise that every listed backend supports every model, device, and bit width.
 

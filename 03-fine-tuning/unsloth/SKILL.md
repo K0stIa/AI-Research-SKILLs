@@ -30,6 +30,7 @@ DO NOT infer API support from a model name or marketing description.
 
 Describe standard QLoRA as frozen quantized base weights plus trainable low-rank adapter parameters.
 Distinguish base-weight storage precision, computation dtype, adapter dtype, and optimizer-state precision.
+DO NOT equate four-bit storage with INT4 or assume tensor dtypes without inspecting the configuration.
 DO NOT describe ordinary QLoRA as an 8-bit adapter or repeated adapter re-quantization.
 Treat quantization-aware training, model merging, and inference quantization as separate workflows.
 DO NOT guarantee speedups, memory savings, or unchanged task quality without matching measurements.

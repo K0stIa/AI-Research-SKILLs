@@ -36,6 +36,9 @@ Do not copy `trust_remote_code: true` or output-overwrite settings without an ex
 
 Standard QLoRA trains adapter parameters while keeping quantized base weights frozen.
 A 4-bit base does not mean the adapters or optimizer states are also 4-bit.
+Four-bit storage is not automatically INT4. Bitsandbytes NF4 is a distinct quantization format.
+Inspect the actual configuration and tensor dtype before naming compute, adapter, or optimizer precision.
+Without that inspection, mark those dtypes unverified rather than assuming FP16 or BF16.
 An export or merge is a separate compatibility and quality-validation step.
 
 ## Authorized smoke run
@@ -52,5 +55,6 @@ Do not start training, downloads, installations, paid services, or a publicly ex
 - Data preparation: https://llamafactory.readthedocs.io/en/latest/getting_started/data_preparation.html
 - SFT guide: https://llamafactory.readthedocs.io/en/latest/getting_started/sft.html
 - QLoRA precision semantics: https://arxiv.org/abs/2305.14314v1
+- PEFT quantization formats and compute dtype: https://huggingface.co/docs/peft/developer_guides/quantization
 
 No model was downloaded or trained while preparing this reference. Unknown compatibility remains unverified.

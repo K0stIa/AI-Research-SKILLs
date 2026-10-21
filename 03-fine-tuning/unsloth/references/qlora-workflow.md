@@ -8,6 +8,9 @@ Standard QLoRA keeps the pretrained base weights frozen and quantized to 4-bit s
 Gradients pass through the frozen model into trainable low-rank adapters.
 The original QLoRA paper states this explicitly in its abstract.
 Adapter parameters, compute dtype, and optimizer states are separate from base-weight storage precision.
+Four-bit storage is not automatically INT4. For example, bitsandbytes NF4 is a distinct quantization format.
+Inspect the actual configuration and tensor dtype before naming the compute, adapter, or optimizer precision.
+If they were not inspected, report those dtypes as unverified rather than assuming FP16 or BF16.
 An 8-bit optimizer does not make an adapter an "8-bit LoRA adapter".
 Do not describe QLoRA as repeatedly re-quantizing updated adapters.
 
