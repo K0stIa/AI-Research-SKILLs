@@ -91,6 +91,18 @@ test('Unsloth entrypoint grounds QLoRA guidance before offering a recipe', () =>
   assert.ok(existsSync(join(root, '03-fine-tuning/unsloth/references/qlora-workflow.md')));
 });
 
+test('LLaMA-Factory entrypoint requires versioned SFT and dataset checks', () => {
+  const text = readFileSync(join(root, '03-fine-tuning/llama-factory/SKILL.md'), 'utf8');
+  assert.doesNotMatch(text, /patterns will be added|Use `view`|100\+ models|2\/3\/4\/5\/6\/8-bit/i);
+  assert.match(text, /MUST read.*references\/sft-workflow\.md/);
+  assert.match(text, /dataset_info\.json/);
+  assert.match(text, /chat template/i);
+  assert.match(text, /frozen.*base weights/i);
+  assert.match(text, /trainable.*adapter/i);
+  assert.match(text, /unverified/i);
+  assert.ok(existsSync(join(root, '03-fine-tuning/llama-factory/references/sft-workflow.md')));
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
