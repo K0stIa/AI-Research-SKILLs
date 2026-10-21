@@ -1,7 +1,7 @@
 ---
 name: knowledge-distillation
 description: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
-version: 1.0.2
+version: 1.0.3
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Knowledge Distillation, Model Compression, Teacher-Student, MiniLLM, Reverse KLD, Soft Targets, Temperature Scaling, Logit Distillation, Model Transfer]
@@ -65,21 +65,26 @@ tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-70b-hf")
 # 2. Define distillation loss
 def distillation_loss(student_logits, teacher_logits, labels, temperature=2.0, alpha=0.5):
     """
-    Combine hard loss (cross-entropy) with soft loss (KL divergence).
+    Combine causal cross-entropy and forward KL(Teacher || Student).
 
-    Args:
-        temperature: Softens probability distributions (higher = softer)
-        alpha: Weight for distillation loss (1-alpha for hard loss)
+    Inputs: matching [batch, time, vocabulary] logits and unshifted causal-LM labels.
+    Labels use -100 for ignored targets. Both models must share vocabulary semantics.
+    Shift next-token targets and mask both soft and hard losses consistently.
+    Temperature softens distributions; alpha weights the soft loss.
     """
-    # Hard loss: Standard cross-entropy with true labels
-    hard_loss = F.cross_entropy(student_logits.view(-1, student_logits.size(-1)), labels.view(-1))
+    vocabulary = student_logits.size(-1)
+    student = student_logits[:, :-1, :].reshape(-1, vocabulary)
+    teacher = teacher_logits.detach()[:, :-1, :].reshape(-1, vocabulary)
+    targets = labels[:, 1:].reshape(-1)
+    valid = targets != -100
+    if not valid.any():
+        return student.sum() * 0.0
 
-    # Soft loss: KL divergence between student and teacher
-    soft_targets = F.softmax(teacher_logits / temperature, dim=-1)
-    soft_student = F.log_softmax(student_logits / temperature, dim=-1)
+    student, teacher, targets = student[valid], teacher[valid], targets[valid]
+    hard_loss = F.cross_entropy(student, targets)
+    soft_targets = F.softmax(teacher / temperature, dim=-1)
+    soft_student = F.log_softmax(student / temperature, dim=-1)
     soft_loss = F.kl_div(soft_student, soft_targets, reduction='batchmean') * (temperature ** 2)
-
-    # Combined loss
     return alpha * soft_loss + (1 - alpha) * hard_loss
 
 # 3. Training loop
