@@ -229,6 +229,23 @@ test('GPTQ recipes distinguish measurements and checkpoint availability from ill
   assert.doesNotMatch(main, /TheBloke\/Llama-2-405B-GPTQ/);
 });
 
+test('bitsandbytes distinguishes raw weight payload from total QLoRA training memory', () => {
+  const main = readFileSync(join(root, '10-optimization/bitsandbytes/SKILL.md'), 'utf8');
+  const guide = readFileSync(join(root, '10-optimization/bitsandbytes/references/qlora-training.md'), 'utf8');
+  const overview = guide.split('## Quick Start')[0];
+  assert.doesNotMatch(overview, /35GB total|~20MB|<1% degradation|Fits on single/);
+  assert.match(overview, /nominal raw weight payload/);
+  assert.match(overview, /not total training memory/);
+  for (const cost of ['gradients', 'optimizer', 'activations', 'rank', 'target modules']) assert.ok(overview.includes(cost));
+  assert.match(overview, /held-out/);
+  assert.match(overview, /unquantized/);
+  assert.match(main, /## Verification boundaries/);
+  assert.doesNotMatch(main.match(/^description: (.*)$/m)?.[1] ?? '', /50-75%|minimal accuracy loss/);
+  // The old guide's own 335M-parameter illustration cannot be fixed-size 20MB in 16-bit storage.
+  assert.equal(335_000_000 * 2, 670_000_000);
+  assert.ok(335_000_000 * 2 > 20_000_000);
+});
+
 test('FAISS index selection avoids unmeasured recall percentages and preserves cosine normalization', () => {
   const text = readFileSync(join(root, '15-rag/faiss/references/index_types.md'), 'utf8');
   const selection = text.split('## Index selection guide')[1]?.split('\n## ')[0] ?? '';
