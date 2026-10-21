@@ -20,10 +20,9 @@ This reference provides a complete workflow for managing citations programmatica
 
 ### The Hallucination Problem
 
-Research has documented significant issues with AI-generated citations:
-- **~40% error rate** in AI-generated citations (Enago Academy research)
-- NeurIPS 2025 found **100+ hallucinated citations** slipped through review
-- Common errors include:
+Generated citations require verification. Error rates depend on the model, prompt, and evaluation protocol.
+Do not repeat numerical error-rate claims without a traceable primary source.
+Common errors include:
   - Fabricated paper titles with real author names
   - Wrong publication venues or years
   - Non-existent papers with plausible metadata
@@ -69,6 +68,14 @@ Google Scholar has no official API. Scraping violates ToS. Use SerpApi ($75-275/
 ---
 
 ## Verified Citation Workflow
+
+### When retrieval is unavailable
+
+State the limitation and label the reference unverified.
+Use `[CITATION NEEDED]` rather than inventing metadata or BibTeX.
+Do not claim that a failed lookup proves nonexistence.
+Keep citation existence, metadata accuracy, and support for the proposed claim as separate checks.
+Do not browse LaTeX templates for a citation-only task.
 
 ### 5-Step Process
 
@@ -140,7 +147,7 @@ def verify_paper(doi=None, arxiv_id=None, title=None):
 
 ### Step 3: Retrieve BibTeX
 
-Use DOI content negotiation for guaranteed accuracy:
+Retrieve metadata with DOI content negotiation, then check that it matches the intended paper:
 
 ```python
 import requests
