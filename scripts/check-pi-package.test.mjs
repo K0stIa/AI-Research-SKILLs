@@ -54,6 +54,23 @@ test('skills have unique Pi-compatible names and descriptions', () => {
   }
 });
 
+test('every local Markdown reference in main skills resolves to useful content', () => {
+  const missing = [];
+  for (const file of files) {
+    const text = readFileSync(file, 'utf8').replace(/^\s*(```|~~~)[\s\S]*?^\s*\1[^\n]*$/gm, '');
+    for (const match of text.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)/g)) {
+      const target = match[1].replace(/^<|>$/g, '');
+      if (/^(?:#|[a-z][a-z0-9+.-]*:)/i.test(target)) continue;
+      const localPath = decodeURIComponent(target.split(/[?#]/)[0]);
+      if (!localPath || /[$<>]/.test(localPath)) continue;
+      const absolute = resolve(dirname(file), localPath);
+      if (!existsSync(absolute)) missing.push(`${file}: ${localPath}`);
+      else if (statSync(absolute).isFile()) assert.ok(statSync(absolute).size > 80, absolute);
+    }
+  }
+  assert.deepEqual(missing, [], 'Broken local skill references');
+});
+
 test('Orchestra research command coexists with other autoresearch packages', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.match(text, /^name: orchestra-autoresearch$/m);
