@@ -15,14 +15,19 @@ This is the **ReAct pattern** (Reasoning + Acting).
 
 ## Basic agent creation
 
+Copy [safe_arithmetic.py](safe_arithmetic.py) beside your application first. Never evaluate model-supplied Python.
+The helper bounds expression length, syntax-tree size, and numeric results. It rejects calls, attributes, names, and exponentiation.
+Invalid input raises `ValueError`; handle tool errors using the installed LangChain version's supported mechanism.
+
 ```python
 from langchain.agents import create_agent
 from langchain_anthropic import ChatAnthropic
+from safe_arithmetic import calculate
 
 # Define tools
 def calculator(expression: str) -> str:
-    """Evaluate a math expression."""
-    return str(eval(expression))
+    """Calculate bounded numeric arithmetic, not Python code."""
+    return calculate(expression)
 
 def search(query: str) -> str:
     """Search for information."""

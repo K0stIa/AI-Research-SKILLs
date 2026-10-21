@@ -1,7 +1,7 @@
 ---
 name: langchain
 description: Framework for building LLM-powered applications with agents, chains, and RAG. Supports multiple providers (OpenAI, Anthropic, Google), 500+ integrations, ReAct agents, tool calling, memory management, and vector store retrieval. Use for building chatbots, question-answering systems, autonomous agents, or RAG applications. Best for rapid prototyping and production deployments.
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Agents, LangChain, RAG, Tool Calling, ReAct, Memory Management, Vector Stores, LLM Applications, Chatbots, Production]
@@ -135,15 +135,19 @@ result = chain.run(topic="machine learning")
 
 **ReAct (Reasoning + Acting) pattern:**
 
+Copy [safe_arithmetic.py](references/safe_arithmetic.py) beside your application first. Never evaluate model-supplied Python.
+The helper accepts bounded numeric arithmetic only and raises `ValueError` for invalid input. Check the installed LangChain API separately.
+
 ```python
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langchain.tools import Tool
+from safe_arithmetic import calculate
 
 # Define custom tool
 calculator = Tool(
     name="Calculator",
-    func=lambda x: eval(x),
-    description="Useful for math calculations. Input: valid Python expression."
+    func=calculate,
+    description="Bounded numeric arithmetic using parentheses and +, -, *, /."
 )
 
 # Create agent with tools
