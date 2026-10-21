@@ -1,7 +1,7 @@
 ---
 name: gptq
-description: Post-training 4-bit quantization for LLMs with minimal accuracy loss. Use for deploying large models (70B, 405B) on consumer GPUs, when you need 4× memory reduction with <2% perplexity degradation, or for faster inference (3-4× speedup) vs FP16. Integrates with transformers and PEFT for QLoRA fine-tuning.
-version: 1.0.0
+description: GPTQ post-training weight quantization for LLMs. Use to plan calibration, reduce weight storage, and evaluate quality and latency on a version-checked backend. Covers group-wise quantization, transformers integration, and adapter workflows; compatibility and performance require validation.
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [Optimization, GPTQ, Quantization, 4-Bit, Post-Training, Memory Optimization, Consumer GPUs, Fast Inference, QLoRA, Group-Wise Quantization]
@@ -10,25 +10,31 @@ dependencies: [auto-gptq, transformers, optimum, peft]
 
 # GPTQ (Generative Pre-trained Transformer Quantization)
 
-Post-training quantization method that compresses LLMs to 4-bit with minimal accuracy loss using group-wise quantization.
+GPTQ uses calibration data to guide weight quantization. Quality, capacity, and latency depend on the model, data, quantization settings, and kernels.
+
+## Verification boundaries
+
+- Record the actual installed library versions and available kernels before using a recipe. API compatibility remains unverified until checked.
+- Inspect checkpoint architecture, quantization metadata, access, and local files. An example identifier does not establish checkpoint availability.
+- All performance figures below are unverified illustrations, not target measurements or quality guarantees.
+- The nominal 16/4 weight-bit ratio is not total runtime memory. Include quantization metadata, packing, activations, KV caches, and workspaces.
+- Compare quantized and unquantized models on held-out data under the same evaluation settings. Measure target latency and throughput separately.
 
 ## When to use GPTQ
 
-**Use GPTQ when:**
-- Need to fit large models (70B+) on limited GPU memory
-- Want 4× memory reduction with <2% accuracy loss
-- Deploying on consumer GPUs (RTX 4090, 3090)
-- Need faster inference (3-4× speedup vs FP16)
+**Consider GPTQ when:**
+- Lower weight storage is a goal and a supported quantized kernel is available.
+- Calibration data can represent the intended workload.
+- Quality, memory, and latency can be compared against a baseline.
 
-**Use AWQ instead when:**
-- Need slightly better accuracy (<1% loss)
-- Have newer GPUs (Ampere, Ada)
-- Want Marlin kernel support (2× faster on some GPUs)
+**Compare AWQ as an alternative when:**
+- The target backend supports its format and kernels.
+- You can compare both methods on the same model, data, and hardware; neither has a universal accuracy advantage.
 
-**Use bitsandbytes instead when:**
-- Need simple integration with transformers
-- Want 8-bit quantization (less compression, better quality)
-- Don't need pre-quantized model files
+**Consider bitsandbytes when:**
+- You need its transformers loading workflow.
+- You want to evaluate supported 8-bit and 4-bit formats without assuming either guarantees better task quality.
+- You want to quantize during loading rather than require an existing quantized checkpoint.
 
 ## Quick start
 
@@ -295,25 +301,29 @@ lora_config = LoraConfig(
 # Add LoRA adapters
 model = get_peft_model(model, lora_config)
 
-# Fine-tune (memory efficient!)
-# 70B model trainable on single A100 80GB
+# Fine-tuning capacity is unverified. Measure activations, adapter/optimizer
+# state, quantization metadata, and backend workspaces as well as weights.
 ```
 
-## Performance benchmarks
+## Unverified performance illustrations
 
-### Memory reduction
+These retained figures are not reproduced benchmarks. Do not quote them as target performance or capacity guarantees.
 
-| Model | FP16 | GPTQ 4-bit | Reduction |
-|-------|------|------------|-----------|
+### Nominal weight storage
+
+Approximate decimal GB from parameter counts and bit widths only; metadata and runtime allocations are excluded.
+
+| Model | FP16 weights | Nominal 4-bit weights | Bit-width ratio |
+|-------|--------------|-----------------------|-----------------|
 | Llama 2-7B | 14 GB | 3.5 GB | 4× |
 | Llama 2-13B | 26 GB | 6.5 GB | 4× |
 | Llama 2-70B | 140 GB | 35 GB | 4× |
-| Llama 3-405B | 810 GB | 203 GB | 4× |
+| Llama 3.1-405B | 810 GB | 203 GB | 4× |
 
-**Enables**:
-- 70B on single A100 80GB (vs 2× A100 needed for FP16)
-- 405B on 3× A100 80GB (vs 11× A100 needed for FP16)
-- 13B on RTX 4090 24GB (vs OOM with FP16)
+**Capacity planning requires measurement:**
+- For a 70B target on an 80GB device, include non-weight allocations before deciding whether the workload fits.
+- For a 405B target, account for per-device memory, placement, and runtime overhead; rounded weight bytes alone do not determine a device count.
+- For a 13B target on a 24GB device, measure the intended batch, sequence length, cache, and backend configuration.
 
 ### Inference speed (Llama 2-7B, A100)
 
@@ -332,7 +342,7 @@ model = get_peft_model(model, lora_config)
 | Llama 2-13B | 4.88 | 4.95 | +1.4% |
 | Llama 2-70B | 3.32 | 3.38 | +1.8% |
 
-**Excellent quality preservation** - less than 2% degradation!
+These illustrative values are not validation results. Recompute perplexity with the same tokenizer, corpus, sequence handling, and evaluation settings before drawing quality conclusions.
 
 ## Common patterns
 
@@ -364,9 +374,11 @@ model = AutoGPTQForCausalLM.from_quantized(
 ### CPU offloading
 
 ```python
-# Offload some layers to CPU (for very large models)
+# Replace with an inspected, architecture-compatible quantized checkpoint.
+# Verify this backend's CPU-offload support before using this illustration.
+quantized_model_path = "/path/to/verified-gptq-checkpoint"
 model = AutoGPTQForCausalLM.from_quantized(
-    "TheBloke/Llama-2-405B-GPTQ",
+    quantized_model_path,
     device_map="auto",
     max_memory={
         0: "80GB",  # GPU 0

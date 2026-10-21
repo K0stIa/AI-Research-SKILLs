@@ -6,26 +6,22 @@ Complete guide to calibration data selection and quantization process.
 
 ### Why calibration matters
 
-Calibration data is used to:
-1. **Compute weight importance** (Hessian matrix)
-2. **Minimize quantization error** for important weights
-3. **Preserve model accuracy** after quantization
+Calibration activations help estimate layerwise reconstruction-error sensitivity and guide quantization updates.
+This does not establish a universal perplexity or task-quality bound.
 
-**Impact**:
-- Good calibration: <1.5% perplexity increase
-- Poor calibration: 5-10% perplexity increase
-- No calibration: Model may output gibberish
+**Measure impact:**
+- Compare quantized and unquantized models on representative held-out data using the same tokenizer, corpus, sequence handling, and evaluation code.
+- Report the baseline metric, quantized metric, calibration coverage, quantization settings, and backend versions.
+- Labels such as good or poor calibration do not imply a fixed percentage change. Treat downstream quality as unverified until measured.
 
 ### Dataset size
 
-**Recommended**:
-- **128-256 samples** of 512 tokens each
-- Total: 65K-131K tokens
+**Illustrative starting budget, not a minimum or quality guarantee:**
+- 128-256 samples of at most 512 tokens each.
+- The upper token budget is approximately 65K-131K tokens; shorter examples reduce it.
 
-**More is not always better**:
-- <64 samples: Underfitting (poor quality)
-- 128-256 samples: Sweet spot
-- >512 samples: Diminishing returns, slower quantization
+Choose coverage and sample count using held-out quality and quantization cost. Additional data can help coverage, but no universal sample-count sweet spot follows.
+Verify each example dataset's repository, configuration, schema, license, and access before loading it. Dataset availability is not established by this guide's examples.
 
 ### Dataset selection by domain
 
