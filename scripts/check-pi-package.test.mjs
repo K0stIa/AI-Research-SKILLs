@@ -103,6 +103,12 @@ test('LLaMA-Factory entrypoint requires versioned SFT and dataset checks', () =>
   assert.ok(existsSync(join(root, '03-fine-tuning/llama-factory/references/sft-workflow.md')));
 });
 
+test('LLaMA-Factory distinguishes Alpaca source columns from response mapping roles', () => {
+  const guide = readFileSync(join(root, '03-fine-tuning/llama-factory/references/sft-workflow.md'), 'utf8');
+  for (const column of ['instruction', 'input', 'output']) assert.ok(guide.includes(`\`${column}\``), column);
+  assert.match(guide, /`response`.*mapping.*not.*default/);
+});
+
 test('fine-tuning references separate bit width from quantization format and actual tensor dtype', () => {
   for (const guide of ['unsloth/references/qlora-workflow.md', 'llama-factory/references/sft-workflow.md']) {
     const text = readFileSync(join(root, '03-fine-tuning', guide), 'utf8');
