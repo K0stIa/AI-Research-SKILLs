@@ -31,6 +31,7 @@ export function analyzeRun({ stdout, exitCode, timedOut }) {
 // Mechanical response checks do not establish the truth of the technical prose.
 export function evaluateSkillRun(run, contract) {
   const analysis = analyzeRun(run);
+  const countWords = text => text.trim().split(/\s+/).filter(Boolean).length;
   const failures = [];
   if (!analysis.completed) failures.push('transport-incomplete');
   if (analysis.ignoredLines) failures.push('invalid-event-stream');
@@ -44,14 +45,20 @@ export function evaluateSkillRun(run, contract) {
     if (answer.mainPath !== contract.mainPath) failures.push('wrong-main-path');
     if (answer.referencePath !== contract.referencePath) failures.push('wrong-reference-path');
     if (answer.executed !== false) failures.push('execution-not-denied');
-    for (const field of ['purpose', 'referenceFact', 'pitfall']) {
+    const keys = ['skill', 'mainPath', 'referencePath', 'purpose', 'referenceFact', 'pitfall', 'prerequisites', 'executed'];
+    if (Object.keys(answer).length !== keys.length || Object.keys(answer).some(key => !keys.includes(key))) failures.push('wrong-answer-keys');
+    for (const [field, cap] of Object.entries({ purpose: 8, referenceFact: 18, pitfall: 28 })) {
       if (typeof answer[field] !== 'string' || !answer[field].trim()) failures.push(`missing-${field}`);
+      else if (countWords(answer[field]) > cap) failures.push(`field-word-cap-exceeded:${field}`);
     }
     if (!Array.isArray(answer.prerequisites) || !answer.prerequisites.length || answer.prerequisites.some(value => typeof value !== 'string' || !value.trim())) {
       failures.push('missing-prerequisites');
+    } else {
+      if (answer.prerequisites.length !== 3) failures.push('wrong-prerequisite-count');
+      if (answer.prerequisites.some(value => countWords(value) > 8)) failures.push('field-word-cap-exceeded:prerequisites');
     }
   }
-  const words = analysis.finalText.trim().split(/\s+/).filter(Boolean).length;
+  const words = countWords(analysis.finalText);
   if (words > contract.maxWords) failures.push('word-cap-exceeded');
   const events = run.stdout.split('\n').flatMap(line => {
     try { return [JSON.parse(line)]; } catch { return []; }
@@ -66,6 +73,11 @@ export function evaluateSkillRun(run, contract) {
     if (typeof path !== 'string' || !permittedPaths.has(resolve(path))) { failures.push('unapproved-read-path'); continue; }
     if (!Number.isInteger(limit) || limit < 1 || limit > (contract.maxReadLines ?? 80) || !Number.isInteger(offset) || offset < 1) {
       failures.push('unbounded-read'); continue;
+    }
+    if (resolve(path) === resolve(contract.mainPath)) {
+      if (offset !== 1 || limit !== 12) { failures.push('wrong-main-read-range'); continue; }
+    } else if (limit > 40) {
+      failures.push('reference-read-cap-exceeded'); continue;
     }
     const end = events.slice(i + 1).find(next => next.type === 'tool_execution_end' && typeof event.toolCallId === 'string' && next.toolCallId === event.toolCallId && next.toolName === 'read');
     if (end?.isError === false && end.result?.content?.some(part => part.type === 'text' && part.text?.trim())) successfulReads.push(resolve(path));
