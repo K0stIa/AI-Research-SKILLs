@@ -11,7 +11,10 @@ It does not claim that those configurations work unchanged with another release.
 
 Inspect the data preparation section of the bundled getting-started archive.
 Register local data in `dataset_info.json` with explicit file paths and column mappings.
-For Alpaca-style SFT, check instruction, optional input, and response columns.
+For Alpaca-style SFT, the default source fields are `instruction`, optional `input`, and `output`.
+For custom names, verify the explicit registration column mapping.
+The `response` mapping role is not a required default source-column name.
+For example, the registration's response role maps to the default source field `output`.
 For conversation data, check the registered format, message roles, and chat template.
 For preference training, verify chosen/rejected fields instead of treating SFT responses as preference pairs.
 Keep held-out evaluation records separate from training.
