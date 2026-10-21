@@ -61,4 +61,12 @@ Product/package revision: `4dc40f4f29a633f49d94d713cb987d4410413834`.
 - Focused semantic review finds unsupported facts and prerequisites even among mechanical passes. The fresh GPTQ answer still invents `auto-gptq 0.9+`; retrieved PyPI metadata reports latest `0.7.1`.
 - Step 7 and universal behavioral/semantic acceptance remain incomplete. SDK/device/training paths and non-Python fence builds are not certified.
 
-Detailed evidence and current counts: `specs/verifications/pi-exhaustive/REPORT.md`, `RESULTS.json`, `TDD.md`, and `AUDIT.md`. Keep this bug open; successful package tests do not close the remaining acceptance gaps.
+Detailed evidence and counts at that checkpoint: `specs/verifications/pi-exhaustive/REPORT.md`, `RESULTS.json`, `TDD.md`, and `AUDIT.md`.
+
+## Astra follow-up checkpoint
+
+Product `00a303d2e141c79f814ab9ee87fba72466c24226` repairs the cumulative reference-read allowance, FP16 all-ignored loss, and full Wanda sequence calibration with three additional isolated red/green pairs. Checks pass: 35 Node, 36 bounded CPU, one optional-demo regression, inventory, installed discovery, and 35 extracted-package Node tests. Names and paths remain unchanged.
+
+No live matrix was rerun. Reevaluation of the same 130 frozen attempts changes no mechanical verdict. Two modified skill sources invalidate their prior current-source eligibility: 96/98 names now have selected-source-current attempts, 71/98 have a mechanical pass, and 27 have current gaps. The old 72/98 checkpoint remains immutable for its own revision. New prompt behavior and full semantics/SDK/device paths remain unverified.
+
+See `specs/verifications/pi-astra-followup/REPORT.md` and `RESULTS.json`. Keep this original bug open; successful targeted repairs and package tests do not close universal behavioral/semantic acceptance.

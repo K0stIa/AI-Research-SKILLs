@@ -1,0 +1,541 @@
+{
+  "baselineRevision": "807fcffb401d8a44033178517092468ac6cc6f5b",
+  "productRevision": "00a303d2e141c79f814ab9ee87fba72466c24226",
+  "branch": "pi",
+  "targetedRepairsVerified": true,
+  "overallLibraryAccepted": false,
+  "independentPostFixReview": false,
+  "newLiveExecutions": 0,
+  "tbb": [
+    {
+      "name": "reference",
+      "red": {
+        "name": "reference",
+        "phase": "red",
+        "revision": "c68b82fea8fe43b9945a25c93210d79b7b387bb6",
+        "command": [
+          "node",
+          "--test",
+          "--test-name-pattern=reference read budget is cumulative",
+          "scripts/check-pi-verification.test.mjs"
+        ],
+        "testCount": 1,
+        "status": 1,
+        "expectedDefectSignature": "\"offset\":41,\"limit\":40",
+        "archiveSha256": "26d2ba3e751b1a5ae5853b953a7ff5c16802e82892c3731e536a71a3840a0ab8",
+        "logSha256": "d3546b0e310361c5d930359c563df2964e2fbe5733133a5788effcb5f978c808",
+        "verified": true
+      },
+      "green": {
+        "name": "reference",
+        "phase": "green",
+        "revision": "8faeeaf9866082b79e341aa8954416981530a84e",
+        "command": [
+          "node",
+          "--test",
+          "--test-name-pattern=reference read budget is cumulative",
+          "scripts/check-pi-verification.test.mjs"
+        ],
+        "testCount": 1,
+        "status": 0,
+        "expectedDefectSignature": null,
+        "archiveSha256": "ddbc26ee131b870bc507956595a0b0c3fb8d5f14c027475ecec489686b7edca3",
+        "logSha256": "b2e877d2a0d3e820968609d68554634b7aa0eba66b6828dab73bd98fb6b3c692",
+        "verified": true
+      }
+    },
+    {
+      "name": "fp16",
+      "red": {
+        "name": "fp16",
+        "phase": "red",
+        "revision": "67929eebb073d24f2750ebe49f16b80ec1399064",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py",
+          "CausalDistillationExample"
+        ],
+        "testCount": 6,
+        "status": 1,
+        "expectedDefectSignature": "FAIL: test_all_ignored_fp16_overflow_has_zero_loss_and_gradients",
+        "archiveSha256": "c8877b215ebeca5465cb70a009223433ac31384b4101015cc2f0c5923b78816a",
+        "logSha256": "87ccd43ec00ff227efda8910313d7c59c72a1760216785994261b66b4ffa49e2",
+        "verified": true
+      },
+      "green": {
+        "name": "fp16",
+        "phase": "green",
+        "revision": "69ff7b46f3ad7a08c788b5b52e22eea0d459488c",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py",
+          "CausalDistillationExample"
+        ],
+        "testCount": 6,
+        "status": 0,
+        "expectedDefectSignature": null,
+        "archiveSha256": "ea0a4e4d77f9045862903560931f41c2ce5f97aeb41f4802a67786f54ee5d37b",
+        "logSha256": "a59801ce72972f4edca895a3184e35895b976dfced16610c94ec747524a2c923",
+        "verified": true
+      }
+    },
+    {
+      "name": "wanda",
+      "red": {
+        "name": "wanda",
+        "phase": "red",
+        "revision": "a373ea56085203cbb8ba30da11365b4b8b1014ad",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py",
+          "WandaFullPruningExample"
+        ],
+        "testCount": 8,
+        "status": 1,
+        "expectedDefectSignature": "The size of tensor a (2) must match the size of tensor b (4)",
+        "archiveSha256": "494f06486ca18f29f66023bdfe671f4c95892cf8fe561aeb831b890ad63ad759",
+        "logSha256": "6dba2ada03c2031e9acee1fc5872073883fd7e3234e67a7e23058e18568b71e4",
+        "verified": true
+      },
+      "green": {
+        "name": "wanda",
+        "phase": "green",
+        "revision": "00a303d2e141c79f814ab9ee87fba72466c24226",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py",
+          "WandaFullPruningExample"
+        ],
+        "testCount": 8,
+        "status": 0,
+        "expectedDefectSignature": null,
+        "archiveSha256": "a8fdec0d73efd45b68a83c2fef0ad84a1e63a02106de31accec6732455174dcb",
+        "logSha256": "d0fb548e5cb1165b8a36a7470a8c491fcf798987027f1650675f5db95fde73d1",
+        "verified": true
+      }
+    }
+  ],
+  "package": {
+    "revision": "00a303d2e141c79f814ab9ee87fba72466c24226",
+    "package": "ai-research-skills-1.0.1.tgz",
+    "sha256": "0fc3e029cc84dc7215f6b5a4fd9275c732be32c88b822b7f870626cb9db33635",
+    "files": 478,
+    "skills": 98,
+    "categories": 23,
+    "references": 291,
+    "unpackedSize": 7972542,
+    "categoryFiles": 466,
+    "categoryMismatches": 0,
+    "standaloneSyntax": [
+      {
+        "path": "06-post-training/grpo-rl-training/examples/reward_functions_library.py",
+        "passed": true
+      },
+      {
+        "path": "06-post-training/grpo-rl-training/templates/basic_grpo_training.py",
+        "passed": true
+      },
+      {
+        "path": "14-agents/langchain/references/safe_arithmetic.py",
+        "passed": true
+      },
+      {
+        "path": "package.json",
+        "passed": true
+      },
+      {
+        "path": "scripts/check-pi-package.test.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/check-pi-verification.test.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/markdown-fences.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/pi-verification-events.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-installed.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-live.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-matrix.mjs",
+        "passed": true
+      }
+    ],
+    "jobs": [
+      {
+        "name": "revision",
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "source-tests",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "exitCode": 0,
+        "testCount": 35
+      },
+      {
+        "name": "numeric",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py"
+        ],
+        "exitCode": 0,
+        "testCount": 36
+      },
+      {
+        "name": "optional-demo",
+        "command": [
+          "node",
+          "--test",
+          "scripts/check-optional-demo.test.mjs"
+        ],
+        "exitCode": 0,
+        "testCount": 1
+      },
+      {
+        "name": "inventory",
+        "command": [
+          "bash",
+          "scripts/check-inventory.sh"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "pack",
+        "command": [
+          "npm",
+          "pack",
+          "--json",
+          "--ignore-scripts",
+          "--offline",
+          "--pack-destination",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "unpack",
+        "command": [
+          "tar",
+          "-xf",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/ai-research-skills-1.0.1.tgz",
+          "-C",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "isolated-tests",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "exitCode": 0,
+        "testCount": 35
+      },
+      {
+        "name": "installed-inventory",
+        "command": [
+          "node",
+          "scripts/verify-pi-installed.mjs",
+          "/home/k0stia/.pi/agent/install/releases/1.3.0/node_modules/@earendil-works/pi-coding-agent/dist/core",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/installed-inventory.json"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-06-post-training_grpo-rl-training_examples_reward_functions_library.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/06-post-training/grpo-rl-training/examples/reward_functions_library.py"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-06-post-training_grpo-rl-training_templates_basic_grpo_training.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/06-post-training/grpo-rl-training/templates/basic_grpo_training.py"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-14-agents_langchain_references_safe_arithmetic.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/14-agents/langchain/references/safe_arithmetic.py"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_check-pi-package.test.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/check-pi-package.test.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_check-pi-verification.test.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/check-pi-verification.test.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_markdown-fences.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/markdown-fences.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_pi-verification-events.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/pi-verification-events.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-installed.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/verify-pi-installed.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-live.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/verify-pi-live.mjs"
+        ],
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-matrix.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z/package/extracted/package/scripts/verify-pi-matrix.mjs"
+        ],
+        "exitCode": 0
+      }
+    ],
+    "optionalDemoPackaged": false,
+    "numericSuitePackaged": false,
+    "passed": true
+  },
+  "installedDiscovery": {
+    "root": "/home/k0stia/code/pi/AI-Research-SKILLs",
+    "expected": 98,
+    "results": [
+      {
+        "cwd": "/tmp",
+        "totalSkills": 330,
+        "orchestraActive": 98,
+        "shadowed": [],
+        "missing": [],
+        "feynman": "/home/k0stia/.pi/agent/npm/node_modules/@companion-ai/feynman/skills/autoresearch/SKILL.md",
+        "feynmanPreserved": true,
+        "diagnostics": []
+      },
+      {
+        "cwd": "/home/k0stia/code/pi",
+        "totalSkills": 330,
+        "orchestraActive": 98,
+        "shadowed": [],
+        "missing": [],
+        "feynman": "/home/k0stia/.pi/agent/npm/node_modules/@companion-ai/feynman/skills/autoresearch/SKILL.md",
+        "feynmanPreserved": true,
+        "diagnostics": []
+      },
+      {
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "totalSkills": 330,
+        "orchestraActive": 98,
+        "shadowed": [],
+        "missing": [],
+        "feynman": "/home/k0stia/.pi/agent/npm/node_modules/@companion-ai/feynman/skills/autoresearch/SKILL.md",
+        "feynmanPreserved": true,
+        "diagnostics": []
+      }
+    ]
+  },
+  "audit": {
+    "checksums": [
+      {
+        "manifest": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-exhaustive/SHA256SUMS",
+        "files": 7,
+        "failures": []
+      },
+      {
+        "manifest": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-exhaustive/RAW-SHA256SUMS",
+        "files": 630,
+        "failures": []
+      },
+      {
+        "manifest": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-repair/SHA256SUMS",
+        "files": 34,
+        "failures": []
+      },
+      {
+        "manifest": "/home/k0stia/code/pi/.pi/verification/ai-research-repair-20261021/SHA256SUMS.accepted",
+        "files": 128,
+        "failures": []
+      },
+      {
+        "manifest": "/home/k0stia/code/pi/.pi/verification/ai-research-20261021/SHA256SUMS",
+        "files": 51,
+        "failures": []
+      },
+      {
+        "manifest": "/home/k0stia/code/pi/.pi/verification/ai-research-exhaustive-20261021T065003Z/astra-review-validation-01/SHA256SUMS",
+        "files": 8,
+        "failures": []
+      }
+    ],
+    "identities": {
+      "count": 98,
+      "namesUnchanged": true,
+      "pathsUnchanged": true,
+      "versionChanges": [
+        {
+          "path": "19-emerging-techniques/knowledge-distillation/SKILL.md",
+          "before": "1.0.3",
+          "after": "1.0.4"
+        },
+        {
+          "path": "19-emerging-techniques/model-pruning/SKILL.md",
+          "before": "1.0.1",
+          "after": "1.0.2"
+        }
+      ]
+    },
+    "limitedDiffCredentialScan": {
+      "patterns": 5,
+      "candidates": 0,
+      "note": "Pattern scan of scoped diff, not whole-library security certification."
+    }
+  },
+  "live": {
+    "totalSkills": 98,
+    "cases": 130,
+    "skillsAttempted": 98,
+    "currentAttempted": 96,
+    "currentMechanicalPass": 71,
+    "latestCurrentMechanicalPass": 71,
+    "currentMechanicallyPassingCases": 72,
+    "changedMechanicalVerdicts": [],
+    "sourceCurrencyChanges": [
+      {
+        "run": "matrix-main",
+        "name": "model-pruning"
+      },
+      {
+        "run": "task-contract-recheck",
+        "name": "knowledge-distillation"
+      }
+    ],
+    "previousSnapshot": {
+      "currentAttempted": 98,
+      "currentMechanicalPass": 72
+    },
+    "evaluatorSha256": "90c1af9da46a87ad1f065c4ba0dbfc4887e81cc17e1c65d98d7c8a24b3de0b09",
+    "matrixSha256": "c2f5e7bbf07619cc47f0587026aa0053d52d2f052b4c3e6d9b32151eab917648",
+    "semanticReviewComplete": false,
+    "note": "Reevaluation of frozen events only. Current means selected main/reference bytes, not a new prompt/model run or whole-library source freeze. Prompt wording changed and was not live-rerun.",
+    "currentMechanicalGaps": [
+      "academic-plotting",
+      "autogpt-agents",
+      "brainstorming-research-ideas",
+      "chroma",
+      "clip",
+      "creative-thinking-for-research",
+      "distributed-llm-pretraining-torchtitan",
+      "evaluating-code-models",
+      "evaluating-llms-harness",
+      "evolving-ai-agents",
+      "huggingface-tokenizers",
+      "knowledge-distillation",
+      "langchain",
+      "llamaindex",
+      "long-context",
+      "miles-rl-training",
+      "ml-training-recipes",
+      "modal-serverless-gpu",
+      "model-pruning",
+      "nemo-curator",
+      "nnsight-remote-interpretability",
+      "pytorch-fsdp2",
+      "sentence-transformers",
+      "sentencepiece",
+      "sparse-autoencoder-training",
+      "stable-diffusion-image-generation",
+      "torchforge-rl-training"
+    ]
+  },
+  "diagnosticsBeforeReportFiles": {
+    "pathsChecked": 8,
+    "findings": 0,
+    "confirmedClean": 5,
+    "inconclusive": 3,
+    "fullyCovered": false
+  },
+  "diagnosticsFinal": {
+    "pathsChecked": 17,
+    "findings": 0,
+    "confirmedClean": 17,
+    "inconclusive": 0,
+    "fullyCovered": true,
+    "scope": "Changed source/report paths only, not all library archives"
+  },
+  "portableReviewNormalization": {
+    "removedTrailingSpaceBytes": 6,
+    "linesChanged": 3,
+    "originalReviewPreserved": true,
+    "firstSealedDraftPreserved": "report-draft-01/",
+    "proof": "report-final-02/review-normalization.json"
+  },
+  "rawEvidenceRoot": "/home/k0stia/code/pi/.pi/verification/ai-research-astra-fixes-20261021T104330Z",
+  "note": "Parent verification of three fixes. Original Astra BLOCK review retained unchanged; no fresh Astra approval or universal behavioral/semantic/SDK certification."
+}

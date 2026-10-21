@@ -1,6 +1,6 @@
 ---
 type: bug-fix-plan
-status: in-progress
+status: verified-with-limits
 context: User-approved repair of three independently reviewed Astra P2 findings
 ---
 
@@ -24,6 +24,14 @@ Each item gets a separate failing-test commit before its fix commit. Replay thos
 - Installed discovery uses actual existing settings without forced package selection.
 - New evidence directory, source hashes, red/green logs, isolated-replay results, tarball digest, and final report.
 - Reevaluate saved live records separately, under the stricter evaluator and final source hashes. Do not overwrite original results or silently rerun the live matrix.
+
+## Verified checkpoint
+
+Product `00a303d2e141c79f814ab9ee87fba72466c24226` repairs all three findings. Three separate red/green pairs replay correctly in isolated archives. Final checks pass: 35 source Node tests, 36 CPU tests, one optional-demo regression, inventory, installed discovery, and 35 extracted-package Node tests.
+
+The same 130 frozen attempts have unchanged mechanical verdicts. After the two skill-source changes, selected-source currency is 96/98 attempted and 71/98 mechanically passing, with 27 current gaps. No live attempts or post-fix Astra re-review occurred.
+
+See `specs/verifications/pi-astra-followup/REPORT.md`, `TDD.md`, and `RESULTS.json`. This scoped bug is verified with limits; the original exhaustive-verification bug remains open.
 
 ## Limits
 
