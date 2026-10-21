@@ -1,7 +1,7 @@
 ---
 name: gptq
 description: GPTQ post-training weight quantization for LLMs. Use to plan calibration, reduce weight storage, and evaluate quality and latency on a version-checked backend. Covers group-wise quantization, transformers integration, and adapter workflows; compatibility and performance require validation.
-version: 1.0.1
+version: 1.0.2
 author: Orchestra Research
 license: MIT
 tags: [Optimization, GPTQ, Quantization, 4-Bit, Post-Training, Memory Optimization, Consumer GPUs, Fast Inference, QLoRA, Group-Wise Quantization]
@@ -356,11 +356,13 @@ model = AutoGPTQForCausalLM.from_quantized(
     max_memory={0: "40GB", 1: "40GB"}  # Limit per GPU
 )
 
-# Manual device mapping
+# Illustrative 80-layer layout; inspect the actual model's named_modules()
+# and configuration first. Keys must be exact module paths, not ranges.
+# Check tied-weight placement and backend dispatch support separately.
 device_map = {
     "model.embed_tokens": 0,
-    "model.layers.0-39": 0,  # First 40 layers on GPU 0
-    "model.layers.40-79": 1,  # Last 40 layers on GPU 1
+    **{f"model.layers.{i}": 0 for i in range(40)},
+    **{f"model.layers.{i}": 1 for i in range(40, 80)},
     "model.norm": 1,
     "lm_head": 1
 }
