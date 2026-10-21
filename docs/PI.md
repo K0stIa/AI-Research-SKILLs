@@ -31,14 +31,15 @@ Use `/skill:name` to load a specific skill. Use the `name` field in its YAML fro
 For the research orchestration skill:
 
 ```text
-/skill:autoresearch Plan a small CPU-only experiment. Propose budget and stopping criteria before execution.
+/skill:orchestra-autoresearch Plan a small CPU-only experiment. Propose budget and stopping criteria before execution.
 ```
 
 For another skill, open its `SKILL.md`, inspect `name`, then invoke `/skill:<that-name>`.
 Relative reference and script paths resolve from that skill's directory, not the current research project.
 
-Use `pi config` to disable unwanted skills. Other installed packages can define identical skill names.
-Pi keeps the first discovered definition and reports collisions. Disable one copy before relying on automatic selection.
+The `orchestra-autoresearch` name avoids the separate Feynman `autoresearch` skill. Both can remain installed.
+The bare `autoresearch` name is not an Orchestra alias. Update saved prompts to use the new name.
+Use `pi config` to disable unwanted skills. Pi keeps the first discovered definition when other names collide.
 
 ## Runtime differences
 
@@ -65,4 +66,4 @@ npm pack --dry-run
 
 Tests check category coverage, skill inventory, unique names, frontmatter limits, and bounded Pi autoresearch instructions.
 They do not run model training, provision cloud resources, or verify every upstream code example.
-After installation, inspect Pi's startup diagnostics and confirm `/skill:autoresearch` is available.
+After installation, inspect Pi's startup diagnostics and confirm `/skill:orchestra-autoresearch` is available.

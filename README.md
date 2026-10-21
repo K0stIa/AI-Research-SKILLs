@@ -90,7 +90,7 @@ Install from your local checkout:
 pi install /absolute/path/to/AI-Research-SKILLs
 ```
 
-Run `/reload`, then invoke `/skill:autoresearch` or another skill's frontmatter name.
+Run `/reload`, then invoke `/skill:orchestra-autoresearch` or another skill's frontmatter name.
 Pi autoresearch uses bounded experiment batches, not mandatory `/loop` or cron scheduling.
 See [Pi setup](docs/PI.md) for project scope, branch installation, skill selection, and validation.
 
