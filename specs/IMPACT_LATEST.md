@@ -66,3 +66,11 @@ Dependents and coverage:
 - The knowledge-distillation and model-pruning skills receive patch-version increments. Names, paths, and package categories remain unchanged.
 
 Risk: Medium. Tightening the evaluator affects historical reevaluations; the numerical examples can change copied application behavior. Preserve old records and write new source-current evaluations separately. No release/story capsule exists for this repair. User approved the three-finding plan in `bugs/BUG-pi-astra-followup.md`. No new runtime dependencies or live matrix calls are required.
+
+## Astra adjacent-example follow-up
+
+Targets: duplicate `wanda_prune` in model-pruning's main entrypoint and `reverse_kl_loss` plus contradictory MiniLLM explanations in knowledge-distillation's selected reference. Both defects predate the previous three-fix diff.
+
+Dependents: users copy both guides; the CPU suite currently exercises only the corrected Wanda reference and reverse-KL main entrypoint. Add actual duplicate/main and reference extraction coverage before repair. Keep the primary text-to-tokenized-batches wiring explicit, and exercise both Wanda functions under the same eight numerical/resource-cleanup scenarios. Check the MiniLLM reference's formula, labels, identity, direction, entropy-sensitive gradients and adjacent on-policy guidance. No Python SDK/model loader executes during these tests.
+
+Risk: Medium. Two skill patch versions and selected-source hashes change. Keep all 98 names, category paths and supporting reference paths. Remove unsupported MiniLLM training/benchmark assertions rather than recertifying a false trainer; preserve original reference bytes in new baseline evidence and Git history. No release/story capsule exists. User approved both fixes; plan is `bugs/BUG-pi-astra-adjacent.md`. No dependencies, live-session retries, settings changes or publication are required.
