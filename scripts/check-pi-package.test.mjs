@@ -103,6 +103,15 @@ test('LLaMA-Factory entrypoint requires versioned SFT and dataset checks', () =>
   assert.ok(existsSync(join(root, '03-fine-tuning/llama-factory/references/sft-workflow.md')));
 });
 
+test('fine-tuning references separate bit width from quantization format and actual tensor dtype', () => {
+  for (const guide of ['unsloth/references/qlora-workflow.md', 'llama-factory/references/sft-workflow.md']) {
+    const text = readFileSync(join(root, '03-fine-tuning', guide), 'utf8');
+    assert.match(text, /not.*INT4/);
+    assert.match(text, /NF4/);
+    assert.match(text, /inspect.*dtype/i);
+  }
+});
+
 test('paper-writing prioritizes citation evidence over template discovery', () => {
   const text = readFileSync(join(root, '20-ml-paper-writing/ml-paper-writing/SKILL.md'), 'utf8');
   const gate = text.match(/## Pi citation gate\n([\s\S]*?)(?=\n## )/)?.[1] ?? '';
