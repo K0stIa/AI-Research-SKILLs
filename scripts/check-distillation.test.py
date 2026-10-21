@@ -398,6 +398,100 @@ class WandaMainPruningExample(WandaFullPruningExample):
         return CpuModel(layer), layer
 
 
+class WandaProductionCallerExample(unittest.TestCase):
+    def test_production_wanda_prepares_text_rows_before_calibration(self):
+        """Exercise both actual guide functions, stopping before Trainer setup."""
+        path = GUIDE.parents[2] / "19-emerging-techniques/model-pruning/SKILL.md"
+        functions = []
+        for code in re.findall(r"^```python\s*\n([\s\S]*?)^```", path.read_text(), re.M):
+            functions.extend(node for node in ast.parse(code).body if isinstance(node, ast.FunctionDef)
+                             and node.name in {"wanda_prune", "production_pruning_pipeline"})
+        self.assertEqual({node.name for node in functions}, {"wanda_prune", "production_pruning_pipeline"})
+
+        class CalibrationComplete(Exception):
+            """Deliberately stop before creating any Trainer configuration."""
+
+        scenarios = {
+            "mixed-rows": ["alpha beta", " \n\t", "  gamma delta epsilon  "],
+            "bounded-long-row": [" ".join(["token"] * 2050)],
+            "empty-dataset": [],
+            "blank-only": ["", " \t\n"],
+        }
+        for name, texts in scenarios.items():
+            with self.subTest(scenario=name):
+                tokenized_texts = []
+                moved_to = []
+                forwarded = []
+
+                class CpuCausalModel(torch.nn.Module):
+                    def __init__(self):
+                        super().__init__()
+                        self.projection = torch.nn.Linear(3, 2, bias=False)
+                        with torch.no_grad():
+                            self.projection.weight.copy_(torch.tensor([[1., 3., 4.], [9., 1., 3.]]))
+
+                    @property
+                    def device(self) -> torch.device:
+                        return self.projection.weight.device
+
+                    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor):
+                        forwarded.append((input_ids.clone(), attention_mask.clone()))
+                        values = input_ids.float()
+                        features = torch.stack((torch.ones_like(values), values, 2 * torch.ones_like(values)), dim=-1)
+                        return self.projection(features)
+
+                class Batch(dict[str, torch.Tensor]):
+                    def to(self, device: torch.device):
+                        moved_to.append(device)
+                        return {key: value.to(device) for key, value in self.items()}
+
+                def tokenize(text: str, *, return_tensors: str, truncation: bool = False, max_length: int = 0):
+                    self.assertIsInstance(text, str)
+                    self.assertEqual(return_tensors, "pt")
+                    self.assertTrue(truncation)
+                    self.assertEqual(max_length, 2048)
+                    tokenized_texts.append(text)
+                    length = min(len(text.split()), max_length)
+                    tokens = torch.arange(1, length + 1, dtype=torch.long).unsqueeze(0)
+                    return Batch(input_ids=tokens, attention_mask=torch.ones_like(tokens))
+
+                def stop_before_training(**kwargs):
+                    raise CalibrationComplete
+
+                model = CpuCausalModel()
+                original = model.projection.weight.detach().clone()
+                namespace: dict[str, object] = {
+                    "torch": torch,
+                    "AutoModelForCausalLM": SimpleNamespace(from_pretrained=lambda *args, **kwargs: model),
+                    "AutoTokenizer": SimpleNamespace(from_pretrained=lambda *args, **kwargs: tokenize),
+                    "load_dataset": lambda *args, **kwargs: [{"text": text} for text in texts],
+                    "TrainingArguments": stop_before_training,
+                }
+                exec(compile(ast.Module(body=functions, type_ignores=[]), str(path), "exec"), namespace)
+                pipeline = cast(Callable[..., object], namespace["production_pruning_pipeline"])
+                try:
+                    with self.assertRaises(CalibrationComplete):
+                        pipeline(model_name="toy-no-download", target_sparsity=1 / 3, method="wanda")
+                except TypeError as error:
+                    self.fail(f"Production Wanda calibration forwarded raw rows: {error}")
+                expected_texts = [text for text in texts if text.strip()]
+                self.assertEqual(tokenized_texts, expected_texts)
+                self.assertEqual(moved_to, [model.device] * len(expected_texts))
+                self.assertEqual(len(forwarded), len(expected_texts))
+                for (tokens, mask), text in zip(forwarded, expected_texts):
+                    length = min(len(text.split()), 2048)
+                    torch.testing.assert_close(tokens, torch.arange(1, length + 1).unsqueeze(0))
+                    torch.testing.assert_close(mask, torch.ones(1, length, dtype=torch.long))
+                if name == "mixed-rows":
+                    torch.testing.assert_close(model.projection.weight, torch.tensor([[0., 3., 4.], [9., 0., 3.]]))
+                elif expected_texts:
+                    self.assertTrue(torch.all((model.projection.weight == 0).sum(dim=1) == 1))
+                else:
+                    torch.testing.assert_close(model.projection.weight, original)
+                self.assertFalse(model.projection._forward_hooks)
+                self.assertIsNone(model.projection.weight.grad)
+
+
 class SimpoNumericalExamples(unittest.TestCase):
     def value(self, number: int, name: str) -> float:
         path = GUIDE.parents[2] / "06-post-training/simpo/references/loss-functions.md"
