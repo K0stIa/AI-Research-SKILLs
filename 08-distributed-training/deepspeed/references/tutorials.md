@@ -5376,7 +5376,7 @@ This section consists of two parts: (a) we first perform a light-weight layer re
 
 3.2.1 Light-weight Layer Reduction
 
-compression/bert/config/XTC/ds_config_layer_reduction_fp16.json in DeepSpeedExamples is the example configuration for reducing the 12-layer BERT-base to a 6-layer one. The student’s layers are initialized from i-layer of the teacher with i= [1, 3 ,5 ,7 ,9 ,11] (note that the layer starts from 0), which is called Skip-BERT_5 in our XTC paper. In addition, student’s modules including embedding, pooler and classifier are also initialized from teacher. For 5-layer layer reduction, one needs to change the configs in ds_config_layer_reduction_fp16.json to "keep_number_layer": 5, "teacher_layer": [2, 4 ,6, 8, 10](like in compression/bert/config/ds_config_TEMPLATE.json).
+compression/bert/config/XTC/ds_config_layer_reduction_fp16.json in DeepSpeedExamples is the example configuration for reducing the 12-layer BERT-base to a 6-layer one. The student’s layers are initialized from i-layer of the teacher with i= [1, 3 ,5 ,7 ,9 ,11] (note that the layer starts from 0), which is called Skip-BERT_5 in our XTC paper. In addition, student’s modules including embedding, pooler and classifier are also initialized from teacher. For 5-layer layer reduction, one needs to change the configs in ds_config_layer_reduction_fp16.json to "keep_number_layer": 5, "teacher_layer": `[2, 4, 6, 8, 10]` (like in compression/bert/config/ds_config_TEMPLATE.json).
 
 One can run this example by:
 
