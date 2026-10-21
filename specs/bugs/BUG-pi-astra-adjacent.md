@@ -1,6 +1,6 @@
 ---
 type: bug-fix-plan
-status: in-progress
+status: verified-with-limits
 context: User-approved TBB repair of two inherited Astra P2 findings
 ---
 
@@ -27,3 +27,11 @@ Each item has its own test-only red commit and passing fix commit. Replay commit
 ## Boundaries
 
 No source names/paths removed, dependency installs, pretrained models, optimizer steps, training, model/server/settings changes, live-session retries, push or publication. Existing CPU tests execute trusted checkout snippets, not hostile-code sandboxes. Prior six live sessions and full-library acceptance gaps remain historical and open. These two repairs do not establish full MiniLLM/Wanda reproduction, framework/device compatibility, retained quality or speed, or fresh Astra approval.
+
+## Verified checkpoint
+
+Product `ee5b3c43412734ff912b796b107345f80b8bf251` repairs both findings. Main Wanda RED `2e09110` precedes GREEN `63b8f3a`; MiniLLM-reference RED `5843e11` precedes GREEN `ee5b3c4`. All four committed archive replays execute eight tests and give the expected red exit 1 / green exit 0.
+
+Final checks pass: 35 Node, 52 bounded CPU, one optional-demo regression, inventory, installed discovery and 35 extracted-package Node tests. Both corresponding function ASTs now agree. Skill patch versions are model-pruning `1.0.3` and knowledge-distillation `1.0.5`; all 98 identities/paths remain unchanged. Selected historical integrity checks match 227 hashes.
+
+See `specs/verifications/pi-astra-adjacent/REPORT.md`, `TDD.md`, `AUDIT.md` and `RESULTS.json`. No new live runs or independent post-fix approval. The original exhaustive-verification bug remains open.

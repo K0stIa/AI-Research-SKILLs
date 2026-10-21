@@ -70,3 +70,11 @@ Product `00a303d2e141c79f814ab9ee87fba72466c24226` repairs the cumulative refere
 No live matrix was rerun. Reevaluation of the same 130 frozen attempts changes no mechanical verdict. Two modified skill sources invalidate their prior current-source eligibility: 96/98 names now have selected-source-current attempts, 71/98 have a mechanical pass, and 27 have current gaps. The old 72/98 checkpoint remains immutable for its own revision. New prompt behavior and full semantics/SDK/device paths remain unverified.
 
 See `specs/verifications/pi-astra-followup/REPORT.md` and `RESULTS.json`. Keep this original bug open; successful targeted repairs and package tests do not close universal behavioral/semantic acceptance.
+
+## Adjacent Astra checkpoint
+
+A subsequent independent review at `6f562ca` accepted the original three repairs but found an inherited duplicate main Wanda failure and contradictory MiniLLM reference. Its six actual fresh Pi sessions had two mechanical matrix passes, a GPTQ timeout, a distillation no-read/hallucinated answer, and two separate identity completions. Pruning retained semantic concerns. Those results remain immutable in host evidence `ai-research-astra-rereview-20261021T120922Z-FrO4Y0`.
+
+User-approved TBB repairs now pass at product `ee5b3c43412734ff912b796b107345f80b8bf251`: main Wanda `2e09110`/`63b8f3a`, MiniLLM reference `5843e11`/`ee5b3c4`. Each pair has committed isolated red/green replay with eight tests per phase. Final checks pass 35 Node, 52 CPU, one demo and 35 extracted-package Node tests; inventory and installed discovery retain 98 skills/23 categories and separate Feynman namespace.
+
+No live rerun or further independent approval occurred in this repair stage. The two changed skill sources invalidate earlier selected-source eligibility; no fresh full-library current-source totals are claimed. See `specs/verifications/pi-astra-adjacent/REPORT.md`. This broader bug stays open.
