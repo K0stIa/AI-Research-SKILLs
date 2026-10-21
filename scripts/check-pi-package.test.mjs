@@ -64,6 +64,20 @@ test('Python-tagged examples in all packaged Markdown parse without importing de
   assert.deepEqual(JSON.parse(result.stdout), [], 'Invalid Python examples or incorrect code-fence languages');
 });
 
+test('skills with reproduced task-contract failures state read and response boundaries', () => {
+  const reproduced = ['ara-compiler', 'audiocraft-audio-generation', 'chroma', 'clip', 'constitutional-ai', 'distributed-llm-pretraining-torchtitan', 'evaluating-llms-harness', 'fine-tuning-with-trl', 'huggingface-accelerate', 'huggingface-tokenizers', 'knowledge-distillation', 'lambda-labs-gpu-cloud'];
+  for (const name of reproduced) {
+    const file = files.find(path => readFileSync(path, 'utf8').includes(`\nname: ${name}\n`));
+    assert.ok(file, name);
+    const text = readFileSync(file, 'utf8');
+    const rules = text.match(/## Pi task contract\n([\s\S]*?)(?=\n#|$)/)?.[1] ?? '';
+    assert.match(rules, /actual bounded `read` calls/, name);
+    assert.match(rules, /expansion is not filesystem evidence/, name);
+    assert.match(rules, /response format and word limit/, name);
+    assert.match(rules, /without matching tool results/, name);
+  }
+});
+
 test('all skill entrypoints fit a bounded prompt-expansion budget', () => {
   const oversized = files.filter(file => statSync(file).size > 50_000).map(file => ({ file, bytes: statSync(file).size }));
   assert.deepEqual(oversized, [], 'Move scraped manuals into references instead of expanding them for every invocation');
