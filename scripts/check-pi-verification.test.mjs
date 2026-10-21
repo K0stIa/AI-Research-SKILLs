@@ -47,6 +47,8 @@ test('the installed matrix covers all 98 skills and cannot pass missing or overw
     const recorded = JSON.parse(readFileSync(capture, 'utf8'));
     assert.ok(recorded.args.includes('--no-session'));
     assert.ok(recorded.args.includes('--no-extensions'));
+    assert.match(recorded.args.at(-1), /purpose at most 8 words/);
+    assert.match(recorded.args.at(-1), /exactly 3 prerequisites/);
     assert.ok(!recorded.args.includes('-e') && !recorded.args.includes('--no-skills'));
     assert.ok(recorded.cwd.startsWith(output));
     const saved = readFileSync(join(output, `${matrix[0].name}.jsonl`), 'utf8');
