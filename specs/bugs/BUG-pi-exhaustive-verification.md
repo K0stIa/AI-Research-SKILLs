@@ -78,3 +78,11 @@ A subsequent independent review at `6f562ca` accepted the original three repairs
 User-approved TBB repairs now pass at product `ee5b3c43412734ff912b796b107345f80b8bf251`: main Wanda `2e09110`/`63b8f3a`, MiniLLM reference `5843e11`/`ee5b3c4`. Each pair has committed isolated red/green replay with eight tests per phase. Final checks pass 35 Node, 52 CPU, one demo and 35 extracted-package Node tests; inventory and installed discovery retain 98 skills/23 categories and separate Feynman namespace.
 
 No live rerun or further independent approval occurred in this repair stage. The two changed skill sources invalidate earlier selected-source eligibility; no fresh full-library current-source totals are claimed. See `specs/verifications/pi-astra-adjacent/REPORT.md`. This broader bug stays open.
+
+## Production Wanda caller checkpoint
+
+Astra's subsequent review at `8a9ea6f` accepted both earlier helper repairs with notes, found the inherited production caller's raw-text boundary defect, and blocked its new six-session cohort. GPTQ timed out; pruning skipped required reads and falsely claimed activation preservation. Distillation and LangChain mechanically passed but retained semantic/planning concerns. Both namespace identities completed. Those attempts and their97-artifact manifest remain unchanged.
+
+Approved caller TBB repair now passes at `a15455b1ad5dc0976023cec3342f7aba827423ca`: RED `3f05354`, GREEN `a15455b`, one focused test with four scenarios replayed from committed archives. Final35 Node/53 CPU/1 demo/35 packaged Node tests and installed inventory/discovery pass. Only model-pruning changes1.0.3 to1.0.4; helper and SparseGPT branch stay unchanged. See `specs/verifications/pi-wanda-caller/REPORT.md`.
+
+No new live sessions or independent post-caller-fix review. Changed skill source invalidates its old selected-source currency. Whole-library acceptance, full pipelines, SDK/device/quality/speed and separately logged baseline Python diagnostics remain open. No universal clean-diagnostics or new full-library live totals are claimed.

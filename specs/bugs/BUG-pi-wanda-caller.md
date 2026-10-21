@@ -1,7 +1,7 @@
 ---
 type: bug-plan
 context: User-approved TBB repair of the inherited production Wanda caller
-status: planned
+status: verified-with-limits
 ---
 
 # Production Wanda calibration boundary
@@ -29,3 +29,9 @@ The raw-text forwarding failure must disappear in the actual caller path. Existi
 Baseline passes: 35 Node tests, 52 bounded CPU tests, one optional-demo regression, inventory98/23. No new live sessions or independent review are authorized by this repair request. Full Trainer/SparseGPT/model access, actual dataset schema/availability, device/offload, scientific quality and throughput remain unverified. Toy fixtures model the guide's stated raw-row schema only.
 
 `CONVENTIONS.md`, Bigpowers timing/red-isolation helpers, release capsule and state ledger are absent. Use explicit committed-archive replay instead; do not claim unavailable gates ran. No install, pretrained-model download, training, optimizer step, publication or push.
+
+## Verified checkpoint
+
+Test-only RED `3f05354e070033e2e101b997e1499d199f1a97cc` and GREEN `a15455b1ad5dc0976023cec3342f7aba827423ca` independently replay committed archives with one focused test/four scenarios each, expected failure then pass. Final35 Node/53 CPU/1 demo and35 actual packaged Node tests pass. Inventory/discovery preserve98 skills/23 categories. Model-pruning is1.0.4; guide stays499 lines. See `../verifications/pi-wanda-caller/REPORT.md`.
+
+Only the Wanda calibration connection is verified. Full integration/training remains a sketch; prior live BLOCK and separate baseline Python diagnostics remain open. No fresh independent review or live rerun occurred during this repair.

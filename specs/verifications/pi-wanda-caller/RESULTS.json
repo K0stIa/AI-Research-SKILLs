@@ -1,0 +1,593 @@
+{
+  "scope": "Production Wanda calibration boundary; parent verification, not full production or library acceptance",
+  "baseline": "8a9ea6f9180016317f7212aaa2a8fc062e1369c5",
+  "product": "a15455b1ad5dc0976023cec3342f7aba827423ca",
+  "tbb": {
+    "red": {
+      "phase": "red",
+      "revision": "3f05354e070033e2e101b997e1499d199f1a97cc",
+      "changedFiles": [
+        "scripts/check-distillation.test.py"
+      ],
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py",
+        "WandaProductionCallerExample"
+      ],
+      "cwd": "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/isolated-red",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exitCode": 1,
+      "expectedExit": 1,
+      "testCount": 1,
+      "signatureMatched": true,
+      "passed": true,
+      "sha256": {
+        "isolated-red.tar": "4dd22780985046f96cc2bcf4f6b1ef6d4516054ba09d39fb61e2ab5d28cd508d",
+        "isolated-red.stdout.log": "08f30836f1b9cd7c476aca311041c8bf462f6932e71eaddb8664ae5662ed7786",
+        "isolated-red.stderr.log": "155d4178dd29be4bc3293380742b730338001ea6805fa44115e3c54fa7e0365d"
+      }
+    },
+    "green": {
+      "phase": "green",
+      "revision": "a15455b1ad5dc0976023cec3342f7aba827423ca",
+      "changedFiles": [
+        "19-emerging-techniques/model-pruning/SKILL.md"
+      ],
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py",
+        "WandaProductionCallerExample"
+      ],
+      "cwd": "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/isolated-green",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "exitCode": 0,
+      "expectedExit": 0,
+      "testCount": 1,
+      "signatureMatched": true,
+      "passed": true,
+      "sha256": {
+        "isolated-green.tar": "6bcdc2dcdc6899a29b7817e8895b75dfa6aba97f77ab25f5245ea5b2783203b5",
+        "isolated-green.stdout.log": "08f30836f1b9cd7c476aca311041c8bf462f6932e71eaddb8664ae5662ed7786",
+        "isolated-green.stderr.log": "a41e08b8782ccff561fc04da1c4aa92b79d00989913c15ae6639e0c2e9b7e03c"
+      }
+    },
+    "focusedTestsPerPhase": 1,
+    "scenariosPerFocusedTest": 4
+  },
+  "checks": {
+    "baseline-node": {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:37:31.505175+00:00",
+      "ended": "2026-10-21T15:37:32.141924+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        35
+      ]
+    },
+    "baseline-cpu": {
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:37:32.163987+00:00",
+      "ended": "2026-10-21T15:37:33.503870+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        52
+      ]
+    },
+    "baseline-demo": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/check-optional-demo.test.mjs"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:37:33.526779+00:00",
+      "ended": "2026-10-21T15:37:33.604695+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        1
+      ]
+    },
+    "baseline-inventory": {
+      "command": [
+        "bash",
+        "scripts/check-inventory.sh"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:37:33.627538+00:00",
+      "ended": "2026-10-21T15:37:33.645631+00:00",
+      "exitCode": 0,
+      "testCounts": []
+    },
+    "caller-red": {
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py",
+        "WandaProductionCallerExample"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:39:33.735893+00:00",
+      "ended": "2026-10-21T15:39:35.062050+00:00",
+      "exitCode": 1,
+      "testCounts": [
+        1
+      ]
+    },
+    "caller-green": {
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py",
+        "WandaProductionCallerExample"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:42:35.842972+00:00",
+      "ended": "2026-10-21T15:42:37.213969+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        1
+      ]
+    },
+    "final-node": {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:42:37.235882+00:00",
+      "ended": "2026-10-21T15:42:38.050120+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        35
+      ]
+    },
+    "final-cpu": {
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:42:38.072212+00:00",
+      "ended": "2026-10-21T15:42:39.590013+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        53
+      ]
+    },
+    "final-demo": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/check-optional-demo.test.mjs"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:42:39.616071+00:00",
+      "ended": "2026-10-21T15:42:39.705361+00:00",
+      "exitCode": 0,
+      "testCounts": [
+        1
+      ]
+    },
+    "final-inventory": {
+      "command": [
+        "bash",
+        "scripts/check-inventory.sh"
+      ],
+      "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+      "environmentOverrides": {
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "started": "2026-10-21T15:42:39.731461+00:00",
+      "ended": "2026-10-21T15:42:39.750240+00:00",
+      "exitCode": 0,
+      "testCounts": []
+    }
+  },
+  "package": {
+    "revision": "a15455b1ad5dc0976023cec3342f7aba827423ca",
+    "package": "ai-research-skills-1.0.1.tgz",
+    "sha256": "94ed4c479fb991e600cc7a03e1bfd549c2946e36348a7235f43fddae16e9502c",
+    "files": 478,
+    "skills": 98,
+    "categories": 23,
+    "references": 291,
+    "unpackedSize": 7973345,
+    "categoryFiles": 466,
+    "categoryMismatches": 0,
+    "standaloneSyntax": [
+      {
+        "path": "06-post-training/grpo-rl-training/examples/reward_functions_library.py",
+        "passed": true
+      },
+      {
+        "path": "06-post-training/grpo-rl-training/templates/basic_grpo_training.py",
+        "passed": true
+      },
+      {
+        "path": "14-agents/langchain/references/safe_arithmetic.py",
+        "passed": true
+      },
+      {
+        "path": "package.json",
+        "passed": true
+      },
+      {
+        "path": "scripts/check-pi-package.test.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/check-pi-verification.test.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/markdown-fences.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/pi-verification-events.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-installed.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-live.mjs",
+        "passed": true
+      },
+      {
+        "path": "scripts/verify-pi-matrix.mjs",
+        "passed": true
+      }
+    ],
+    "jobs": [
+      {
+        "name": "revision",
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "pack",
+        "command": [
+          "npm",
+          "pack",
+          "--json",
+          "--ignore-scripts",
+          "--offline",
+          "--pack-destination",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "unpack",
+        "command": [
+          "tar",
+          "-xf",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/ai-research-skills-1.0.1.tgz",
+          "-C",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "isolated-tests",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "cwd": "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package",
+        "exitCode": 0,
+        "testCount": 35
+      },
+      {
+        "name": "installed-inventory",
+        "command": [
+          "node",
+          "scripts/verify-pi-installed.mjs",
+          "/home/k0stia/.pi/agent/install/releases/1.3.0/node_modules/@earendil-works/pi-coding-agent/dist/core",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/installed-inventory.json"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-06-post-training_grpo-rl-training_examples_reward_functions_library.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/06-post-training/grpo-rl-training/examples/reward_functions_library.py"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-06-post-training_grpo-rl-training_templates_basic_grpo_training.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/06-post-training/grpo-rl-training/templates/basic_grpo_training.py"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-14-agents_langchain_references_safe_arithmetic.py",
+        "command": [
+          "python3",
+          "-I",
+          "-S",
+          "-c",
+          "import pathlib,sys; compile(pathlib.Path(sys.argv[1]).read_text(), sys.argv[1], \"exec\")",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/14-agents/langchain/references/safe_arithmetic.py"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_check-pi-package.test.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/check-pi-package.test.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_check-pi-verification.test.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/check-pi-verification.test.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_markdown-fences.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/markdown-fences.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_pi-verification-events.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/pi-verification-events.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-installed.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/verify-pi-installed.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-live.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/verify-pi-live.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-scripts_verify-pi-matrix.mjs",
+        "command": [
+          "node",
+          "--check",
+          "/home/k0stia/code/pi/.pi/verification/ai-research-wanda-caller-fix-20261021T153515Z-CQJG7G/package/extracted/package/scripts/verify-pi-matrix.mjs"
+        ],
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs",
+        "exitCode": 0
+      }
+    ],
+    "optionalDemoPackaged": false,
+    "numericSuitePackaged": false,
+    "passed": true
+  },
+  "audit": {
+    "baseline": "8a9ea6f9180016317f7212aaa2a8fc062e1369c5",
+    "product": "a15455b1ad5dc0976023cec3342f7aba827423ca",
+    "identitiesPreserved": 98,
+    "categories": 23,
+    "versionChanges": {
+      "19-emerging-techniques/model-pruning/SKILL.md": [
+        "1.0.3",
+        "1.0.4"
+      ]
+    },
+    "wandaHelperASTUnchanged": true,
+    "sparsegptBranchASTUnchanged": true,
+    "skillLines": 499,
+    "credentialDiffPatterns": 5,
+    "credentialCandidates": 0,
+    "historical": [
+      {
+        "name": "prior-portable",
+        "cwd": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-astra-adjacent",
+        "manifest": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-astra-adjacent/SHA256SUMS",
+        "exitCode": 0,
+        "matching": 6
+      },
+      {
+        "name": "prior-raw",
+        "cwd": "/home/k0stia/code/pi/.pi/verification/ai-research-astra-adjacent-fixes-20261021T132605Z-H68GRi",
+        "manifest": "/home/k0stia/code/pi/AI-Research-SKILLs/specs/verifications/pi-astra-adjacent/RAW-SHA256SUMS",
+        "exitCode": 0,
+        "matching": 93
+      },
+      {
+        "name": "astra-review",
+        "cwd": "/home/k0stia/code/pi/.pi/verification/ai-research-astra-adjacent-review-20261021T141109Z-NjF7sl",
+        "manifest": "/home/k0stia/code/pi/.pi/verification/ai-research-astra-adjacent-review-20261021T141109Z-NjF7sl/SHA256SUMS",
+        "exitCode": 0,
+        "matching": 97
+      }
+    ],
+    "selectedSources": {
+      "19-emerging-techniques/model-pruning/SKILL.md": "d9f8b0532416d2371558dbff17d470899d1316fbd51066596f773d04816e2caf",
+      "19-emerging-techniques/model-pruning/references/wanda.md": "848c08657e9223296c75a7f0ec7364749716028aaa9821dad7e6b8ea284c020e",
+      "scripts/check-distillation.test.py": "0a008f5763c4146b2bbd9f577b9d908493074859e979d0efad12eeb213fb7e98"
+    },
+    "pyyamlVersion": "6.0.3",
+    "scope": "Identity and selected-source audit, not full-library scientific/API/security certification",
+    "passed": true
+  },
+  "diagnostics": {
+    "recording": "Parent transcription of active lens outcomes and dispositions; not an LSP protocol dump",
+    "baselineProbe": {
+      "paths": 3,
+      "primaryErrors": 8,
+      "auxiliaryErrors": 5,
+      "clean": 0,
+      "findings": 2,
+      "inconclusive": 1,
+      "grpoSourceUnchangedFrom8a9ea6f": true,
+      "grpoSha256": "aa2104ebb7bb38df0bd06752998cd9822e47126cf8515f57c1c19545da6364cc",
+      "siblingSourceEdited": false,
+      "disposition": "All thirteen unrelated identities deferred session-only and persistently logged in specs/bugs/BUG-pi-baseline-python-diagnostics.md. No inline suppressions or settings changes. These findings remain unresolved."
+    },
+    "changedPathsProbe": {
+      "paths": 6,
+      "clean": 3,
+      "findings": 2,
+      "inconclusive": 1,
+      "unconfirmedReason": "One check timed out at5000ms",
+      "primaryErrors": 0,
+      "auxiliaryWarnings": 12,
+      "warningDetails": {
+        "cpuSuite": "Ten Semgrep exec/eval audit warnings. Nine preexisting; one new line470 explicitly marked false-positive after trusted-checkout AST execution review. This suite is not a hostile-code sandbox.",
+        "runCheckHelper": "Two numeric-parse warnings marked false-positive: digit-constrained count groups and authored0/1 expected-exit CLI control, with intentional rejection of malformed control arguments."
+      }
+    },
+    "auditHelper": {
+      "initialFindings": "Two unhandled JSON/file parse findings in initial authored helper, retained in audit-initial.py.txt",
+      "repair": "First corrected helper uses parse_json with OSError/JSONDecodeError handling; final helper makes both handlers local and reproduces audit values exactly. Both original and first corrected helper bytes remain preserved.",
+      "pythonAstProof": "audit-json-handling-proof.json records2 initial/0 final unprotected named calls; native NAPI attempt failed because Python grammar unavailable, so not native-engine certification",
+      "fullWorkspaceRefresh": {
+        "originalJsonErrorsReported": 0,
+        "newRegexFinding": "python-unsafe-regex atline50, false-positive: five authored literal credential patterns, not user/model-controlled regex",
+        "auxiliaryWarnings": 11,
+        "freshAnalyzers": [
+          "madge",
+          "jscpd",
+          "knip",
+          "opengrep"
+        ],
+        "coldNotCertified": [
+          "gitleaks",
+          "govulncheck",
+          "trivy",
+          "dead-code",
+          "test-runner"
+        ]
+      },
+      "activeRecheck": {
+        "paths": 1,
+        "diagnostics": 0,
+        "clean": 0,
+        "inconclusive": 1,
+        "reason": "Push-only server cannot confirm clean on silent recheck"
+      }
+    },
+    "fullWorkspaceClean": false,
+    "independentPostFixReview": false
+  },
+  "metadataHelperJsonProof": {
+    "method": "Python AST check of named-call/try-ancestor predicates in shipped rule; not native-engine certification",
+    "initialFindings": [
+      {
+        "line": 19,
+        "call": "json.loads"
+      },
+      {
+        "line": 60,
+        "call": "json.loads"
+      }
+    ],
+    "currentFindings": [],
+    "currentSha256": "b0f27970002ed26741d514ad52f7cc709da200501aa6d5769bd4c92d1406d468",
+    "nativeAttempt": {
+      "exitCode": 1,
+      "error": "python is not supported in napi",
+      "installedPythonGrammarPackage": false,
+      "astGrepCLIOnPath": false,
+      "noInstallOrSettingsChange": true
+    },
+    "passed": true
+  },
+  "unresolvedBaselineBug": "specs/bugs/BUG-pi-baseline-python-diagnostics.md",
+  "liveSessionsRun": 0,
+  "independentPostFixReview": false,
+  "fullPipelineCertified": false,
+  "fullLibraryAcceptance": false,
+  "settingsChanged": false,
+  "dependenciesInstalled": false,
+  "trainingOrOptimizerSteps": false,
+  "pushedOrPublished": false,
+  "status": "verified-with-limits"
+}
