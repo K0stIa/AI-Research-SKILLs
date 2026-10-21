@@ -40,6 +40,16 @@ test('all 98 research skills remain bundled with their supporting files', () => 
   }
 });
 
+test('Markdown fence parsing respects longer closers, nested examples, tilde fences, and indentation', async () => {
+  const { fencedBlocks } = await import('./markdown-fences.mjs');
+  const sample = '````text\n```python\nnot Python\n```\n````\n```python title="example"\nx = 1\n````\n  ~~~py\n  y = 2\n  ~~~~\n```python\nz = 3';
+  const blocks = fencedBlocks(sample);
+  assert.deepEqual(blocks.map(item => [item.language, item.code, item.closed]), [
+    ['text', '```python\nnot Python\n```', true], ['python', 'x = 1', true], ['py', 'y = 2', true], ['python', 'z = 3', false],
+  ]);
+  assert.deepEqual(blocks.map(item => item.line), [1, 6, 9, 12]);
+});
+
 test('Python-tagged examples in all packaged Markdown parse without importing dependencies', () => {
   const snippets = allMarkdown.flatMap(file => {
     const text = readFileSync(file, 'utf8');
