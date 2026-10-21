@@ -101,6 +101,29 @@ class WandbValueSpaceExample(unittest.TestCase):
                 self.assertIn("log_uniform_values", text)
 
 
+class GrpoMetricInterpretationExample(unittest.TestCase):
+    def text(self) -> str:
+        return (GUIDE.parents[2] / "06-post-training/grpo-rl-training/SKILL.md").read_text()
+
+    def test_zero_variance_occurs_for_both_solved_and_failed_groups(self):
+        solved = torch.tensor([1.0, 1.0])
+        failed = torch.tensor([0.0, 0.0])
+        self.assertEqual(solved.std(unbiased=False).item(), 0.0)
+        self.assertEqual(failed.std(unbiased=False).item(), 0.0)
+        self.assertNotEqual(solved.mean().item(), failed.mean().item())
+        text = self.text()
+        self.assertIn("Zero reward variance does not by itself prove mode collapse", text)
+        self.assertIn("Loss is not a direct measurement of KL alone", text)
+        self.assertNotIn("Loss starts near 0 and INCREASES", text)
+
+    def test_reward_standard_deviation_threshold_depends_on_reward_scale(self):
+        rewards = torch.tensor([0.0, 1.0])
+        scaled = rewards * 0.001
+        self.assertAlmostEqual(scaled.std(unbiased=False).item(), 0.001 * rewards.std(unbiased=False).item(), places=9)
+        self.assertLess(scaled.std(unbiased=False).item(), 0.1)
+        self.assertNotIn("should stay > 0.1", self.text())
+
+
 class AutoGptAsyncGeneratorExample(unittest.TestCase):
     def setUp(self):
         self.path = GUIDE.parents[2] / "14-agents/autogpt/references/advanced-usage.md"
