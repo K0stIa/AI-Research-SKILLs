@@ -1,4 +1,4 @@
-"""Execute only the loss function AST from the guide on tiny CPU tensors.
+"""Check bounded numerical/configuration examples without loading models.
 
 Requires an already-installed PyTorch. No models, downloads, training, or optimizer steps.
 """
@@ -63,6 +63,16 @@ class ReverseKlExample(unittest.TestCase):
     def test_extreme_finite_logits_do_not_produce_nan(self):
         logits = torch.tensor([[1000.0, -1000.0]], dtype=torch.float64)
         self.assertTrue(torch.isfinite(self.loss(logits, -logits)).item())
+
+
+class WandbValueSpaceExample(unittest.TestCase):
+    def test_positive_raw_bounds_use_value_space_distributions(self):
+        directory = GUIDE.parents[2] / "13-mlops/weights-and-biases"
+        for relative in ("SKILL.md", "references/sweeps.md", "references/integrations.md"):
+            with self.subTest(file=relative):
+                text = (directory / relative).read_text()
+                self.assertNotRegex(text, r"['\"]distribution['\"]\s*:\s*['\"](?:q_)?log_uniform['\"]")
+                self.assertIn("log_uniform_values", text)
 
 
 class SimpoNumericalExamples(unittest.TestCase):
