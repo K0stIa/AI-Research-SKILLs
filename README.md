@@ -28,12 +28,12 @@
 
 | | | |
 |:---:|:---:|:---:|
-| **Autoresearch** (1) | **Ideation** (2) | **ML Paper Writing** (2) |
+| **Autoresearch** (1) | **Ideation** (2) | **ML Paper Writing** (4) |
 | **Model Architecture** (5) | **Fine-Tuning** (4) | **Post-Training** (8) |
-| **Distributed Training** (6) | **Optimization** (6) | **Inference** (4) |
+| **Distributed Training** (6) | **Optimization** (7) | **Inference** (4) |
 | **Tokenization** (2) | **Data Processing** (2) | **Evaluation** (3) |
-| **Safety & Alignment** (4) | **Agents** (4) | **RAG** (5) |
-| **Multimodal** (7) | **Prompt Engineering** (4) | **MLOps** (3) |
+| **Safety & Alignment** (4) | **Agents** (5) | **RAG** (5) |
+| **Multimodal** (10) | **Prompt Engineering** (4) | **MLOps** (4) |
 | **Observability** (2) | **Infrastructure** (3) | **Mech Interp** (4) |
 | **Emerging Techniques** (6) | **Agent-Native Research Artifact** (3) | |
 
@@ -160,7 +160,7 @@ Install skill categories directly using the **Claude Code CLI**:
 |----------|--------|----------|
 | **Autoresearch** | **1** | **Autonomous research orchestration — central layer that manages the full lifecycle and routes to all other skills** |
 | Ideation | 2 | Research Brainstorming, Creative Thinking |
-| ML Paper Writing | 2 | ML Paper Writing (LaTeX templates, citation verification), Academic Plotting |
+| ML Paper Writing | 4 | ML Paper Writing (LaTeX templates, citation verification), Systems Paper Writing, Academic Plotting, Conference Talks |
 | Model Architecture | 5 | LitGPT, Mamba, NanoGPT, RWKV, TorchTitan |
 | Tokenization | 2 | HuggingFace Tokenizers, SentencePiece |
 | Fine-Tuning | 4 | Axolotl, LLaMA-Factory, PEFT, Unsloth |
@@ -170,15 +170,15 @@ Install skill categories directly using the **Claude Code CLI**:
 | Safety | 4 | Constitutional AI, LlamaGuard, NeMo Guardrails, Prompt Guard |
 | Distributed | 6 | DeepSpeed, FSDP, Accelerate, Megatron-Core, Lightning, Ray Train |
 | Infrastructure | 3 | Modal, Lambda Labs, SkyPilot |
-| Optimization | 6 | Flash Attention, bitsandbytes, GPTQ, AWQ, HQQ, GGUF |
+| Optimization | 7 | Flash Attention, bitsandbytes, GPTQ, AWQ, HQQ, GGUF, ML Training Recipes |
 | Evaluation | 3 | lm-eval-harness, BigCode, NeMo Evaluator |
 | Inference | 4 | vLLM, TensorRT-LLM, llama.cpp, SGLang |
-| MLOps | 3 | W&B, MLflow, TensorBoard |
-| Agents | 4 | LangChain, LlamaIndex, CrewAI, AutoGPT |
+| MLOps | 4 | W&B, MLflow, TensorBoard, SwanLab |
+| Agents | 5 | LangChain, LlamaIndex, CrewAI, AutoGPT, A-Evolve |
 | RAG | 5 | Chroma, FAISS, Pinecone, Qdrant, Sentence Transformers |
 | Prompt Eng | 4 | DSPy, Instructor, Guidance, Outlines |
 | Observability | 2 | LangSmith, Phoenix |
-| Multimodal | 7 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft |
+| Multimodal | 10 | CLIP, Whisper, LLaVA, BLIP-2, SAM, Stable Diffusion, AudioCraft, Cosmos Policy, OpenPI, OpenVLA-OFT |
 | Emerging | 6 | MoE, Model Merging, Long Context, Speculative Decoding, Distillation, Pruning |
 | Agent-Native Research Artifact | 3 | ARA Compiler, Research Manager, Rigor Reviewer |
 
