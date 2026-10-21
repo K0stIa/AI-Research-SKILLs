@@ -3,11 +3,13 @@
 Requires an already-installed PyTorch. No models, downloads, training, or optimizer steps.
 """
 import ast
-from collections.abc import Callable
+import asyncio
+from collections.abc import AsyncIterator, Callable
 import math
 import os
 from pathlib import Path
 import re
+from types import SimpleNamespace
 import unittest
 from typing import cast
 
@@ -97,6 +99,41 @@ class WandbValueSpaceExample(unittest.TestCase):
                 text = (directory / relative).read_text()
                 self.assertNotRegex(text, r"['\"]distribution['\"]\s*:\s*['\"](?:q_)?log_uniform['\"]")
                 self.assertIn("log_uniform_values", text)
+
+
+class AutoGptAsyncGeneratorExample(unittest.TestCase):
+    def setUp(self):
+        self.path = GUIDE.parents[2] / "14-agents/autogpt/references/advanced-usage.md"
+        section = self.path.read_text().split("### Block structure", 1)[1].split("### Block registration", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing custom block example")
+        tree = ast.parse(match[1])
+        block = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "MyCustomBlock")
+        self.method = next(node for node in block.body if isinstance(node, ast.AsyncFunctionDef) and node.name == "execute")
+
+    def test_return_annotation_describes_an_async_iterator(self):
+        annotation = ast.unparse(self.method.returns) if self.method.returns else ""
+        self.assertEqual(annotation, "AsyncIterator[tuple[str, object]]")
+
+    def test_extracted_method_yields_result_pairs_without_framework_imports(self):
+        # Strip annotations only; execute no backend imports or registration code.
+        self.method.returns = None
+        for argument in self.method.args.args:
+            argument.annotation = None
+        namespace: dict[str, object] = {}
+        exec(compile(ast.Module(body=[self.method], type_ignores=[]), str(self.path), "exec"), namespace)
+        function = cast(Callable[..., AsyncIterator[tuple[str, object]]], namespace["execute"])
+
+        async def process(query: str, maximum: int) -> list[str]:
+            return [query] * maximum
+
+        async def collect():
+            host = SimpleNamespace(process=process)
+            data = SimpleNamespace(query="test", max_results=2)
+            return [item async for item in function(host, data)]
+
+        self.assertEqual(asyncio.run(collect()), [("results", ["test", "test"]), ("count", 2)])
 
 
 class WandaPruningExample(unittest.TestCase):
