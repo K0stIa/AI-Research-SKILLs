@@ -17,6 +17,8 @@ function skillFiles(directory) {
 }
 
 const files = categories.flatMap(category => skillFiles(join(root, category)));
+const markdownFiles = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? markdownFiles(join(directory, entry.name)) : entry.name.endsWith('.md') ? [join(directory, entry.name)] : []);
+const allMarkdown = categories.flatMap(category => markdownFiles(join(root, category)));
 
 test('Pi manifest exposes every research category once', () => {
   assert.ok(manifest.keywords.includes('pi-package'));
@@ -38,8 +40,8 @@ test('all 98 research skills remain bundled with their supporting files', () => 
   }
 });
 
-test('Python-tagged entrypoint examples parse without importing their dependencies', () => {
-  const snippets = files.flatMap(file => {
+test('Python-tagged examples in all packaged Markdown parse without importing dependencies', () => {
+  const snippets = allMarkdown.flatMap(file => {
     const text = readFileSync(file, 'utf8');
     return [...text.matchAll(/^```(?:python|py)[ \t]*\r?\n([\s\S]*?)^```[ \t]*$/gm)].map(match => ({ file: file.slice(root.length + 1), line: text.slice(0, match.index).split('\n').length, code: match[1] }));
   });
@@ -47,7 +49,7 @@ test('Python-tagged entrypoint examples parse without importing their dependenci
   const result = spawnSync(process.env.PYTHON_BIN ?? 'python3', ['-I', '-S', '-c', parser], { input: JSON.stringify(snippets), encoding: 'utf8', timeout: 30_000 });
   assert.ifError(result.error);
   assert.equal(result.status, 0, result.stderr);
-  assert.ok(snippets.length > 900, 'Do not silently skip example coverage');
+  assert.ok(snippets.length > 3500, 'Do not silently skip supporting example coverage');
   assert.deepEqual(JSON.parse(result.stdout), [], 'Invalid Python examples or incorrect code-fence languages');
 });
 
@@ -91,9 +93,8 @@ test('every local Markdown reference in main skills resolves to useful content',
 });
 
 test('local links in all packaged Markdown references resolve, not only main skills', () => {
-  const markdown = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? markdown(join(directory, entry.name)) : entry.name.endsWith('.md') ? [join(directory, entry.name)] : []);
   const missing = [];
-  for (const file of categories.flatMap(category => markdown(join(root, category)))) {
+  for (const file of allMarkdown) {
     const text = readFileSync(file, 'utf8').replace(/^\s*(```|~~~)[\s\S]*?^\s*\1[^\n]*$/gm, '').replace(/`[^`\n]+`/g, '');
     for (const match of text.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)/g)) {
       const target = match[1].replace(/^<|>$/g, '');
