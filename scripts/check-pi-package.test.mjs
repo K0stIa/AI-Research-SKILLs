@@ -76,6 +76,22 @@ test('every local Markdown reference in main skills resolves to useful content',
   assert.deepEqual(missing, [], 'Broken local skill references');
 });
 
+test('local links in all packaged Markdown references resolve, not only main skills', () => {
+  const markdown = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? markdown(join(directory, entry.name)) : entry.name.endsWith('.md') ? [join(directory, entry.name)] : []);
+  const missing = [];
+  for (const file of categories.flatMap(category => markdown(join(root, category)))) {
+    const text = readFileSync(file, 'utf8').replace(/^\s*(```|~~~)[\s\S]*?^\s*\1[^\n]*$/gm, '').replace(/`[^`\n]+`/g, '');
+    for (const match of text.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)/g)) {
+      const target = match[1].replace(/^<|>$/g, '');
+      if (/^(?:#|[a-z][a-z0-9+.-]*:)/i.test(target)) continue;
+      const local = decodeURIComponent(target.split(/[?#]/)[0]);
+      if (!local || /[$<>]/.test(local)) continue;
+      if (!existsSync(resolve(dirname(file), local))) missing.push(`${file.slice(root.length + 1)} -> ${local}`);
+    }
+  }
+  assert.deepEqual(missing, [], 'Broken links in supporting documentation');
+});
+
 test('Orchestra research command coexists with other autoresearch packages', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.match(text, /^name: orchestra-autoresearch$/m);
