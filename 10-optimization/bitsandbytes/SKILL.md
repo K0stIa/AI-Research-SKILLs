@@ -1,7 +1,7 @@
 ---
 name: quantizing-models-bitsandbytes
-description: Quantizes LLMs to 8-bit or 4-bit for 50-75% memory reduction with minimal accuracy loss. Use when GPU memory is limited, need to fit larger models, or want faster inference. Supports INT8, NF4, FP4 formats, QLoRA training, and 8-bit optimizers. Works with HuggingFace Transformers.
-version: 1.0.1
+description: Guidance for bitsandbytes 8-bit and 4-bit weight loading, NF4/FP4, QLoRA, and optimizer-state quantization with HuggingFace Transformers. Verify installed backends, checkpoint access, resource fit, and held-out quality before claiming memory, speed, or quality gains.
+version: 1.0.2
 author: Orchestra Research
 license: MIT
 tags: [Optimization, Bitsandbytes, Quantization, 8-Bit, 4-Bit, Memory Optimization, QLoRA, NF4, INT8, HuggingFace, Efficient Inference]
@@ -10,9 +10,15 @@ dependencies: [bitsandbytes, transformers, accelerate, torch]
 
 # bitsandbytes - LLM Quantization
 
+## Verification boundaries
+
+Check installed bitsandbytes, PyTorch, and Transformers versions, backend/device support, checkpoint metadata/access, and the actual training configuration before running examples.
+Bit-width ratios describe selected weights' nominal payload, not total runtime or training memory. Account for quantization metadata, unquantized layers, adapter weights, gradients, optimizer state, activations, and workspaces.
+Remaining resource/performance figures are unverified illustrations, not reproduced workload measurements or accuracy guarantees. Compare quantized and unquantized baselines on representative held-out data; profile actual memory, throughput, and latency.
+
 ## Quick start
 
-bitsandbytes reduces LLM memory by 50% (8-bit) or 75% (4-bit) with <1% accuracy loss.
+Use 8-bit or 4-bit weight loading to reduce the nominal weight payload. Total memory and task quality require workload-specific measurement.
 
 **Installation**:
 ```bash

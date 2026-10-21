@@ -4,16 +4,17 @@ Complete guide to fine-tuning large language models using 4-bit quantization wit
 
 ## Overview
 
-QLoRA enables fine-tuning 70B+ parameter models on consumer GPUs by:
-- Loading base model in 4-bit (75% memory reduction)
-- Training only small LoRA adapters (~20MB)
-- Maintaining near-full-precision quality
+QLoRA trains adapters while keeping the quantized base weights frozen. This can reduce weight storage and trainable state; it does not establish that a particular model fits a consumer GPU or retains a fixed quality level.
 
-**Memory savings**:
-- Llama 2 70B: 140GB → 35GB (4-bit) + 20MB (LoRA) = **35GB total**
-- Fits on single A100 80GB!
+**Memory accounting**:
+- Idealized 70-billion weights at 16 bits use 140 GB; at 4 bits they use 35 GB (decimal). This is the nominal raw weight payload, not total training memory.
+- Include quantization metadata, unquantized layers, adapter weights, gradients, optimizer state, activations, and temporary workspaces.
+- Adapter storage depends on rank, target modules, parameter count, and dtype. A pair of linear LoRA factors contains `rank * (input_features + output_features)` parameters before optional biases or other implementation-specific state.
+- The illustrative 335M trainable parameters below alone would occupy 670 MB at two bytes per parameter, not a fixed small adapter budget. Measure the actual configuration; this is not a verified parameter count for that checkpoint.
+- Profile peak memory at the intended batch size and sequence length. Do not infer device fit from weight bits alone.
 
-**Accuracy**: <1% degradation vs full fine-tuning
+**Quality and compatibility**:
+Compare against an unquantized baseline on representative held-out data before claiming retained quality. No universal degradation bound follows from the format. Verify installed backend/kernel versions, model access, dataset schema/license/access, and the training path. Later resource figures are illustrations, not reproduced target measurements.
 
 ## Quick Start
 
@@ -54,6 +55,7 @@ lora_config = LoraConfig(
 
 model = get_peft_model(model, lora_config)
 model.print_trainable_parameters()
+# Illustrative output only, not a measured count for this checkpoint/configuration:
 # trainable params: 335M || all params: 70B || trainable%: 0.48%
 
 # Step 4: Train
