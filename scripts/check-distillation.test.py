@@ -246,6 +246,98 @@ class WandaPruningExample(unittest.TestCase):
             self.prune(torch.ones((2, 4)), sparsity=1.1)
 
 
+class WandaFullPruningExample(unittest.TestCase):
+    def setUp(self):
+        path = GUIDE.parents[2] / "19-emerging-techniques/model-pruning/references/wanda.md"
+        section = path.read_text().split("### One-Shot Pruning", 1)[1].split("### Per-Output Pruning", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing full Wanda example")
+        function = next(node for node in ast.parse(match[1]).body if isinstance(node, ast.FunctionDef) and node.name == "wanda_prune")
+        namespace: dict[str, object] = {"torch": torch}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), str(path), "exec"), namespace)
+        self.prune = cast(Callable[..., torch.nn.Module], namespace["wanda_prune"])
+
+    def fixture(self, weights: torch.Tensor):
+        layer = torch.nn.Linear(weights.shape[1], weights.shape[0], bias=False, dtype=weights.dtype)
+        with torch.no_grad():
+            layer.weight.copy_(weights)
+        return torch.nn.Sequential(layer), layer
+
+    def test_sequence_calibration_completes_per_output_pruning(self):
+        model, layer = self.fixture(torch.ones(2, 3))
+        result = self.prune(model, [{"input": torch.ones(1, 4, 3)}], sparsity=1 / 3)
+        self.assertIs(result, model)
+        torch.testing.assert_close(layer.weight, torch.tensor([[0., 1., 1.], [0., 1., 1.]]))
+        self.assertIsNone(layer.weight.grad)
+
+    def test_unequal_batches_and_leading_axes_match_l2_mask(self):
+        tokens = torch.tensor([[0., 2., 8.], [0., 2., 8.], [0., 2., 8.], [5., 2., 8.]])
+        # Feature L2 norms are [5, 4, 16]; L1 and summed batch norms rank differently.
+        weights = torch.tensor([[1., 1., 1.], [3., 1., 0.1]])
+        expected = torch.tensor([[1., 0., 1.], [3., 1., 0.]])
+        batches = [[{"input": tokens[:1].reshape(1, 1, 3)}, {"input": tokens[1:].reshape(1, 3, 3)}]]
+        batches.extend([{"input": tokens.reshape(shape)}] for shape in [(4, 3), (1, 4, 3), (1, 1, 4, 3)])
+        for calibration in batches:
+            with self.subTest(shapes=[list(batch["input"].shape) for batch in calibration]):
+                model, layer = self.fixture(weights)
+                self.prune(model, calibration, sparsity=1 / 3)
+                torch.testing.assert_close(layer.weight, expected)
+
+    def test_tied_scores_and_sparsity_endpoints_prune_exact_coordinates(self):
+        for sparsity in (0., 0.5, 1.):
+            with self.subTest(sparsity=sparsity):
+                model, layer = self.fixture(torch.ones(2, 4))
+                self.prune(model, [{"input": torch.zeros(1, 2, 4)}], sparsity=sparsity)
+                expected = torch.ones(2, 4)
+                expected[:, :int(sparsity * 4)] = 0
+                torch.testing.assert_close(layer.weight, expected)
+
+    def test_invalid_sparsity_is_rejected_without_calibration(self):
+        for sparsity in (-0.1, 1.1, float("nan")):
+            with self.subTest(sparsity=sparsity):
+                model, _ = self.fixture(torch.ones(2, 3))
+                with self.assertRaises(ValueError):
+                    self.prune(model, [], sparsity=sparsity)
+
+    def test_hooks_are_removed_after_calibration_failure(self):
+        model, layer = self.fixture(torch.ones(2, 3))
+
+        def interrupted():
+            yield {"input": torch.ones(1, 4, 3)}
+            raise RuntimeError("Calibration interrupted")
+
+        with self.assertRaisesRegex(RuntimeError, "Calibration interrupted"):
+            self.prune(model, interrupted())
+        # Inspect the host framework's resource registry, not guide-local state.
+        self.assertFalse(layer._forward_hooks)
+        torch.testing.assert_close(layer.weight, torch.ones(2, 3))
+
+    def test_fp16_inputs_accumulate_norms_without_half_overflow(self):
+        weights = torch.tensor([[0.1, 0.2, 0.3], [0.3, 0.2, 0.1]], dtype=torch.float16)
+        model, layer = self.fixture(weights)
+        self.prune(model, [{"input": torch.full((1, 4, 3), 40000., dtype=torch.float16)}], sparsity=1 / 3)
+        expected = weights.clone()
+        expected[0, 0] = expected[1, 2] = 0
+        torch.testing.assert_close(layer.weight, expected)
+
+    def test_nonfinite_or_overflowed_statistics_abort_and_remove_hooks(self):
+        for value in (float("nan"), float("inf"), 1e20):
+            with self.subTest(value=value):
+                model, layer = self.fixture(torch.ones(2, 3))
+                with self.assertRaisesRegex(ValueError, "statistics"):
+                    self.prune(model, [{"input": torch.full((1, 4, 3), value)}])
+                self.assertFalse(layer._forward_hooks)
+                torch.testing.assert_close(layer.weight, torch.ones(2, 3))
+
+    def test_empty_calibration_does_not_prune_unobserved_layers(self):
+        for batches in ([], [{"input": torch.empty(1, 0, 3)}]):
+            with self.subTest(batches=len(batches)):
+                model, layer = self.fixture(torch.ones(2, 3))
+                self.prune(model, batches)
+                torch.testing.assert_close(layer.weight, torch.ones(2, 3))
+
+
 class SimpoNumericalExamples(unittest.TestCase):
     def value(self, number: int, name: str) -> float:
         path = GUIDE.parents[2] / "06-post-training/simpo/references/loss-functions.md"
