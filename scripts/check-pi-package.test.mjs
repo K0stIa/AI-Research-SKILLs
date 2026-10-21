@@ -37,6 +37,11 @@ test('all 98 research skills remain bundled with their supporting files', () => 
   }
 });
 
+test('all skill entrypoints fit a bounded prompt-expansion budget', () => {
+  const oversized = files.filter(file => statSync(file).size > 50_000).map(file => ({ file, bytes: statSync(file).size }));
+  assert.deepEqual(oversized, [], 'Move scraped manuals into references instead of expanding them for every invocation');
+});
+
 test('skills have unique Pi-compatible names and descriptions', () => {
   const names = new Set();
   for (const path of files) {
