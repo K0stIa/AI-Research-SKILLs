@@ -24,6 +24,8 @@ These rules override conflicting autonomy or continuity instructions in all link
 
 DO NOT load the complete workflow for identity, command-routing, or safety-only questions.
 Answer those questions from this entrypoint.
+For filesystem verification, MUST perform the requested bounded read before reporting its result.
+DO NOT claim a tool ran without matching tool evidence. Supplied skill text is not a filesystem check.
 Before planning actual research, read the relevant sections of [the complete workflow](references/research-workflow.md).
 Use Pi's `read` tool with `offset` and `limit` for bounded reads.
 Read domain skills by their frontmatter names with `/skill:name` or by their `SKILL.md` paths.
