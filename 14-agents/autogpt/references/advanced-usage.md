@@ -4,7 +4,10 @@
 
 ### Block structure
 
+This illustrative block yields result pairs through an async iterator. Check its method and registration API against the installed AutoGPT version. Local tests validate the Python protocol only, not framework compatibility.
+
 ```python
+from collections.abc import AsyncIterator
 from backend.data.block import Block, BlockSchema, BlockType
 from pydantic import BaseModel
 
@@ -29,7 +32,7 @@ class MyCustomBlock(Block):
     input_schema = MyBlockInput
     output_schema = MyBlockOutput
 
-    async def execute(self, input_data: MyBlockInput) -> dict:
+    async def execute(self, input_data: MyBlockInput) -> AsyncIterator[tuple[str, object]]:
         """Execute the block logic."""
         # Implement your logic
         results = await self.process(input_data.query, input_data.max_results)
