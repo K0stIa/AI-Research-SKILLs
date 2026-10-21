@@ -205,6 +205,16 @@ test('distillation guidance names forward and reverse KL in the correct directio
   assert.match(text, /mask.*soft.*hard/i);
 });
 
+test('FAISS index selection avoids unmeasured recall percentages and preserves cosine normalization', () => {
+  const text = readFileSync(join(root, '15-rag/faiss/references/index_types.md'), 'utf8');
+  const selection = text.split('## Index selection guide')[1]?.split('\n## ')[0] ?? '';
+  assert.doesNotMatch(selection, /\d+(?:-\d+)?%/);
+  assert.match(selection, /recall@k/);
+  assert.match(selection, /dataset.*parameters|parameters.*dataset/i);
+  assert.ok(text.includes('faiss.normalize_L2(vectors)'));
+  assert.ok(text.includes('faiss.normalize_L2(query)'));
+});
+
 test('DSPy distinguishes adapter type checks from factual correctness', () => {
   const text = readFileSync(join(root, '16-prompt-engineering/dspy/SKILL.md'), 'utf8');
   const section = text.match(/## Version and output checks\n([\s\S]*?)(?=\n##|$)/)?.[1] ?? '';
