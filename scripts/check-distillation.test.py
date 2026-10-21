@@ -65,6 +65,41 @@ class ReverseKlExample(unittest.TestCase):
         self.assertTrue(torch.isfinite(self.loss(logits, -logits)).item())
 
 
+class CausalDistillationExample(unittest.TestCase):
+    def setUp(self):
+        self.loss = load_example_function("distillation_loss")
+        self.student = torch.tensor([[[2.0, 0.0], [0.0, 2.0], [6.0, -6.0]]], dtype=torch.float64, requires_grad=True)
+        self.teacher = torch.tensor([[[0.0, 1.0], [1.0, 0.0], [0.0, 1.0]]], dtype=torch.float64, requires_grad=True)
+        self.labels = torch.tensor([[0, 1, -100]])
+
+    def test_hard_loss_predicts_next_token_not_current_token(self):
+        expected = F.cross_entropy(self.student[:, 0, :], self.labels[:, 1])
+        actual = self.loss(self.student, self.teacher, self.labels, alpha=0.0)
+        self.assertAlmostEqual(actual.item(), expected.item(), places=10)
+
+    def test_masked_and_final_token_predictions_do_not_affect_soft_loss(self):
+        changed = self.teacher.detach().clone()
+        changed[:, 1:, :] = torch.tensor([20.0, -20.0])
+        before = self.loss(self.student, self.teacher, self.labels, alpha=1.0)
+        after = self.loss(self.student, changed, self.labels, alpha=1.0)
+        self.assertAlmostEqual(before.item(), after.item(), places=10)
+
+    def test_forward_kl_matches_valid_next_token_distribution(self):
+        expected = F.kl_div(F.log_softmax(self.student[:, 0, :] / 2.0, dim=-1), F.softmax(self.teacher[:, 0, :] / 2.0, dim=-1), reduction="batchmean") * 4.0
+        actual = self.loss(self.student, self.teacher, self.labels, alpha=1.0)
+        self.assertAlmostEqual(actual.item(), expected.item(), places=10)
+
+    def test_all_ignored_targets_have_finite_zero_loss(self):
+        actual = self.loss(self.student, self.teacher, torch.full_like(self.labels, -100))
+        self.assertTrue(torch.isfinite(actual).item())
+        self.assertEqual(actual.item(), 0.0)
+
+    def test_forward_loss_does_not_train_teacher(self):
+        self.loss(self.student, self.teacher, self.labels).backward()
+        self.assertIsNone(self.teacher.grad)
+        self.assertIsNotNone(self.student.grad)
+
+
 if __name__ == "__main__":
     print(f"Tiny CPU loss tests; PyTorch {torch.__version__}; no optimizer steps.")
     unittest.main()

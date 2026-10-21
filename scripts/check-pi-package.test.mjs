@@ -158,6 +158,8 @@ test('distillation guidance names forward and reverse KL in the correct directio
   assert.match(text, /Forward KL: KL\(Teacher \|\| Student\)/);
   assert.match(text, /Reverse KL: KL\(Student \|\| Teacher\)/);
   assert.doesNotMatch(text, /reverse_kl = -\(p_teacher \* log_p_student\)/);
+  assert.match(text, /unshifted causal-LM labels/);
+  assert.match(text, /mask.*soft.*hard/i);
 });
 
 test('paper-writing prioritizes citation evidence over template discovery', () => {
