@@ -101,6 +101,33 @@ class WandbValueSpaceExample(unittest.TestCase):
                 self.assertIn("log_uniform_values", text)
 
 
+class GptqDeviceMapExample(unittest.TestCase):
+    def test_manual_device_map_names_existing_modules_and_covers_all_layers(self):
+        path = GUIDE.parents[2] / "10-optimization/gptq/SKILL.md"
+        section = path.read_text().split("### Multi-GPU deployment", 1)[1].split("### CPU offloading", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing manual device-map example")
+        tree = ast.parse(match[1])
+        assignment = next(node for node in tree.body if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == "device_map" for target in node.targets))
+        # Evaluate the reviewed dictionary assignment only, not model loaders.
+        namespace: dict[str, object] = {"__builtins__": {"range": range}}
+        exec(compile(ast.Module(body=[assignment], type_ignores=[]), str(path), "exec"), namespace)
+        placement = cast(dict[str, int], namespace["device_map"])
+        model = torch.nn.ModuleDict({
+            "model": torch.nn.ModuleDict({
+                "embed_tokens": torch.nn.Identity(),
+                "layers": torch.nn.ModuleList([torch.nn.Identity() for _ in range(80)]),
+                "norm": torch.nn.Identity(),
+            }),
+            "lm_head": torch.nn.Identity(),
+        })
+        module_names = {name for name, _ in model.named_modules()}
+        self.assertEqual(sorted(set(placement) - module_names), [], "Device-map keys must be real module paths, not textual ranges")
+        for layer in range(80):
+            self.assertEqual(placement[f"model.layers.{layer}"], 0 if layer < 40 else 1)
+
+
 class GrpoMetricInterpretationExample(unittest.TestCase):
     def text(self) -> str:
         return (GUIDE.parents[2] / "06-post-training/grpo-rl-training/SKILL.md").read_text()
