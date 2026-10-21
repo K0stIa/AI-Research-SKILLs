@@ -22,7 +22,7 @@ const cases = {
   'control-minimal': { prompt: controlPrompt },
   'control-full': { fullExtensions: true, prompt: controlPrompt },
 };
-if (!outputArg || !cases[caseId] || !Number.isFinite(timeoutSeconds) || timeoutSeconds <= 0) {
+if (!outputArg || !Object.hasOwn(cases, caseId) || !Number.isFinite(timeoutSeconds) || timeoutSeconds <= 0) {
   console.error('Usage: node scripts/verify-pi-live.mjs OUTPUT CASE [TIMEOUT_SECONDS]');
   console.error(`Cases: ${Object.keys(cases).join(', ')}`);
   process.exit(2);
