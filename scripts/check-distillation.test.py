@@ -338,6 +338,32 @@ class WandaFullPruningExample(unittest.TestCase):
                 torch.testing.assert_close(layer.weight, torch.ones(2, 3))
 
 
+class WandaMainPruningExample(WandaFullPruningExample):
+    """Run the same public behavior checks against the independent main example."""
+    def setUp(self):
+        path = GUIDE.parents[2] / "19-emerging-techniques/model-pruning/SKILL.md"
+        section = path.read_text().split("### Wanda Pruning (One-Shot, No Retraining)", 1)[1].split("### SparseGPT", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing main Wanda example")
+        function = next(node for node in ast.parse(match[1]).body if isinstance(node, ast.FunctionDef) and node.name == "wanda_prune")
+        # The old example tokenizes inside the function. Stub only that I/O so
+        # its real sequence-axis defect, not a missing global, produces RED.
+        def tokenizer(batch, **kwargs):
+            return SimpleNamespace(to=lambda device: batch)
+        namespace: dict[str, object] = {"torch": torch, "tokenizer": tokenizer}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), str(path), "exec"), namespace)
+        self.prune = cast(Callable[..., torch.nn.Module], namespace["wanda_prune"])
+
+    def fixture(self, weights: torch.Tensor):
+        class CpuModel(torch.nn.Sequential):
+            @property
+            def device(self) -> torch.device:
+                return torch.device("cpu")
+        _, layer = super().fixture(weights)
+        return CpuModel(layer), layer
+
+
 class SimpoNumericalExamples(unittest.TestCase):
     def value(self, number: int, name: str) -> float:
         path = GUIDE.parents[2] / "06-post-training/simpo/references/loss-functions.md"
