@@ -65,6 +65,24 @@ class ReverseKlExample(unittest.TestCase):
         self.assertTrue(torch.isfinite(self.loss(logits, -logits)).item())
 
 
+class SimpoNumericalExamples(unittest.TestCase):
+    def value(self, number: int, name: str) -> float:
+        path = GUIDE.parents[2] / "06-post-training/simpo/references/loss-functions.md"
+        section = path.read_text().split(f"### Example {number}:", 1)[1].split("\n##", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing SimPO loss calculation")
+        namespace: dict[str, object] = {"math": math}
+        exec(compile(ast.parse(match[1]), str(path), "exec"), namespace)
+        return float(cast(float, namespace[name]))
+
+    def test_beta_two_example(self):
+        self.assertAlmostEqual(self.value(1, "loss"), math.log1p(math.exp(-1.6)), places=10)
+
+    def test_beta_two_point_five_with_sft(self):
+        self.assertAlmostEqual(self.value(2, "total_loss"), math.log1p(math.exp(-2.0)) + 0.12, places=10)
+
+
 class CausalDistillationExample(unittest.TestCase):
     def setUp(self):
         self.loss = load_example_function("distillation_loss")
