@@ -60,6 +60,7 @@
     "scripts/pi-verification-events.mjs",
     "scripts/verify-pi-installed.mjs",
     "scripts/verify-pi-live.mjs",
+    "scripts/verify-pi-matrix.mjs",
     "LICENSE",
     "README.md"
   ],
