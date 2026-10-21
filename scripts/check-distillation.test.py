@@ -99,6 +99,32 @@ class WandbValueSpaceExample(unittest.TestCase):
                 self.assertIn("log_uniform_values", text)
 
 
+class WandaPruningExample(unittest.TestCase):
+    def prune(self, weights: torch.Tensor, sparsity: float = 0.5):
+        path = GUIDE.parents[2] / "19-emerging-techniques/model-pruning/references/wanda.md"
+        section = path.read_text().split("### Per-Output Pruning", 1)[1].split("\n##", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing per-output pruning example")
+        namespace = {"torch": torch, "W": weights, "activation": torch.ones(weights.shape[1]), "sparsity": sparsity, "out_features": weights.shape[0], "quantile": torch.quantile}
+        exec(compile(ast.parse(match[1]), str(path), "exec"), namespace)
+
+    def test_equal_importances_still_prune_requested_count(self):
+        weights = torch.ones((2, 4))
+        self.prune(weights)
+        self.assertEqual((weights == 0).sum(dim=1).tolist(), [2, 2])
+
+    def test_parameter_pruning_does_not_mutate_an_autograd_graph(self):
+        weights = torch.ones((2, 4), requires_grad=True)
+        self.prune(weights)
+        self.assertEqual((weights == 0).sum(dim=1).tolist(), [2, 2])
+        self.assertIsNone(weights.grad)
+
+    def test_invalid_sparsity_is_rejected(self):
+        with self.assertRaises(ValueError):
+            self.prune(torch.ones((2, 4)), sparsity=1.1)
+
+
 class SimpoNumericalExamples(unittest.TestCase):
     def value(self, number: int, name: str) -> float:
         path = GUIDE.parents[2] / "06-post-training/simpo/references/loss-functions.md"
