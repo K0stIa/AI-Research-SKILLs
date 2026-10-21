@@ -205,6 +205,15 @@ test('distillation guidance names forward and reverse KL in the correct directio
   assert.match(text, /mask.*soft.*hard/i);
 });
 
+test('LangChain arithmetic tools use a bounded helper rather than evaluating model-supplied Python', () => {
+  for (const relative of ['SKILL.md', 'references/agents.md']) {
+    const text = readFileSync(join(root, '14-agents/langchain', relative), 'utf8');
+    assert.doesNotMatch(text, /\beval\s*\(/);
+    assert.match(text, /from safe_arithmetic import calculate/);
+  }
+  assert.ok(existsSync(join(root, '14-agents/langchain/references/safe_arithmetic.py')));
+});
+
 test('GPTQ recipes distinguish measurements and checkpoint availability from illustrations', () => {
   const main = readFileSync(join(root, '10-optimization/gptq/SKILL.md'), 'utf8');
   const calibration = readFileSync(join(root, '10-optimization/gptq/references/calibration.md'), 'utf8');

@@ -9,6 +9,7 @@ import math
 import os
 from pathlib import Path
 import re
+import runpy
 from types import SimpleNamespace
 import unittest
 from typing import cast
@@ -99,6 +100,39 @@ class WandbValueSpaceExample(unittest.TestCase):
                 text = (directory / relative).read_text()
                 self.assertNotRegex(text, r"['\"]distribution['\"]\s*:\s*['\"](?:q_)?log_uniform['\"]")
                 self.assertIn("log_uniform_values", text)
+
+
+class LangChainArithmeticExample(unittest.TestCase):
+    def setUp(self):
+        directory = GUIDE.parents[2] / "14-agents/langchain/references"
+        helper = directory / "safe_arithmetic.py"
+        if helper.exists():
+            self.calculate = cast(Callable[[str], str], runpy.run_path(str(helper))["calculate"])
+        else:
+            # Reproduce the existing tool without importing LangChain or an LLM.
+            text = (directory / "agents.md").read_text()
+            code = re.search(r"```python\n([\s\S]*?)```", text)
+            if code is None:
+                raise AssertionError("Missing calculator example")
+            function = next(node for node in ast.parse(code[1]).body if isinstance(node, ast.FunctionDef) and node.name == "calculator")
+            namespace: dict[str, object] = {}
+            exec(compile(ast.Module(body=[function], type_ignores=[]), str(directory / "agents.md"), "exec"), namespace)
+            self.calculate = cast(Callable[[str], str], namespace["calculator"])
+
+    def test_arithmetic_remains_usable(self):
+        self.assertEqual(self.calculate("25 * 17"), "425")
+        self.assertEqual(self.calculate("-2 + 4 * 3"), "10")
+        self.assertEqual(self.calculate("8 / 4 + 3"), "5.0")
+
+    def test_calls_attributes_and_non_numeric_expressions_are_rejected(self):
+        for expression in ("__import__('builtins').len([1])", "(1).__class__", "[1, 2]", "True", "2 ** 3"):
+            with self.subTest(expression=expression), self.assertRaises(ValueError):
+                self.calculate(expression)
+
+    def test_expression_work_and_numeric_results_are_bounded(self):
+        for expression in ("1" * 201, "+".join(["1"] * 40), str(1 << 300), "1e309", "1e308 * 1e308", "1 / 0", "1 +"):
+            with self.subTest(expression=expression), self.assertRaises(ValueError):
+                self.calculate(expression)
 
 
 class GptqDeviceMapExample(unittest.TestCase):
