@@ -66,6 +66,30 @@ class ReverseKlExample(unittest.TestCase):
 
 
 class WandbValueSpaceExample(unittest.TestCase):
+    def stops(self, accuracy: float, best: float) -> bool:
+        path = GUIDE.parents[2] / "13-mlops/weights-and-biases/references/sweeps.md"
+        section = path.read_text().split("### Custom Termination", 1)[1].split("\n##", 1)[0]
+        match = re.search(r"```python\n([\s\S]*?)```", section)
+        if match is None:
+            raise AssertionError("Missing early-stop example")
+        for node in ast.walk(ast.parse(match[1])):
+            if isinstance(node, ast.If) and any(isinstance(item, ast.Constant) and item.value == "Early stop: No improvement" for item in ast.walk(node)):
+                code = compile(ast.Expression(body=node.test), str(path), "eval")
+                return bool(eval(code, {"epoch": 11, "val_acc": accuracy, "best_acc": best}))
+        raise AssertionError("Missing no-improvement condition")
+
+    def test_improving_trial_is_not_stopped_as_stagnant(self):
+        self.assertFalse(self.stops(0.8, 0.7))
+
+    def test_stagnant_trial_can_stop_after_warmup(self):
+        self.assertTrue(self.stops(0.7, 0.7))
+
+    def test_visible_single_gpu_is_addressed_by_logical_zero(self):
+        path = GUIDE.parents[2] / "13-mlops/weights-and-biases/references/sweeps.md"
+        text = path.read_text()
+        self.assertIn('device = torch.device("cuda:0")', text)
+        self.assertNotIn("f'cuda:{gpu_id}'", text)
+
     def test_positive_raw_bounds_use_value_space_distributions(self):
         directory = GUIDE.parents[2] / "13-mlops/weights-and-biases"
         for relative in ("SKILL.md", "references/sweeps.md", "references/integrations.md"):
