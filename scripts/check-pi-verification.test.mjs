@@ -61,9 +61,9 @@ test('skill contracts require correct bounded successful reads and valid respons
   const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
   assert.equal(typeof evaluateSkillRun, 'function');
   const contract = { name: 'fixture-skill', mainPath: '/fixture/SKILL.md', referencePath: '/fixture/references/guide.md', maxWords: 140 };
-  const answer = { skill: contract.name, mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: 'Test a source-backed workflow.', referenceFact: 'Verify the input schema.', pitfall: 'Unknown versions can change APIs.', prerequisites: ['Installed version is unverified.'], executed: false };
+  const answer = { skill: contract.name, mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: 'Test a source-backed workflow.', referenceFact: 'Verify the input schema.', pitfall: 'Unknown versions can change APIs.', prerequisites: ['Installed version is unverified.', 'Dataset schema is unverified.', 'Available hardware is unverified.'], executed: false };
   const reads = [contract.mainPath, contract.referencePath].flatMap((path, i) => [
-    { type: 'tool_execution_start', toolCallId: `read-${i}`, toolName: 'read', args: { path, limit: 40 } },
+    { type: 'tool_execution_start', toolCallId: `read-${i}`, toolName: 'read', args: { path, limit: i === 0 ? 12 : 40 } },
     { type: 'tool_execution_end', toolCallId: `read-${i}`, toolName: 'read', isError: false, result: { content: [{ type: 'text', text: 'Source excerpt.' }] } },
   ]);
   function evaluate(overrides = {}, evidence = reads, options = {}) {
@@ -82,6 +82,33 @@ test('skill contracts require correct bounded successful reads and valid respons
   assert.equal(evaluate({}, reads.map(e => e.args ? { ...e, args: { ...e.args, limit: 2000 } } : e)).contractPassed, false);
   assert.equal(evaluate({}, [...reads, { type: 'tool_execution_start', toolCallId: 'bad', toolName: 'bash', args: { command: 'echo unsafe' } }]).contractPassed, false);
   assert.equal(evaluate({}, reads.map(e => e.args ? { ...e, args: { ...e.args, path: '/other/file.md' } } : e)).contractPassed, false);
+});
+
+test('matrix contracts enforce per-field budgets and exact requested read scopes', async () => {
+  const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
+  const contract = { name: 'fixture', mainPath: '/fixture/SKILL.md', referencePath: '/fixture/references/guide.md', maxWords: 140 };
+  const answer = { skill: 'fixture', mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: 'Inspect one workflow.', referenceFact: 'The guide checks model compatibility.', pitfall: 'Measure quality before deployment.', prerequisites: ['Version unverified.', 'Hardware unverified.', 'Data unverified.'], executed: false };
+  function evaluate(overrides = {}, changeRead = args => args) {
+    const reads = [contract.mainPath, contract.referencePath].flatMap((path, i) => [
+      { type: 'tool_execution_start', toolCallId: `read-${i}`, toolName: 'read', args: changeRead({ path, offset: 1, limit: i === 0 ? 12 : 40 }, i) },
+      { type: 'tool_execution_end', toolCallId: `read-${i}`, toolName: 'read', isError: false, result: { content: [{ type: 'text', text: 'Excerpt.' }] } },
+    ]);
+    const stdout = [...reads, { type: 'message_end', message: { role: 'assistant', stopReason: 'stop', content: [{ type: 'text', text: JSON.stringify({ ...answer, ...overrides }) }] } }, { type: 'agent_end' }].map(JSON.stringify).join('\n');
+    return evaluateSkillRun({ stdout, exitCode: 0, timedOut: false }, contract).contractPassed;
+  }
+  assert.equal(evaluate(), true);
+  const words = length => Array(length).fill('word').join(' ');
+  const invalid = [
+    ['purpose budget', { purpose: words(9) }], ['reference budget', { referenceFact: words(19) }],
+    ['pitfall budget', { pitfall: words(29) }], ['prerequisite budget', { prerequisites: [words(9), 'Version unknown.', 'Data unknown.'] }],
+    ['one prerequisite', { prerequisites: ['Version unknown.'] }], ['four prerequisites', { prerequisites: ['a', 'b', 'c', 'd'] }],
+    ['unexpected answer key', { memo: 'Unrequested field.' }],
+    ['wrong main offset', {}, (args, i) => i === 0 ? { ...args, offset: 2 } : args],
+    ['partial main read', {}, (args, i) => i === 0 ? { ...args, limit: 1 } : args],
+    ['oversized main read', {}, (args, i) => i === 0 ? { ...args, limit: 40 } : args],
+    ['oversized reference read', {}, (args, i) => i === 1 ? { ...args, limit: 41 } : args],
+  ];
+  assert.deepEqual(invalid.map(([name, overrides, changeRead]) => [name, evaluate(overrides, changeRead)]), invalid.map(([name]) => [name, false]));
 });
 
 test('live CLI rejects inherited object properties as scenario names before launching Pi', () => {
