@@ -81,6 +81,16 @@ test('Orchestra research command coexists with other autoresearch packages', () 
   }
 });
 
+test('Unsloth entrypoint grounds QLoRA guidance before offering a recipe', () => {
+  const text = readFileSync(join(root, '03-fine-tuning/unsloth/SKILL.md'), 'utf8');
+  assert.doesNotMatch(text, /patterns will be added|Use `view`|2-5x|50-80%/i);
+  assert.match(text, /MUST read.*references\/qlora-workflow\.md/);
+  assert.match(text, /frozen.*base weights/i);
+  assert.match(text, /trainable.*adapter/i);
+  assert.match(text, /unverified/i);
+  assert.ok(existsSync(join(root, '03-fine-tuning/unsloth/references/qlora-workflow.md')));
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
