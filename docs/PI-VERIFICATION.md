@@ -113,7 +113,8 @@ Each fresh Pi process uses installed discovery without forced package precedence
 Extensions are disabled. Only `read` is available. Model and executable overrides use the same environment variables as the scenario harness.
 
 The requested main-file read is exactly 12 lines from offset 1.
-A supporting read, when available, must request at most 40 lines from the approved file.
+Supporting reads, when available, have a case-wide budget of 40 requested lines from the approved file.
+Add the requested line limits across all calls. Failed, overlapping, and repeated requests still consume that budget.
 Successful tool results are required; expanded skill text and narrated inspection do not count as reads.
 
 The response must be bare JSON with the requested keys, three prerequisites, field-specific word budgets, and a total limit of 140 whitespace-separated words.

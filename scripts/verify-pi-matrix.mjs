@@ -54,7 +54,7 @@ export function buildSkillMatrix(root) {
 function promptFor(item) {
   return `/skill:${item.name} Read-only installed-skill verification. No training, installation, downloads, paid resources, delegation, serving, or file writes.\n` +
     'Find this loaded skill\'s absolute SKILL.md path from its expansion. Make a real read call for its first 12 lines. ' +
-    (item.referencePath ? `Also read at most 40 lines from ${item.referencePath.slice(dirname(item.mainPath).length + 1)}, relative to that skill directory. ` : 'No supporting Markdown reference exists; use null for referencePath. ') +
+    (item.referencePath ? `Also read at most 40 lines total from ${item.referencePath.slice(dirname(item.mainPath).length + 1)}, relative to that skill directory. Sum the requested line limits across all calls to that reference; failed and repeated requests count toward 40. ` : 'No supporting Markdown reference exists; use null for referencePath. ') +
     'Use only those two files. A supplied skill expansion is not the requested filesystem read. ' +
     `Planning question: ${item.probe}\n` +
     'Final response: one bare JSON object, no Markdown fence. Keys: skill (exact frontmatter name), mainPath (absolute), referencePath (absolute or null), purpose (one sentence), referenceFact (one fact from the actual excerpt, or explain no reference), pitfall (answer the planning question), prerequisites (nonempty list of unverified environment/version/data requirements), executed (false). ' +

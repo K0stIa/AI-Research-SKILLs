@@ -65,6 +65,7 @@ export function evaluateSkillRun(run, contract) {
   });
   const permittedPaths = new Set([contract.mainPath, contract.referencePath].filter(Boolean).map(path => resolve(path)));
   const successfulReads = [];
+  let requestedReferenceLines = 0;
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
     if (event.type !== 'tool_execution_start') continue;
@@ -76,8 +77,11 @@ export function evaluateSkillRun(run, contract) {
     }
     if (resolve(path) === resolve(contract.mainPath)) {
       if (offset !== 1 || limit !== 12) { failures.push('wrong-main-read-range'); continue; }
-    } else if (limit > 40) {
-      failures.push('reference-read-cap-exceeded'); continue;
+    } else {
+      // Failed and repeated requests still consume the case-wide allowance.
+      requestedReferenceLines += limit;
+      if (requestedReferenceLines > 40) failures.push('reference-read-budget-exceeded');
+      if (limit > 40) { failures.push('reference-read-cap-exceeded'); continue; }
     }
     const end = events.slice(i + 1).find(next => next.type === 'tool_execution_end' && typeof event.toolCallId === 'string' && next.toolCallId === event.toolCallId && next.toolName === 'read');
     if (end?.isError === false && end.result?.content?.some(part => part.type === 'text' && part.text?.trim())) successfulReads.push(resolve(path));
