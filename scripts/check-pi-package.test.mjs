@@ -205,6 +205,16 @@ test('distillation guidance names forward and reverse KL in the correct directio
   assert.match(text, /mask.*soft.*hard/i);
 });
 
+test('DSPy distinguishes adapter type checks from factual correctness', () => {
+  const text = readFileSync(join(root, '16-prompt-engineering/dspy/SKILL.md'), 'utf8');
+  const section = text.match(/## Version and output checks\n([\s\S]*?)(?=\n##|$)/)?.[1] ?? '';
+  assert.match(section, /JSONAdapter/);
+  assert.match(section, /parse, coerce, and validate/);
+  assert.match(section, /does not guarantee factual correctness/);
+  assert.match(section, /installed version, adapter, and provider/);
+  assert.ok(section.includes('661b2f1a25218f3b44aa125384d11d5508316ecb/dspy/adapters/json_adapter.py'));
+});
+
 test('paper-writing prioritizes citation evidence over template discovery', () => {
   const text = readFileSync(join(root, '20-ml-paper-writing/ml-paper-writing/SKILL.md'), 'utf8');
   const gate = text.match(/## Pi citation gate\n([\s\S]*?)(?=\n## )/)?.[1] ?? '';
