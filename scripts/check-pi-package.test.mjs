@@ -123,6 +123,18 @@ test('paper-writing prioritizes citation evidence over template discovery', () =
   assert.doesNotMatch(text, /~40% error rate/);
 });
 
+test('research entrypoint stays bounded while preserving the complete workflow reference', () => {
+  const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
+  assert.ok(Buffer.byteLength(text) < 7000, 'Identity and routing requests must not load the complete research manual');
+  assert.match(text, /DO NOT.*identity/);
+  assert.match(text, /references\/research-workflow\.md/);
+  const workflow = readFileSync(join(root, '0-autoresearch-skill/references/research-workflow.md'), 'utf8');
+  assert.match(workflow, /## The Inner Loop/);
+  assert.match(workflow, /## The Outer Loop/);
+  assert.match(workflow, /## Git Protocol/);
+  assert.ok(Buffer.byteLength(workflow) > 15000, 'Preserve detailed guidance, not a placeholder');
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
