@@ -1,7 +1,7 @@
 ---
 name: knowledge-distillation
 description: Compress large language models using knowledge distillation from teacher to student models. Use when deploying smaller models with retained performance, transferring GPT-4 capabilities to open-source models, or reducing inference costs. Covers temperature scaling, soft targets, reverse KLD, logit distillation, and MiniLLM training strategies.
-version: 1.0.1
+version: 1.0.2
 author: Orchestra Research
 license: MIT
 tags: [Emerging Techniques, Knowledge Distillation, Model Compression, Teacher-Student, MiniLLM, Reverse KLD, Soft Targets, Temperature Scaling, Logit Distillation, Model Transfer]
@@ -13,7 +13,7 @@ dependencies: [transformers, torch, datasets]
 ## When to Use This Skill
 
 Use Knowledge Distillation when you need to:
-- **Compress models** from 70B → 7B while retaining 90%+ performance
+- **Compress models** from larger teachers to smaller students, measuring quality on held-out tasks
 - **Transfer capabilities** from proprietary models (GPT-4) to open-source (LLaMA, Mistral)
 - **Reduce inference costs** by deploying smaller student models
 - **Create specialized models** by distilling domain-specific knowledge
@@ -108,47 +108,46 @@ for batch in dataloader:
     optimizer.zero_grad()
 ```
 
-### MiniLLM (Reverse KLD)
+### Token-level reverse KLD
 
-**Source**: arXiv 2306.08543 (2024)
+**Source**: [MiniLLM: On-Policy Distillation of Large Language Models, arXiv:2306.08543v6](https://arxiv.org/abs/2306.08543v6), [official implementation](https://github.com/microsoft/LMOps/tree/main/minillm).
+The paper appeared at ICLR 2024; its first preprint appeared in 2023.
 
-**Innovation**: Use reverse KLD instead of forward KLD for better generative model distillation.
+This example computes exact reverse KL over a shared token vocabulary. It does not implement MiniLLM's full on-policy sequence optimization, sampling, or training recipe. Apply compatible tokenization, masking, and causal alignment before using it on sequences.
 
 ```python
 def reverse_kl_loss(student_logits, teacher_logits, temperature=1.0):
     """
-    Reverse KL divergence: KL(Teacher || Student)
-    Better for generative models than forward KL.
+    Reverse KL divergence: KL(Student || Teacher).
+    Token-level example; the teacher distribution is a fixed target.
     """
-    # Teacher distribution (target)
-    p_teacher = F.softmax(teacher_logits / temperature, dim=-1)
-
-    # Student distribution (model)
+    log_p_teacher = F.log_softmax(teacher_logits.detach() / temperature, dim=-1)
     log_p_student = F.log_softmax(student_logits / temperature, dim=-1)
+    p_student = F.softmax(student_logits / temperature, dim=-1)
 
-    # Reverse KL: Sum over teacher, student learns to cover teacher's modes
-    reverse_kl = -(p_teacher * log_p_student).sum(dim=-1).mean()
+    # Student-weighted log probability ratio, including student entropy.
+    reverse_kl = (p_student * (log_p_student - log_p_teacher)).sum(dim=-1).mean()
 
     return reverse_kl * (temperature ** 2)
 
-# Training with MiniLLM
+# Illustrative reverse-KL loop, not a reproduction of MiniLLM.
 for batch in dataloader:
     with torch.no_grad():
         teacher_logits = teacher(**batch).logits
 
     student_logits = student(**batch).logits
 
-    # Reverse KLD (better for generation)
     loss = reverse_kl_loss(student_logits, teacher_logits, temperature=1.0)
 
+    optimizer.zero_grad()
     loss.backward()
     optimizer.step()
 ```
 
 **Why reverse KL?**
-- **Forward KL** (standard): Student learns to match teacher's *mean*
-- **Reverse KL** (MiniLLM): Student learns to *cover* all teacher's modes
-- Better for diverse text generation
+- **Forward KL** weights the expectation by the teacher distribution and tends toward mode-covering behavior.
+- **Reverse KL** weights it by the student distribution and tends toward mode-seeking behavior, penalizing student mass where the teacher assigns low probability.
+- These tendencies do not guarantee better quality or diversity for every model and dataset.
 
 ### Response Distillation
 
@@ -207,7 +206,7 @@ Schematic loss notation, not executable Python:
 # Total loss = alpha * soft_loss + (1 - alpha) * hard_loss
 
 # Soft loss: Learn from teacher's knowledge
-soft_loss = KL(student || teacher)
+soft_loss = KL(teacher || student)
 
 # Hard loss: Learn from ground truth labels
 hard_loss = CrossEntropy(student_output, true_labels)
@@ -221,15 +220,14 @@ alpha = 0.3  # More emphasis on labels
 ### 3. Forward vs Reverse KLD
 
 ```python
-# Forward KL: KL(Student || Teacher)
-# - Student matches teacher's average behavior
-# - Mode-seeking: Student focuses on teacher's highest probability modes
-# - Good for classification
+# Forward KL: KL(Teacher || Student)
+# - Expectation under the teacher; tends toward mode covering.
+# - Standard soft-target distillation objective.
 
-# Reverse KL: KL(Teacher || Student)
-# - Student covers all of teacher's behaviors
-# - Mode-covering: Student learns diverse behaviors
-# - Good for generation (MiniLLM)
+# Reverse KL: KL(Student || Teacher)
+# - Expectation under the student; tends toward mode seeking.
+# - MiniLLM uses a reverse-KL objective with on-policy optimization.
+# - Neither direction guarantees a particular task-quality outcome.
 ```
 
 ## Training Strategies
