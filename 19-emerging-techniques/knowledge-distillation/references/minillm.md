@@ -1,334 +1,111 @@
-# MiniLLM: Reverse KL Divergence for LLM Distillation
+# MiniLLM: On-Policy Distillation of Large Language Models
 
-Based on arXiv 2306.08543 (2024) - MiniLLM: Knowledge Distillation of Large Language Models
+Sources: [arXiv 2306.08543v6](https://arxiv.org/abs/2306.08543v6), sections 2.1–2.3, and the [official implementation](https://github.com/microsoft/LMOps/tree/main/minillm).
+First preprint: 2023. Conference publication: ICLR 2024. Source check: 2026-10-21.
 
 ## Overview
 
-**Source**: https://arxiv.org/abs/2306.08543
-**GitHub**: https://github.com/microsoft/LMOps/tree/main/minillm
-
-MiniLLM replaces forward KLD with reverse KLD for knowledge distillation, achieving better performance on generative language models.
+MiniLLM replaces the standard forward-KL distillation objective with reverse KL and derives an on-policy sequence optimization method. Its reported results depend on the paper's models, data, evaluation and training procedure. Replacing one loss function is not a full MiniLLM implementation.
 
 ## Problem with Standard KLD
 
 ### Forward KL Divergence (Standard)
 
-**Formula**: `KL(Student || Teacher)`
+**Formula**: `KL(Teacher || Student)`
 
-**Minimization behavior**: Mode-seeking
-```
-Student tries to match teacher's MEAN behavior
-→ Student focuses on teacher's highest probability regions
-→ Student ignores low-probability but valid generations
-```
-
-**Issue for generative models**: Limits diversity, student generates safe but boring outputs.
-
-### Why Forward KL Fails for Generation
-
-```python
-# Teacher distribution (diverse)
-teacher_probs = [0.3, 0.3, 0.2, 0.1, 0.1]  # Multiple valid options
-
-# Forward KL minimization
-# Student learns: [0.6, 0.3, 0.1, 0.0, 0.0]
-# Problem: Ignores options 4-5 entirely (mode-seeking)
-```
+**Minimization behavior**: Mode-covering tendency. Teacher probabilities weight the expectation. Assigning little student probability where the teacher has substantial mass is penalized. A capacity-limited student may spread mass into regions poorly supported by the teacher; this is a tendency, not a universal outcome.
 
 ## MiniLLM Solution: Reverse KLD
 
 ### Reverse KL Divergence
 
-**Formula**: `KL(Teacher || Student)`
+**Formula**: `KL(Student || Teacher)`
 
-**Minimization behavior**: Mode-covering
-```
-Student tries to COVER all teacher's modes
-→ Student learns diverse generation
-→ Student doesn't ignore any valid teacher outputs
-```
+**Minimization behavior**: Mode-seeking tendency. Student probabilities weight the expectation. Student mass where the teacher assigns low probability is penalized. This can omit smaller teacher modes; it does not guarantee increased diversity, factuality or downstream quality.
 
 ### Mathematical Formulation
 
-**Forward KL** (standard distillation):
-```
-L_forward = Σ p_student(x) log(p_student(x) / p_teacher(x))
-          = E_{x~student} [log p_student(x) - log p_teacher(x)]
+For a shared discrete support, write `q` for the student and `p` for the fixed teacher:
+
+```text
+Forward KL: sum_x p(x) [log p(x) - log q(x)]
+Reverse KL: sum_x q(x) [log q(x) - log p(x)]
 ```
 
-**Reverse KL** (MiniLLM):
-```
-L_reverse = Σ p_teacher(x) log(p_teacher(x) / p_student(x))
-          = E_{x~teacher} [log p_teacher(x) - log p_student(x)]
-```
-
-**Key difference**: Expectation over teacher distribution vs student distribution.
+Teacher-weighted cross-entropy `-sum_x p(x) log q(x)` is forward KL plus teacher entropy, a student-independent constant. It is not reverse KL and need not be zero when distributions match. Reverse KL includes the student's entropy term, whose gradient cannot be dropped.
 
 ## Implementation
 
 ### Reverse KLD Loss
+
+This exact token-vocabulary calculation matches the main guide. It is not a full MiniLLM implementation or a policy-gradient estimator. Inputs must have matching shapes and vocabulary semantics. Supply finite logits and a positive temperature. Shift causal targets, exclude padding/ignored positions, and align valid contexts before calling it; the helper averages every supplied position.
 
 ```python
 import torch
 import torch.nn.functional as F
 
 def reverse_kl_loss(student_logits, teacher_logits, temperature=1.0):
-    """
-    Reverse KL divergence: KL(Teacher || Student).
-
-    Args:
-        student_logits: Model predictions (batch, seq_len, vocab_size)
-        teacher_logits: Teacher predictions (batch, seq_len, vocab_size)
-        temperature: Softening parameter
-
-    Returns:
-        Reverse KL divergence loss
-    """
-    # Teacher distribution (target, detached)
-    p_teacher = F.softmax(teacher_logits / temperature, dim=-1)
-    p_teacher = p_teacher.detach()  # Don't backprop through teacher
-
-    # Student distribution (learnable)
+    """Exact token-level KL(Student || Teacher), with a detached teacher."""
+    log_p_teacher = F.log_softmax(teacher_logits.detach() / temperature, dim=-1)
     log_p_student = F.log_softmax(student_logits / temperature, dim=-1)
+    p_student = F.softmax(student_logits / temperature, dim=-1)
 
-    # Reverse KL: -Σ p_teacher * log p_student
-    reverse_kl = -(p_teacher * log_p_student).sum(dim=-1).mean()
-
-    # Temperature correction
+    # Student weighting includes the student-entropy gradient.
+    reverse_kl = (p_student * (log_p_student - log_p_teacher)).sum(dim=-1).mean()
     return reverse_kl * (temperature ** 2)
 ```
 
+The `temperature ** 2` factor is a conventional teaching-example scaling. It is not a claim about the official implementation's default objective or hyperparameters. At temperature 1, identical distributions give zero KL; unequal distributions distinguish the direction. Teacher gradients are absent while student gradients include both terms.
+
 ### Policy Gradient Optimization
 
-**Challenge**: Reverse KL requires sampling from teacher.
+The sequence objective uses student-distribution expectations:
 
-**Solution**: Use policy gradient with teacher samples.
-
-```python
-def minillm_policy_gradient(student_model, teacher_model, prompt_batch):
-    """
-    MiniLLM training with policy gradient.
-
-    Steps:
-    1. Sample responses from teacher
-    2. Compute reverse KL using those samples
-    3. Optimize student to cover teacher's distribution
-    """
-    # 1. Generate from teacher (detached)
-    with torch.no_grad():
-        teacher_outputs = teacher_model.generate(
-            prompt_batch,
-            max_new_tokens=256,
-            do_sample=True,
-            temperature=1.0,
-            return_dict_in_generate=True,
-            output_scores=True
-        )
-
-        teacher_sequences = teacher_outputs.sequences
-        teacher_scores = teacher_outputs.scores
-
-    # 2. Student evaluates teacher's samples
-    student_outputs = student_model(
-        input_ids=teacher_sequences,
-        labels=teacher_sequences
-    )
-
-    # 3. Policy gradient loss
-    # Maximize student's likelihood on teacher's samples
-    loss = -student_outputs.logits.mean()
-
-    return loss
+```text
+L = E_{y ~ q_student(. | prompt)} [log q_student(y | prompt) - log p_teacher(y | prompt)]
 ```
+
+Changing the student changes both the log ratio and the distribution over sampled sequences. Computing token-level KL at fixed contexts does not include that entire sequence-level effect. Maximizing likelihood on teacher-generated responses alone is response imitation, not the paper's on-policy reverse-KL algorithm. Averaging raw logits is neither a likelihood nor a KL objective.
+
+Paper section 2.2 derives the policy gradient and introduces single-step decomposition, teacher-mixed sampling and length normalization to reduce variance, mitigate reward hacking and address length bias. Teacher-mixed sampling is a specific part of that algorithm; it does not justify replacing it with arbitrary teacher-only sampling. Use the paper and a pinned official revision for sampling probabilities, corrections and optimization details.
 
 ## Training Procedure
 
-### Two-Stage MiniLLM
+Use the [official README](https://github.com/microsoft/LMOps/blob/main/minillm/README.md) and scripts at a selected revision. This reference does not provide an unverified substitute trainer.
 
-**Stage 1**: Imitation learning (reverse KLD)
-```python
-# Learn to generate like teacher
-for epoch in range(num_imitation_epochs):
-    for batch in dataloader:
-        # Sample from teacher
-        teacher_samples = teacher.generate(batch['prompts'])
+Before running that procedure:
 
-        # Student imitates
-        loss = reverse_kl_loss(
-            student(teacher_samples).logits,
-            teacher(teacher_samples).logits
-        )
+1. Pin the implementation revision, dependencies, teacher/student checkpoints and access permissions. Confirm compatible tokenizer/vocabulary semantics; matching tensor dimensions alone are insufficient.
+2. Inspect the chosen dataset's actual schema, split, license and availability. Prepare prompt, response, padding and causal-loss masks according to the selected implementation, not a guessed field mapping.
+3. Check the revision's student initialization, rollout distribution, teacher scoring, sampling corrections, length treatment and optimizer settings. Freeze the teacher; account for its evaluation mode, device and memory footprint.
+4. Verify generation/scoring alignment. Generation scores usually cover generated steps, while a separate causal forward includes prompt positions. Do not compare these tensors without explicitly matching positions and normalization.
+5. Validate the loss and gradients on a tiny supported fixture before a budgeted run. Check stop criteria, finite statistics, checkpoint/recovery behavior, resource limits and held-out evaluation.
 
-        loss.backward()
-        optimizer.step()
-```
-
-**Stage 2**: Self-training (optional)
-```python
-# Fine-tune on student's own generations
-for epoch in range(num_self_train_epochs):
-    for batch in dataloader:
-        # Student generates
-        student_samples = student.generate(batch['prompts'])
-
-        # Self-training loss
-        loss = student(student_samples).loss
-
-        loss.backward()
-        optimizer.step()
-```
-
-### Complete Training Script
-
-```python
-from transformers import AutoModelForCausalLM, Trainer, TrainingArguments
-
-def train_minillm(
-    teacher_name="meta-llama/Llama-2-70b-hf",
-    student_name="meta-llama/Llama-2-7b-hf",
-    output_dir="./minillm-7b",
-):
-    # Load models
-    teacher = AutoModelForCausalLM.from_pretrained(teacher_name, torch_dtype=torch.float16, device_map="auto")
-    student = AutoModelForCausalLM.from_pretrained(student_name, torch_dtype=torch.float16)
-
-    # Custom trainer with reverse KLD
-    class MiniLLMTrainer(Trainer):
-        def compute_loss(self, model, inputs, return_outputs=False):
-            # Generate from teacher
-            with torch.no_grad():
-                teacher_outputs = teacher.generate(
-                    inputs['input_ids'],
-                    max_new_tokens=256,
-                    do_sample=True,
-                    return_dict_in_generate=True,
-                    output_scores=True
-                )
-
-                teacher_sequences = teacher_outputs.sequences
-                teacher_logits = torch.stack(teacher_outputs.scores, dim=1)
-
-            # Student evaluates teacher samples
-            student_outputs = model(
-                input_ids=teacher_sequences,
-                labels=teacher_sequences
-            )
-
-            student_logits = student_outputs.logits
-
-            # Reverse KL loss
-            loss = reverse_kl_loss(student_logits, teacher_logits)
-
-            return (loss, student_outputs) if return_outputs else loss
-
-    # Training arguments
-    training_args = TrainingArguments(
-        output_dir=output_dir,
-        num_train_epochs=5,
-        per_device_train_batch_size=2,
-        gradient_accumulation_steps=16,
-        learning_rate=5e-5,
-        warmup_steps=1000,
-        logging_steps=100,
-        save_steps=1000,
-        bf16=True,
-    )
-
-    # Train
-    trainer = MiniLLMTrainer(
-        model=student,
-        args=training_args,
-        train_dataset=train_dataset,
-    )
-
-    trainer.train()
-    student.save_pretrained(output_dir)
-
-# Usage
-train_minillm(
-    teacher_name="meta-llama/Llama-2-70b-hf",
-    student_name="meta-llama/Llama-2-7b-hf",
-)
-```
+These are integration gates, not a claim that any particular framework release, dataset or hardware configuration has passed them. No pretrained checkpoint, rollout, trainer or optimizer is executed by the local token-loss tests.
 
 ## Performance Results
 
-**From paper (LLaMA models)**:
+Consult the paper's tables and exact experimental setup for measured outcomes. No generic LLaMA-7B/70B MT-Bench or AlpacaEval scores are asserted here. Loss direction alone does not establish a fixed percentage improvement, teacher-equivalent performance, diversity or factual accuracy.
 
-| Student | Teacher | Method | MT-Bench Score | AlpacaEval |
-|---------|---------|--------|----------------|------------|
-| LLaMA-7B | - | Baseline | 5.2 | 55% |
-| LLaMA-7B | LLaMA-70B | Forward KL | 5.8 | 62% |
-| LLaMA-7B | LLaMA-70B | **MiniLLM (Reverse KL)** | **6.4** | **71%** |
-
-**Key findings**:
-- Reverse KL outperforms forward KL by ~10%
-- Distilled 7B model approaches 70B performance
-- Better diversity and generation quality
+For a reproduction, record the paper table/row, implementation revision, checkpoint, dataset split, evaluation version, decoding settings, seeds, resource use and uncertainty. Compare held-out quality against the appropriate undistilled and forward-KL baselines. Do not infer task quality from decreasing training KL alone.
 
 ## Comparison: Forward vs Reverse KL
 
-### Generation Quality
-
-```python
-# Prompt: "Explain quantum computing"
-
-# Forward KL (mode-seeking)
-# Student output: "Quantum computing uses quantum bits..."
-# → Safe, generic, one mode
-
-# Reverse KL (mode-covering)
-# Student output: Multiple diverse valid explanations
-# → Covers different valid explanations
-# → More creative, diverse
-```
-
-### When to Use Each
-
-**Forward KL**:
-- Classification tasks
-- Single correct answer
-- Need deterministic output
-
-**Reverse KL (MiniLLM)**:
-- Generative tasks
-- Multiple valid outputs
-- Need diversity
-- Open-ended generation
+Forward KL penalizes missing teacher mass. Reverse KL penalizes student mass in low-teacher-probability regions. Neither direction forces deterministic output or guarantees diverse generations. Model capacity, data, rollout distribution, decoding and the complete optimization method affect the result. Choose with measured task-specific evidence, not a classification-versus-generation rule alone.
 
 ## Hyperparameters
 
-### Temperature
-
-```python
-# Temperature for both teacher and student
-
-T = 1.0  # Standard (from paper)
-T = 0.8  # Sharper (less diversity)
-T = 1.2  # Softer (more diversity)
-
-# Rule: Use T=1.0 for MiniLLM (higher temps help mode-covering)
-```
-
-### Learning Rate
-
-```python
-# MiniLLM uses higher LR than standard distillation
-
-lr_forward_kl = 2e-5   # Standard distillation
-lr_minillm = 5e-5      # MiniLLM (can handle higher LR)
-
-# Reason: Reverse KL has better gradient properties
-```
+The helper accepts a positive temperature; changing it changes the token distributions and scaled objective. Values other than 1 are illustrative choices, not verified MiniLLM defaults. There is no universal higher-learning-rate rule for reverse KL. Obtain learning rate, warmup, batch size, rollout length and schedule from the chosen official experiment and validate them for the actual workload.
 
 ## Limitations
 
-1. **Computational cost**: Requires sampling from teacher during training
-2. **Implementation complexity**: More complex than standard distillation
-3. **Memory**: Need to store teacher samples
+- The helper computes exact KL over a shared token vocabulary at supplied contexts. It does not implement sequence sampling, policy-gradient corrections, masking or the complete paper pipeline.
+- On-policy rollouts and teacher scoring add compute and memory costs. Measure them with actual model sizes, sequence lengths and devices.
+- A frozen teacher may still be wrong. Teacher alignment, low KL and successful numerical tests do not prove truthfulness or safety.
+- CPU identity, direction, temperature and gradient checks establish local numerical behavior only. Full training, SDK/device compatibility, quality and throughput remain unverified.
 
 ## Resources
 
-- **Paper**: https://arxiv.org/abs/2306.08543
-- **GitHub**: https://github.com/microsoft/LMOps/tree/main/minillm
-- **Blog**: https://www.microsoft.com/en-us/research/blog/minillm-small-language-models-via-large-language-model-distillation/
+- [Paper, version 6](https://arxiv.org/abs/2306.08543v6)
+- [Official implementation](https://github.com/microsoft/LMOps/tree/main/minillm)
+- [Microsoft research overview](https://www.microsoft.com/en-us/research/blog/minillm-small-language-models-via-large-language-model-distillation/)
