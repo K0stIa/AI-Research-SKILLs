@@ -16,7 +16,9 @@ Wanda prunes LLMs by weight magnitude × input activation, achieving 50% sparsit
 
 **Key insight**: Weight importance = magnitude × usage
 
-```python
+Mathematical notation, not executable Python:
+
+```text
 importance(w_ij) = |w_ij| × ||X_i||
 
 where:
@@ -33,12 +35,12 @@ where:
 ### Comparison with Magnitude Pruning
 
 **Magnitude pruning** (baseline):
-```python
+```text
 importance = |weight|  # Only considers weight size
 ```
 
 **Wanda**:
-```python
+```text
 importance = |weight| × activation  # Considers usage too
 ```
 
@@ -128,21 +130,22 @@ def wanda_prune(model, calib_data, sparsity=0.5):
 **Key detail**: Pruning is per-output dimension, not global.
 
 ```python
-# For each output dimension, prune sparsity% of weights
+import torch
 
-for out_dim in range(out_features):
-    # Importance for this output
-    importance_out = |W[out_dim, :]| × activation
-
-    # Prune sparsity% of this output's weights
-    threshold = quantile(importance_out, sparsity)
-    mask_out = importance_out >= threshold
-
-    # Apply
-    W[out_dim, :] *= mask_out
+# W is [output, input]; activation contains per-input L2 norms on W's device.
+if not 0.0 <= sparsity <= 1.0:
+    raise ValueError("sparsity must be between zero and one")
+out_features, in_features = W.shape
+number_to_prune = int(sparsity * in_features)
+with torch.no_grad():
+    for out_dim in range(out_features):
+        importance_out = W[out_dim, :].abs() * activation
+        # Select coordinates instead of thresholding: ties must not defeat pruning.
+        indices = torch.argsort(importance_out, stable=True)[:number_to_prune]
+        W[out_dim, indices] = 0
 ```
 
-**Reason**: Ensures each output has similar capacity (balanced pruning).
+**Reason**: Selects `floor(sparsity * in_features)` coordinates per output, including tied-score cases. Pre-existing zero weights can increase the observed zero count. This local example is not a full model-pruning or recovery recipe.
 
 ## Calibration Data
 
