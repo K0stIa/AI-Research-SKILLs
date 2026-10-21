@@ -58,7 +58,8 @@ function promptFor(item) {
     'Use only those two files. A supplied skill expansion is not the requested filesystem read. ' +
     `Planning question: ${item.probe}\n` +
     'Final response: one bare JSON object, no Markdown fence. Keys: skill (exact frontmatter name), mainPath (absolute), referencePath (absolute or null), purpose (one sentence), referenceFact (one fact from the actual excerpt, or explain no reference), pitfall (answer the planning question), prerequisites (nonempty list of unverified environment/version/data requirements), executed (false). ' +
-    'Keep the final JSON under 140 whitespace-separated words. Do not claim anything was executed or scientifically validated. State uncertainty instead of inventing APIs or results.';
+    'Content budgets: purpose at most 8 words; referenceFact at most 18 words; pitfall at most 28 words; exactly 3 prerequisites, each at most 8 words. Do not repeat the referenceFact in pitfall. ' +
+    'Keep the entire final JSON under 140 whitespace-separated words, including keys and paths. Do not claim anything was executed or scientifically validated. State uncertainty instead of inventing APIs or results.';
 }
 
 function sourceHash(item) {
