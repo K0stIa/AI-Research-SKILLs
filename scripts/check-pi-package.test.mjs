@@ -135,6 +135,12 @@ test('research entrypoint stays bounded while preserving the complete workflow r
   assert.ok(Buffer.byteLength(workflow) > 15000, 'Preserve detailed guidance, not a placeholder');
 });
 
+test('research identity checks do not invent filesystem verification', () => {
+  const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
+  assert.match(text, /MUST perform.*requested.*read/);
+  assert.match(text, /DO NOT claim.*tool.*without.*evidence/);
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
