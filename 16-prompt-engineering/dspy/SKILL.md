@@ -1,7 +1,7 @@
 ---
 name: dspy
 description: Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming
-version: 1.0.1
+version: 1.0.2
 author: Orchestra Research
 license: MIT
 tags: [Prompt Engineering, DSPy, Declarative Programming, RAG, Agents, Prompt Optimization, LM Programming, Stanford NLP, Automatic Optimization, Modular AI]
@@ -9,6 +9,20 @@ dependencies: [dspy, openai, anthropic]
 ---
 
 # DSPy: Declarative Language Model Programming
+
+## Version and output checks
+
+Record the installed version, adapter, and provider before using these examples. Verify API availability against that installed version; some examples may target older APIs.
+
+Typed signatures declare expected fields and types. Adapters can parse, coerce, and validate outputs against those declarations.
+`JSONAdapter` checks output fields and performs annotation-aware conversion. `AdapterParseError` can still occur; a signature alone does not force successful generation.
+
+Runtime validation does not guarantee factual correctness, task success, or safety. Handle parse failures and evaluate held-out cases.
+
+Pinned source examples, not evidence about an uninspected installation:
+
+- [Adapter parsing](https://github.com/stanfordnlp/dspy/blob/661b2f1a25218f3b44aa125384d11d5508316ecb/dspy/adapters/json_adapter.py)
+- [Type conversion](https://github.com/stanfordnlp/dspy/blob/661b2f1a25218f3b44aa125384d11d5508316ecb/dspy/adapters/utils.py)
 
 ## When to Use This Skill
 
