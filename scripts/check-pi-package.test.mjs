@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -35,6 +36,19 @@ test('all 98 research skills remain bundled with their supporting files', () => 
       assert.ok(!entry.endsWith('.md') || entry === 'SKILL.md', `Unexpected root Markdown: ${category}/${entry}`);
     }
   }
+});
+
+test('Python-tagged entrypoint examples parse without importing their dependencies', () => {
+  const snippets = files.flatMap(file => {
+    const text = readFileSync(file, 'utf8');
+    return [...text.matchAll(/^```(?:python|py)[ \t]*\r?\n([\s\S]*?)^```[ \t]*$/gm)].map(match => ({ file: file.slice(root.length + 1), line: text.slice(0, match.index).split('\n').length, code: match[1] }));
+  });
+  const parser = 'import ast,json,sys\nerrors=[]\nfor item in json.load(sys.stdin):\n try: ast.parse(item["code"])\n except SyntaxError as e: errors.append({"file":item["file"],"line":item["line"],"error":e.msg})\nprint(json.dumps(errors))\n';
+  const result = spawnSync(process.env.PYTHON_BIN ?? 'python3', ['-I', '-S', '-c', parser], { input: JSON.stringify(snippets), encoding: 'utf8', timeout: 30_000 });
+  assert.ifError(result.error);
+  assert.equal(result.status, 0, result.stderr);
+  assert.ok(snippets.length > 900, 'Do not silently skip example coverage');
+  assert.deepEqual(JSON.parse(result.stdout), [], 'Invalid Python examples or incorrect code-fence languages');
 });
 
 test('all skill entrypoints fit a bounded prompt-expansion budget', () => {
