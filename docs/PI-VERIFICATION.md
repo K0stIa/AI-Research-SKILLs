@@ -10,9 +10,15 @@ bash scripts/check-inventory.sh
 npm pack --dry-run --json
 ```
 
-The 19 Node tests check inventory, command identity, local references, source gates, precision, CLI validation, and event parsing.
-They preserve 98 skills across 23 categories. The repaired package contains 287 reference files.
-Documentation-contract tests do not establish the correctness of every technical claim or upstream example.
+The Node suite checks inventory, command identity, inline Markdown references, source gates, precision, CLI validation, event parsing, and response contracts.
+It preserves 98 skills across 23 categories. Evidence records the current file and test counts.
+
+Python-tagged examples throughout packaged Markdown are parsed without importing their dependencies.
+The fence scanner handles ordinary CommonMark fences, not list or blockquote containers.
+Syntax checks do not establish API compatibility, scientific correctness, memory use, or model quality.
+
+Link checks do not certify remote URLs, HTML navigation, or heading anchors.
+Archived vendor captures identify local corrections and retain unverified vendor claims.
 No check runs training or provisions cloud resources.
 
 For the optional Gemini demo regression, run from a repository checkout with Python 3 available:
@@ -23,6 +29,19 @@ node --test scripts/check-optional-demo.test.mjs
 
 This test excludes Python site-packages and checks the missing-SDK error path. It does not call the image-generation API.
 The demo and its test are excluded from the Pi package tarball.
+
+## Small CPU numerical checks
+
+From a repository checkout with an existing PyTorch installation:
+
+```bash
+CUDA_VISIBLE_DEVICES="" python3 scripts/check-distillation.test.py
+```
+
+These tests extract local examples. They check KL direction, causal alignment, masking, gradients, SimPO arithmetic, W&B configuration and control logic, and Wanda pruning with tied scores.
+They load no models and take no optimizer steps.
+
+The test is repository-only. It does not install PyTorch, contact W&B, or certify a complete training or pruning pipeline.
 
 ## Installed discovery
 
@@ -74,6 +93,34 @@ For identity checks, require the requested filesystem read; a claim that a read 
 For citation-only tasks, check that citation guidance was read and templates were not inspected.
 For QLoRA, check the frozen-base/trainable-adapter distinction and the cited source.
 For controls, compare identical prompts and inspect cache usage before interpreting timing differences.
+
+## All-skill installed matrix
+
+Use a new output path for every attempt:
+
+```bash
+node scripts/verify-pi-matrix.mjs /tmp/pi-matrix-NEW 240 1 28800 all
+```
+
+Arguments set the per-case deadline, concurrency, total time budget, and selected names.
+For a subset, replace `all` with comma-separated skill names. A passing subset is not complete library coverage.
+Existing output paths are rejected.
+
+Each fresh Pi process uses installed discovery without forced package precedence.
+Extensions are disabled. Only `read` is available. Model and executable overrides use the same environment variables as the scenario harness.
+
+The requested main-file read is exactly 12 lines from offset 1.
+A supporting read, when available, must request at most 40 lines from the approved file.
+Successful tool results are required; expanded skill text and narrated inspection do not count as reads.
+
+The response must be bare JSON with the requested keys, three prerequisites, field-specific word budgets, and a total limit of 140 whitespace-separated words.
+The evaluator checks these mechanical conditions separately from transport completion.
+
+Preserve raw events, failures, timeouts, source hashes, and original results.
+If source files or the evaluator change, identify stale evidence and retain any new evaluation separately.
+Do not widen deadlines or relax the contract to hide failures.
+
+Compare every accepted answer with its actual excerpts. Mechanical acceptance does not establish technical truth, safe deployment, or framework compatibility.
 
 ## Evidence and limits
 
