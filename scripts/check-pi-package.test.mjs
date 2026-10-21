@@ -54,6 +54,16 @@ test('skills have unique Pi-compatible names and descriptions', () => {
   }
 });
 
+test('Orchestra research command coexists with other autoresearch packages', () => {
+  const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
+  assert.match(text, /^name: orchestra-autoresearch$/m);
+  for (const file of ['README.md', 'docs/PI.md']) {
+    const content = readFileSync(join(root, file), 'utf8');
+    assert.ok(content.includes('/skill:orchestra-autoresearch'), file);
+    assert.ok(!content.includes('/skill:autoresearch'), file);
+  }
+});
+
 test('autoresearch defines bounded Pi operation without mandatory scheduling', () => {
   const text = readFileSync(join(root, '0-autoresearch-skill/SKILL.md'), 'utf8');
   assert.ok(text.includes('## Pi execution rules'));
