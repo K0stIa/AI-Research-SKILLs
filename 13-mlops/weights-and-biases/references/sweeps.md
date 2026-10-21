@@ -2,6 +2,11 @@
 
 Complete guide to hyperparameter optimization with W&B Sweeps.
 
+Raw positive bounds use `log_uniform_values` (or `q_log_uniform_values`).
+`log_uniform` instead interprets bounds as logarithms and samples between their exponentials.
+See the [official distribution reference](https://docs.wandb.ai/models/sweeps/sweep-config-keys).
+Examples omit application-specific model/data setup; obtain a bounded launch budget before running agents.
+
 ## Table of Contents
 - Sweep Configuration
 - Search Strategies
@@ -24,7 +29,7 @@ sweep_config = {
     },
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -55,7 +60,7 @@ sweep_config = {
     'parameters': {
         # Continuous parameter
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -150,7 +155,7 @@ sweep_config = {
     'method': 'random',
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -202,12 +207,12 @@ sweep_config = {
     },
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-2
         },
@@ -243,49 +248,52 @@ sweep_config = {
 ### Continuous Distributions
 
 ```python
+continuous_parameters = {
 # Log-uniform: Good for learning rates, regularization
 'learning_rate': {
-    'distribution': 'log_uniform',
+    'distribution': 'log_uniform_values',
     'min': 1e-6,
     'max': 1e-1
-}
+},
 
 # Uniform: Good for dropout, momentum
 'dropout': {
     'distribution': 'uniform',
     'min': 0.0,
     'max': 0.5
-}
+},
 
 # Normal distribution
-'parameter': {
+'normal_parameter': {
     'distribution': 'normal',
     'mu': 0.5,
     'sigma': 0.1
-}
+},
 
 # Log-normal distribution
-'parameter': {
+'log_normal_parameter': {
     'distribution': 'log_normal',
     'mu': 0.0,
     'sigma': 1.0
+}
 }
 ```
 
 ### Discrete Distributions
 
 ```python
+discrete_parameters = {
 # Fixed values
 'batch_size': {
     'values': [16, 32, 64, 128, 256]
-}
+},
 
 # Integer uniform
 'num_layers': {
     'distribution': 'int_uniform',
     'min': 2,
     'max': 10
-}
+},
 
 # Quantized uniform (step size)
 'layer_size': {
@@ -293,33 +301,36 @@ sweep_config = {
     'min': 32,
     'max': 512,
     'q': 32  # Step by 32: 32, 64, 96, 128...
-}
+},
 
 # Quantized log-uniform
 'hidden_size': {
-    'distribution': 'q_log_uniform',
+    'distribution': 'q_log_uniform_values',
     'min': 32,
     'max': 1024,
     'q': 32
+}
 }
 ```
 
 ### Categorical Parameters
 
 ```python
+categorical_parameters = {
 # Optimizers
 'optimizer': {
     'values': ['adam', 'sgd', 'rmsprop', 'adamw']
-}
+},
 
 # Model architectures
 'model': {
     'values': ['resnet18', 'resnet34', 'resnet50', 'efficientnet_b0']
-}
+},
 
 # Activation functions
 'activation': {
     'values': ['relu', 'gelu', 'silu', 'leaky_relu']
+}
 }
 ```
 
@@ -356,6 +367,7 @@ sweep_config = {
 ```python
 def train():
     run = wandb.init()
+    best_acc = float("-inf")
 
     for epoch in range(MAX_EPOCHS):
         loss = train_epoch()
@@ -368,9 +380,10 @@ def train():
             print("Early stop: Poor performance")
             break
 
-        if epoch > 10 and val_acc > best_acc - 0.01:
+        if epoch > 10 and val_acc <= best_acc + 0.01:
             print("Early stop: No improvement")
             break
+        best_acc = max(best_acc, val_acc)
 ```
 
 ## Training Function
@@ -534,15 +547,14 @@ wandb.agent(sweep_id, function=train, count=20)
 import os
 
 def train():
-    # Get available GPU
-    gpu_id = os.environ.get('CUDA_VISIBLE_DEVICES', '0')
+    # CUDA_VISIBLE_DEVICES remaps the selected physical device to logical zero.
 
     run = wandb.init()
     config = wandb.config
 
-    # Train on specific GPU
-    device = torch.device(f'cuda:{gpu_id}')
-    model = model.to(device)
+    # Each agent below exposes one GPU; use its logical index.
+    device = torch.device("cuda:0")
+    model = build_model(config).to(device)
 
     # ... rest of training ...
 
@@ -582,7 +594,7 @@ sweep_config = {
                     'values': ['adam', 'sgd']
                 },
                 'lr': {
-                    'distribution': 'log_uniform',
+                    'distribution': 'log_uniform_values',
                     'min': 1e-5,
                     'max': 1e-1
                 }
@@ -610,7 +622,7 @@ sweep_config = {
             'values': ['adam', 'sgd']
         },
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -662,7 +674,7 @@ sweep_config = {
 
         # Training
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-2
         },
@@ -673,7 +685,7 @@ sweep_config = {
             'values': ['adam', 'sgd', 'adamw']
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-2
         },
@@ -723,7 +735,7 @@ sweep_config = {
 
         # Training
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-4
         },
@@ -739,7 +751,7 @@ sweep_config = {
             'max': 0.1
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-4,
             'max': 1e-1
         },
@@ -786,28 +798,21 @@ sweep_config_v2 = {
 ### 2. Use Log Scales
 
 ```python
-# ✅ Good: Log scale for learning rate
-'learning_rate': {
-    'distribution': 'log_uniform',
-    'min': 1e-6,
-    'max': 1e-2
-}
-
-# ❌ Bad: Linear scale
-'learning_rate': {
-    'distribution': 'uniform',
-    'min': 0.000001,
-    'max': 0.01
-}
+# Log scale for a learning-rate parameter, using raw value bounds.
+log_scale = {'distribution': 'log_uniform_values', 'min': 1e-6, 'max': 1e-2}
+# Linear alternative: evaluate whether this sampling strategy fits the task.
+linear_scale = {'distribution': 'uniform', 'min': 0.000001, 'max': 0.01}
 ```
 
 ### 3. Set Reasonable Ranges
 
 ```python
+parameters = {
 # Base ranges on prior knowledge
 'learning_rate': {'min': 1e-5, 'max': 1e-3},  # Typical for Adam
 'batch_size': {'values': [16, 32, 64]},       # GPU memory limits
 'dropout': {'min': 0.1, 'max': 0.5}           # Too high hurts training
+}
 ```
 
 ### 4. Monitor Resource Usage

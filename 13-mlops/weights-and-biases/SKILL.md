@@ -1,7 +1,7 @@
 ---
 name: weights-and-biases
 description: Track ML experiments with automatic logging, visualize training in real-time, optimize hyperparameters with sweeps, and manage model registry with W&B - collaborative MLOps platform
-version: 1.0.0
+version: 1.0.1
 author: Orchestra Research
 license: MIT
 tags: [MLOps, Weights And Biases, WandB, Experiment Tracking, Hyperparameter Tuning, Model Registry, Collaboration, Real-Time Visualization, PyTorch, TensorFlow, HuggingFace]
@@ -234,7 +234,7 @@ sweep_config = {
     },
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -313,7 +313,7 @@ sweep_config = {
     'method': 'bayes',
     'metric': {'name': 'val/loss', 'goal': 'minimize'},
     'parameters': {
-        'lr': {'distribution': 'log_uniform', 'min': 1e-5, 'max': 1e-1}
+        'lr': {'distribution': 'log_uniform_values', 'min': 1e-5, 'max': 1e-1}
     }
 }
 ```
