@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -54,6 +54,36 @@ test('the installed matrix covers all 98 skills and cannot pass missing or overw
     const saved = readFileSync(join(output, `${matrix[0].name}.jsonl`), 'utf8');
     assert.equal(spawnSync(process.execPath, args, options).status, 2);
     assert.equal(readFileSync(join(output, `${matrix[0].name}.jsonl`), 'utf8'), saved);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('matrix word boundary rejects exactly 140 words', async () => {
+  const { buildSkillMatrix } = await import('./verify-pi-matrix.mjs');
+  const { evaluateSkillRun } = await import('./pi-verification-events.mjs');
+  const directory = mkdtempSync(join(tmpdir(), 'pi-word-boundary-'));
+  const words = count => Array(count).fill('word').join(' ');
+  try {
+    // Valid path spaces count toward the total, without exceeding prose field caps.
+    const padding = Array(70 - directory.trim().split(/\s+/).length).fill('x').join(' ');
+    const root = join(directory, padding);
+    const skillDirectory = join(root, '10-optimization', 'boundary-fixture');
+    mkdirSync(skillDirectory, { recursive: true });
+    writeFileSync(join(root, 'package.json'), JSON.stringify({ pi: { skills: ['./10-optimization'] } }));
+    writeFileSync(join(skillDirectory, 'SKILL.md'), '---\nname: boundary-fixture\ndescription: Local mechanical word-budget fixture.\n---\nNo model execution.\n');
+    const matrix = buildSkillMatrix(root);
+    assert.equal(matrix.length, 1);
+    const [contract] = matrix;
+    const reads = [
+      { type: 'tool_execution_start', toolCallId: 'fixture-read', toolName: 'read', args: { path: contract.mainPath, offset: 1, limit: 12 } },
+      { type: 'tool_execution_end', toolCallId: 'fixture-read', toolName: 'read', isError: false, result: { content: [{ type: 'text', text: readFileSync(contract.mainPath, 'utf8') }] } },
+    ];
+    const results = [26, 27, 28].map(pitfallWords => {
+      const answer = { skill: contract.name, mainPath: contract.mainPath, referencePath: contract.referencePath, purpose: words(8), referenceFact: words(18), pitfall: words(pitfallWords), prerequisites: [words(8), words(8), words(8)], executed: false };
+      const events = [...reads, { type: 'message_end', message: { role: 'assistant', stopReason: 'stop', content: [{ type: 'text', text: JSON.stringify(answer) }] } }, { type: 'agent_end' }];
+      const result = evaluateSkillRun({ stdout: events.map(JSON.stringify).join('\n'), exitCode: 0, timedOut: false }, contract);
+      return [result.finalWords, result.contractPassed, result.contractFailures];
+    });
+    assert.deepEqual(results, [[139, true, []], [140, false, ['word-cap-exceeded']], [141, false, ['word-cap-exceeded']]], 'Matrix prompt says under 140 words; exactly 140 must fail.');
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
