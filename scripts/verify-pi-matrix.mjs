@@ -47,7 +47,7 @@ export function buildSkillMatrix(root) {
     const referenceDirectory = resolve(dirname(mainPath), 'references');
     const fallback = existsSync(referenceDirectory) ? walk(referenceDirectory).filter(path => path.endsWith('.md') && !path.endsWith('/legacy-entrypoint.md')).sort()[0] : undefined;
     const key = category.replace(/^\.\//, '').match(/^\d+/)?.[0];
-    return { name, category, mainPath, referencePath: linked ?? fallback ?? null, probe: probes[key], maxWords: 140, maxReadLines: 80 };
+    return { name, category, mainPath, referencePath: linked ?? fallback ?? null, probe: probes[key], maxWords: 139, maxReadLines: 80 };
   })).sort((a, b) => a.name.localeCompare(b.name));
 }
 
