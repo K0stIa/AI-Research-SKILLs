@@ -1,0 +1,40 @@
+{
+  "style": [
+    {
+      "file": "specs/bugs/BUG-pi-matrix-word-boundary.md",
+      "mode": "procedural",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "specs/verifications/pi-matrix-word-boundary/REPORT.md",
+      "mode": "descriptive",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "specs/verifications/pi-matrix-word-boundary/TDD.md",
+      "mode": "descriptive",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "specs/verifications/pi-matrix-word-boundary/AUDIT.md",
+      "mode": "descriptive",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "styleSelfTestExitCode": 0,
+  "styleCertificationClaimed": false,
+  "originalTrackedUnchanged": 634,
+  "originalTrackedChanged": [
+    "scripts/check-pi-verification.test.mjs",
+    "scripts/verify-pi-matrix.mjs",
+    "specs/IMPACT_LATEST.md"
+  ],
+  "draftUnchanged": true,
+  "packedFilesMatched": 478,
+  "nativeCopiesMatched": 23,
+  "baselineRun": false
+}

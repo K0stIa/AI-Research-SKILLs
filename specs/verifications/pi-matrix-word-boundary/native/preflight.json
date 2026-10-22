@@ -1,0 +1,15 @@
+{
+  "exitCode": 0,
+  "summary": [
+    "# tests 35",
+    "# pass 35",
+    "# fail 0",
+    "# cancelled 0",
+    "# skipped 0",
+    "# todo 0"
+  ],
+  "trackedFingerprints": 637,
+  "draftSha256": "0b1a93de2271abe322017dc909b4e766b521fb5f2194b5ec934f0ffb1671bd7c",
+  "realPiFallbackDisabled": true,
+  "npmOffline": true
+}

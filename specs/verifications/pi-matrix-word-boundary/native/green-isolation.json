@@ -1,0 +1,37 @@
+{
+  "redCommit": "e22fbc4a763eccac5ea08f8da3171f80b9009488",
+  "greenCommit": "a32238435c6ec11a70037bc844133474503b7a2d",
+  "implementationOnlyCommit": true,
+  "testBytesIdentical": true,
+  "testSha256": "fda50fe3d728bf23bf2b9f3a12df29b6162ba6360d1520b53ed2b0aa45e36c30",
+  "greenArchiveSha256": "110f39077b0d7e6774f406ffd9f2c15da78faf8a79b6eba17b0e4e01feb07e63",
+  "checks": [
+    {
+      "name": "green-isolated",
+      "command": [
+        "node",
+        "--test",
+        "--test-name-pattern=matrix word boundary rejects exactly 140 words",
+        "scripts/check-pi-verification.test.mjs"
+      ],
+      "exitCode": 0,
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "name": "green-isolated-full",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "tests": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "livePiModelSessions": 0
+}

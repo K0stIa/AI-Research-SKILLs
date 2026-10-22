@@ -82,3 +82,13 @@ Target: the `production_pruning_pipeline` Wanda branch in `19-emerging-technique
 Dependents: copied production examples, the existing CPU extraction suite, package content hashes and installed model-pruning guidance. One skill patch version changes. All names, paths, author/license fields and categories remain fixed. No release/story capsule exists. Plan and user approval are recorded in `bugs/BUG-pi-wanda-caller.md`.
 
 Risk: Medium. A raw-text/tokenized-dictionary boundary changes in one caller; tests must exercise actual forward tensors and pruning while stopping before training. Existing tests cover the helper, not this caller. No end-to-end Trainer, SparseGPT, dataset or device certification follows from the toy CPU regression. No new dependency, live session, settings change or publication is required.
+
+## Strict matrix word-boundary follow-up
+
+Target: `buildSkillMatrix` in `scripts/verify-pi-matrix.mjs`. The original prompt says under 140 words, but the matrix supplies an inclusive maximum of 140. Set the matrix maximum to 139 without changing the shared evaluator's inclusive semantics.
+
+Direct production consumer: `runCase` passes each matrix item into `evaluateSkillRun`. Tests and host-local analysis scripts also consume matrix contracts. Bounded source-reference inspection identified these callers; no exhaustive call-graph coverage is claimed.
+
+Coverage gap: the existing tests cover invalid total budgets but not the real builder's exact 139/140/141 boundary. Add one local-fixture regression through builder and evaluator before implementation. Commit intended RED separately, then commit minimal GREEN and replay identical test bytes from both archives.
+
+Risk: Low. All 98 matrix contracts become strict-under-140 without changing prompt bytes, field limits, reads, deadlines, source content or skill versions. Preserve prior serialized contracts, historical verdicts and the separate untracked acceptance draft. Plan: `bugs/BUG-pi-matrix-word-boundary.md`. User approved deterministic TBB repair only. No live baseline, new model calls, settings change, installation or publication is authorized.

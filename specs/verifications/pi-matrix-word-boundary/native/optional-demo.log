@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: optional Gemini demo explains a missing SDK without calling an API
+ok 1 - optional Gemini demo explains a missing SDK without calling an API
+  ---
+  duration_ms: 29.106264
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 133.376303

@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "name": "cpu",
+      "command": [
+        "python3",
+        "scripts/check-distillation.test.py"
+      ],
+      "exitCode": 0,
+      "summary": [
+        "Ran 53 tests in 0.911s",
+        "OK"
+      ]
+    },
+    {
+      "name": "optional-demo",
+      "command": [
+        "node",
+        "--test",
+        "scripts/check-optional-demo.test.mjs"
+      ],
+      "exitCode": 0,
+      "summary": [
+        "# tests 1",
+        "# pass 1",
+        "# fail 0",
+        "# skipped 0"
+      ]
+    },
+    {
+      "name": "inventory",
+      "command": [
+        "bash",
+        "scripts/check-inventory.sh"
+      ],
+      "exitCode": 0,
+      "summary": [
+        "--------------------------------------------------------------",
+        "Skill counts:",
+        "  \u2705 CLAUDE.md header: 98",
+        "  \u2705 npm package README: 98",
+        "  \u2705 WELCOME.md: 98",
+        "Category counts:",
+        "  \u2705 CLAUDE.md header: 23",
+        "  \u2705 npm package README: 23",
+        "--------------------------------------------------------------",
+        "\u2705 Documented inventory counts are in sync (98 skills / 23 categories)."
+      ]
+    }
+  ],
+  "gpuVisibilityDisabled": true,
+  "realPiFallbackDisabled": true,
+  "liveBaselineRun": false
+}

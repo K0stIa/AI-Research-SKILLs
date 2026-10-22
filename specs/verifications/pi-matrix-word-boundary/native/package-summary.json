@@ -1,0 +1,17 @@
+{
+  "files": 478,
+  "categoryFilesByteMatched": 466,
+  "skills": 98,
+  "categories": 23,
+  "unpackedBytes": 7975780,
+  "tarball": "/home/k0stia/code/pi/.pi/verification/ai-research-matrix-word-boundary-20261022T211806Z/package/ai-research-skills-1.0.1.tgz",
+  "sha256": "69b6c5a19b556d22fb49cf89a4bda80e8997b8e0d3aeea985b5c40b98787ac6a",
+  "packedNodeTests": 36,
+  "packedNodePassed": 36,
+  "skipped": 0,
+  "failed": 0,
+  "offline": true,
+  "lifecycleScriptsDisabled": true,
+  "realPiFallbackDisabled": true,
+  "baselineRun": false
+}

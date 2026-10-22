@@ -1,0 +1,168 @@
+{
+  "baseRevision": "8b9268ecacaafc60a2d3072302a52e1f627f22a7",
+  "red": {
+    "redCommit": "e22fbc4a763eccac5ea08f8da3171f80b9009488",
+    "parent": "8b9268ecacaafc60a2d3072302a52e1f627f22a7",
+    "testOnlyCommit": true,
+    "archiveSha256": "e8da49b86e7a5dc50305b0b42b38d50ad39251c87c08764c54eafe8ea5c369fb",
+    "testSha256": "fda50fe3d728bf23bf2b9f3a12df29b6162ba6360d1520b53ed2b0aa45e36c30",
+    "productionSha256": "c2f5e7bbf07619cc47f0587026aa0053d52d2f052b4c3e6d9b32151eab917648",
+    "productionUnchangedFromBaseline": true,
+    "exitCode": 1,
+    "tests": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "intendedSignature": "Matrix prompt says under 140 words; exactly 140 must fail.",
+    "mechanism": "139 passed, exactly 140 incorrectly passed, 141 rejected. No unrelated contract failures."
+  },
+  "green": {
+    "redCommit": "e22fbc4a763eccac5ea08f8da3171f80b9009488",
+    "greenCommit": "a32238435c6ec11a70037bc844133474503b7a2d",
+    "implementationOnlyCommit": true,
+    "testBytesIdentical": true,
+    "testSha256": "fda50fe3d728bf23bf2b9f3a12df29b6162ba6360d1520b53ed2b0aa45e36c30",
+    "greenArchiveSha256": "110f39077b0d7e6774f406ffd9f2c15da78faf8a79b6eba17b0e4e01feb07e63",
+    "checks": [
+      {
+        "name": "green-isolated",
+        "command": [
+          "node",
+          "--test",
+          "--test-name-pattern=matrix word boundary rejects exactly 140 words",
+          "scripts/check-pi-verification.test.mjs"
+        ],
+        "exitCode": 0,
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "name": "green-isolated-full",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "exitCode": 0,
+        "tests": 36,
+        "passed": 36,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "livePiModelSessions": 0
+  },
+  "additional": {
+    "checks": [
+      {
+        "name": "cpu",
+        "command": [
+          "python3",
+          "scripts/check-distillation.test.py"
+        ],
+        "exitCode": 0,
+        "summary": [
+          "Ran 53 tests in 0.911s",
+          "OK"
+        ]
+      },
+      {
+        "name": "optional-demo",
+        "command": [
+          "node",
+          "--test",
+          "scripts/check-optional-demo.test.mjs"
+        ],
+        "exitCode": 0,
+        "summary": [
+          "# tests 1",
+          "# pass 1",
+          "# fail 0",
+          "# skipped 0"
+        ]
+      },
+      {
+        "name": "inventory",
+        "command": [
+          "bash",
+          "scripts/check-inventory.sh"
+        ],
+        "exitCode": 0,
+        "summary": [
+          "--------------------------------------------------------------",
+          "Skill counts:",
+          "  \u2705 CLAUDE.md header: 98",
+          "  \u2705 npm package README: 98",
+          "  \u2705 WELCOME.md: 98",
+          "Category counts:",
+          "  \u2705 CLAUDE.md header: 23",
+          "  \u2705 npm package README: 23",
+          "--------------------------------------------------------------",
+          "\u2705 Documented inventory counts are in sync (98 skills / 23 categories)."
+        ]
+      }
+    ],
+    "gpuVisibilityDisabled": true,
+    "realPiFallbackDisabled": true,
+    "liveBaselineRun": false
+  },
+  "package": {
+    "files": 478,
+    "categoryFilesByteMatched": 466,
+    "skills": 98,
+    "categories": 23,
+    "unpackedBytes": 7975780,
+    "tarball": "/home/k0stia/code/pi/.pi/verification/ai-research-matrix-word-boundary-20261022T211806Z/package/ai-research-skills-1.0.1.tgz",
+    "sha256": "69b6c5a19b556d22fb49cf89a4bda80e8997b8e0d3aeea985b5c40b98787ac6a",
+    "packedNodeTests": 36,
+    "packedNodePassed": 36,
+    "skipped": 0,
+    "failed": 0,
+    "offline": true,
+    "lifecycleScriptsDisabled": true,
+    "realPiFallbackDisabled": true,
+    "baselineRun": false
+  },
+  "matrixContracts": {
+    "skills": 98,
+    "uniqueNames": 98,
+    "previousMaxWords": [
+      140
+    ],
+    "currentMaxWords": [
+      139
+    ],
+    "allOtherContractFieldsUnchanged": true,
+    "liveRuns": 0
+  },
+  "integrity": {
+    "matrixAudit": {
+      "skills": 98,
+      "uniqueNames": 98,
+      "previousMaxWords": [
+        140
+      ],
+      "currentMaxWords": [
+        139
+      ],
+      "allOtherContractFieldsUnchanged": true,
+      "liveRuns": 0
+    },
+    "changedOriginalTracked": [
+      "scripts/check-pi-verification.test.mjs",
+      "scripts/verify-pi-matrix.mjs",
+      "specs/IMPACT_LATEST.md"
+    ],
+    "originalTrackedUnchanged": 634,
+    "acceptanceDraftUnchanged": true,
+    "baselineRun": false
+  },
+  "nativeSyntaxChecksPassed": 2,
+  "liveBaselineAuthorized": false,
+  "liveBaselineRun": false,
+  "targetModelGenerationRequests": 0,
+  "independentReviewPerformed": false,
+  "sourceSkillVersionsChanged": false,
+  "priorAcceptanceDraftChanged": false
+}

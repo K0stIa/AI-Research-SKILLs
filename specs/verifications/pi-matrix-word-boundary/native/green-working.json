@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "name": "green-working",
+      "command": [
+        "node",
+        "--test",
+        "--test-name-pattern=matrix word boundary rejects exactly 140 words",
+        "scripts/check-pi-verification.test.mjs"
+      ],
+      "exitCode": 0,
+      "summary": [
+        "# tests 1",
+        "# pass 1",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0"
+      ]
+    },
+    {
+      "name": "node-full",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "summary": [
+        "# tests 36",
+        "# pass 36",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0"
+      ]
+    }
+  ],
+  "testBytesIdenticalToRed": true,
+  "singleIntegerProductionChange": true,
+  "promptAndSharedEvaluatorUnchanged": true,
+  "livePiModelSessions": 0
+}

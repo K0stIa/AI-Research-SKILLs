@@ -1,0 +1,32 @@
+{
+  "earlierChangedJavaScriptProbe": {
+    "source": "lsp",
+    "filesChecked": 2,
+    "clean": 2,
+    "findings": 0,
+    "inconclusive": 0
+  },
+  "laterMixedPathsProbe": {
+    "source": "lsp",
+    "filesChecked": 8,
+    "clean": 7,
+    "findings": 0,
+    "inconclusive": 1,
+    "reason": "One check timed out within the 12000ms wait budget",
+    "unconfirmedPathIdentity": "not provided by bounded tool response",
+    "allPathsClean": false
+  },
+  "sessionCacheObservation": {
+    "tool": "knip",
+    "rule": "knip:file",
+    "freshness": "stale",
+    "path": ".pi/verification/ai-research-matrix-word-boundary-20261022T211806Z/matrix-audit.mjs",
+    "message": "Unused file .pi/verification/ai-research-matrix-word-boundary-20261022T211806Z/matrix-audit.mjs",
+    "disposition": "Expected standalone audit CLI entry; direct node invocation passed. No inline suppression or configuration change.",
+    "notEvidenceOfWorkspaceCleanliness": true
+  },
+  "callGraphCoverage": "Incomplete; bounded source references and direct caller inspected, no exhaustive impact claim.",
+  "unrelatedDeferredIdentities": 13,
+  "unrelatedFindingsRepaired": false,
+  "workspaceCleanlinessCertified": false
+}

@@ -1,0 +1,16 @@
+{
+  "redCommit": "e22fbc4a763eccac5ea08f8da3171f80b9009488",
+  "parent": "8b9268ecacaafc60a2d3072302a52e1f627f22a7",
+  "testOnlyCommit": true,
+  "archiveSha256": "e8da49b86e7a5dc50305b0b42b38d50ad39251c87c08764c54eafe8ea5c369fb",
+  "testSha256": "fda50fe3d728bf23bf2b9f3a12df29b6162ba6360d1520b53ed2b0aa45e36c30",
+  "productionSha256": "c2f5e7bbf07619cc47f0587026aa0053d52d2f052b4c3e6d9b32151eab917648",
+  "productionUnchangedFromBaseline": true,
+  "exitCode": 1,
+  "tests": 1,
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0,
+  "intendedSignature": "Matrix prompt says under 140 words; exactly 140 must fail.",
+  "mechanism": "139 passed, exactly 140 incorrectly passed, 141 rejected. No unrelated contract failures."
+}

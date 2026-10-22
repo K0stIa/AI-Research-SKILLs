@@ -1,0 +1,228 @@
+
+> ai-research-skills@1.0.1 test
+> npm run test:pi
+
+
+> ai-research-skills@1.0.1 test:pi
+> node --test scripts/check-pi-package.test.mjs scripts/check-pi-verification.test.mjs
+
+TAP version 13
+# Subtest: Pi manifest exposes every research category once
+ok 1 - Pi manifest exposes every research category once
+  ---
+  duration_ms: 1.615915
+  type: 'test'
+  ...
+# Subtest: all 98 research skills remain bundled with their supporting files
+ok 2 - all 98 research skills remain bundled with their supporting files
+  ---
+  duration_ms: 0.625776
+  type: 'test'
+  ...
+# Subtest: Markdown fence parsing respects longer closers, nested examples, tilde fences, and indentation
+ok 3 - Markdown fence parsing respects longer closers, nested examples, tilde fences, and indentation
+  ---
+  duration_ms: 0.710736
+  type: 'test'
+  ...
+# Subtest: Python-tagged examples in all packaged Markdown parse without importing dependencies
+ok 4 - Python-tagged examples in all packaged Markdown parse without importing dependencies
+  ---
+  duration_ms: 338.834826
+  type: 'test'
+  ...
+# Subtest: skills with reproduced task-contract failures state read and response boundaries
+ok 5 - skills with reproduced task-contract failures state read and response boundaries
+  ---
+  duration_ms: 19.828335
+  type: 'test'
+  ...
+# Subtest: both README category tables match the actual 98-skill inventory
+ok 6 - both README category tables match the actual 98-skill inventory
+  ---
+  duration_ms: 1.891238
+  type: 'test'
+  ...
+# Subtest: all skill entrypoints fit a bounded prompt-expansion budget
+ok 7 - all skill entrypoints fit a bounded prompt-expansion budget
+  ---
+  duration_ms: 0.554624
+  type: 'test'
+  ...
+# Subtest: skills have unique Pi-compatible names and descriptions
+ok 8 - skills have unique Pi-compatible names and descriptions
+  ---
+  duration_ms: 3.192192
+  type: 'test'
+  ...
+# Subtest: every local Markdown reference in main skills resolves to useful content
+ok 9 - every local Markdown reference in main skills resolves to useful content
+  ---
+  duration_ms: 18.928553
+  type: 'test'
+  ...
+# Subtest: local links in all packaged Markdown references resolve, not only main skills
+ok 10 - local links in all packaged Markdown references resolve, not only main skills
+  ---
+  duration_ms: 83.86255
+  type: 'test'
+  ...
+# Subtest: Orchestra research command coexists with other autoresearch packages
+ok 11 - Orchestra research command coexists with other autoresearch packages
+  ---
+  duration_ms: 0.601752
+  type: 'test'
+  ...
+# Subtest: Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+ok 12 - Unsloth entrypoint grounds QLoRA guidance before offering a recipe
+  ---
+  duration_ms: 0.334427
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+ok 13 - LLaMA-Factory entrypoint requires versioned SFT and dataset checks
+  ---
+  duration_ms: 0.296979
+  type: 'test'
+  ...
+# Subtest: LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+ok 14 - LLaMA-Factory distinguishes Alpaca source columns from response mapping roles
+  ---
+  duration_ms: 0.156312
+  type: 'test'
+  ...
+# Subtest: fine-tuning references separate bit width from quantization format and actual tensor dtype
+ok 15 - fine-tuning references separate bit width from quantization format and actual tensor dtype
+  ---
+  duration_ms: 0.175134
+  type: 'test'
+  ...
+# Subtest: distillation guidance names forward and reverse KL in the correct direction
+ok 16 - distillation guidance names forward and reverse KL in the correct direction
+  ---
+  duration_ms: 0.159569
+  type: 'test'
+  ...
+# Subtest: LangChain arithmetic tools use a bounded helper rather than evaluating model-supplied Python
+ok 17 - LangChain arithmetic tools use a bounded helper rather than evaluating model-supplied Python
+  ---
+  duration_ms: 0.239107
+  type: 'test'
+  ...
+# Subtest: GPTQ recipes distinguish measurements and checkpoint availability from illustrations
+ok 18 - GPTQ recipes distinguish measurements and checkpoint availability from illustrations
+  ---
+  duration_ms: 0.300355
+  type: 'test'
+  ...
+# Subtest: bitsandbytes distinguishes raw weight payload from total QLoRA training memory
+ok 19 - bitsandbytes distinguishes raw weight payload from total QLoRA training memory
+  ---
+  duration_ms: 0.288112
+  type: 'test'
+  ...
+# Subtest: FAISS index selection avoids unmeasured recall percentages and preserves cosine normalization
+ok 20 - FAISS index selection avoids unmeasured recall percentages and preserves cosine normalization
+  ---
+  duration_ms: 0.226344
+  type: 'test'
+  ...
+# Subtest: DSPy distinguishes adapter type checks from factual correctness
+ok 21 - DSPy distinguishes adapter type checks from factual correctness
+  ---
+  duration_ms: 0.196
+  type: 'test'
+  ...
+# Subtest: paper-writing prioritizes citation evidence over template discovery
+ok 22 - paper-writing prioritizes citation evidence over template discovery
+  ---
+  duration_ms: 0.334471
+  type: 'test'
+  ...
+# Subtest: research entrypoint stays bounded while preserving the complete workflow reference
+ok 23 - research entrypoint stays bounded while preserving the complete workflow reference
+  ---
+  duration_ms: 0.300476
+  type: 'test'
+  ...
+# Subtest: research identity checks do not invent filesystem verification
+ok 24 - research identity checks do not invent filesystem verification
+  ---
+  duration_ms: 0.159512
+  type: 'test'
+  ...
+# Subtest: autoresearch defines bounded Pi operation without mandatory scheduling
+ok 25 - autoresearch defines bounded Pi operation without mandatory scheduling
+  ---
+  duration_ms: 0.1097
+  type: 'test'
+  ...
+# Subtest: the installed matrix covers all 98 skills and cannot pass missing or overwritten evidence
+ok 26 - the installed matrix covers all 98 skills and cannot pass missing or overwritten evidence
+  ---
+  duration_ms: 198.374322
+  type: 'test'
+  ...
+# Subtest: skill contracts require correct bounded successful reads and valid response evidence
+ok 27 - skill contracts require correct bounded successful reads and valid response evidence
+  ---
+  duration_ms: 2.521238
+  type: 'test'
+  ...
+# Subtest: reference read budget is cumulative across a case
+ok 28 - reference read budget is cumulative across a case
+  ---
+  duration_ms: 1.163128
+  type: 'test'
+  ...
+# Subtest: matrix contracts enforce per-field budgets and exact requested read scopes
+ok 29 - matrix contracts enforce per-field budgets and exact requested read scopes
+  ---
+  duration_ms: 3.524372
+  type: 'test'
+  ...
+# Subtest: live CLI rejects inherited object properties as scenario names before launching Pi
+ok 30 - live CLI rejects inherited object properties as scenario names before launching Pi
+  ---
+  duration_ms: 43.286704
+  type: 'test'
+  ...
+# Subtest: a completed assistant response is necessary for a successful run
+ok 31 - a completed assistant response is necessary for a successful run
+  ---
+  duration_ms: 0.376565
+  type: 'test'
+  ...
+# Subtest: provider errors fail even when Pi exits zero
+ok 32 - provider errors fail even when Pi exits zero
+  ---
+  duration_ms: 0.285791
+  type: 'test'
+  ...
+# Subtest: a prior answer cannot hide a later provider error or timeout
+ok 33 - a prior answer cannot hide a later provider error or timeout
+  ---
+  duration_ms: 0.17799
+  type: 'test'
+  ...
+# Subtest: tool errors and missing agent completion fail verification
+ok 34 - tool errors and missing agent completion fail verification
+  ---
+  duration_ms: 0.476403
+  type: 'test'
+  ...
+# Subtest: read evidence and usage survive parsing without the full event stream
+ok 35 - read evidence and usage survive parsing without the full event stream
+  ---
+  duration_ms: 0.527586
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 554.943256
