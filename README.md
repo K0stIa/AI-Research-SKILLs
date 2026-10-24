@@ -48,6 +48,7 @@
 - [Our Mission](#our-mission)
 - [Path Towards AI Research Agent](#path-towards-ai-research-agent)
 - [Available AI Research Engineering Skills](#available-ai-research-engineering-skills)
+  - [Reuse skills with SkillSync](#reuse-skills-with-skillsync)
 - [Demos](#demos)
 - [Skill Structure](#skill-structure)
 - [Roadmap](#roadmap)
@@ -140,6 +141,41 @@ Install skill categories directly using the **Claude Code CLI**:
 ```
 
 </details>
+
+### Reuse skills with SkillSync
+
+[SkillSync](https://github.com/mprokopov/skillsync) copies or links `SKILL.md` folders for Pi, Claude Code, Codex, and OpenClaw. SkillSync is optional.
+
+[Read the author's introduction](https://prokopov.me/posts/skillsync-reusing-ai-agent-skills/) for the shared-folder workflow.
+
+Review SkillSync and the skill scripts before installation. Install SkillSync with [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv tool install "git+https://github.com/mprokopov/skillsync.git"
+```
+
+From your target project directory, validate a skill from a local clone of this repository:
+
+```bash
+skillsync validate /path/to/AI-Research-SKILLs/12-inference-serving/vllm
+```
+
+Resolve validation errors before installation. Link the skill into Pi:
+
+```bash
+skillsync install /path/to/AI-Research-SKILLs/12-inference-serving/vllm \
+  --target pi \
+  --scope repo \
+  --mode symlink
+```
+
+This creates a project-local skill under `.pi/skills/`. Keep the source directory at its installed path so the symlink remains valid.
+
+Keep references, scripts, assets, and license notices with the skill. Install the runtime dependencies that its scripts need. Check for skill-name collisions in the target agent.
+
+SkillSync also provides `convert-command` for Claude Markdown command files. See its [README](https://github.com/mprokopov/skillsync#readme) for other targets and scopes.
+
+SkillSync does not automatically translate plugin hooks, host-specific tool APIs, or permission rules. Configure compatible integrations separately. Imported skills still need review and testing.
 
 ### All 23 Categories (98 Skills)
 
